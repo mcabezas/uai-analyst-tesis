@@ -7,13 +7,14 @@
 
 using System;
 using System.Collections.Generic;
+using Logger;
 using TesterSuite.Core.Exceptions;
 
 namespace TesterSuite.Core
 {
     public abstract class TestSuite
     {
-        private readonly Logger.Logger _log = Logger.Logger.Instance;
+        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(TestSuite));
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
         public virtual void SetUp() {}
@@ -51,7 +52,7 @@ namespace TesterSuite.Core
             List<Action> testMethods = Test();
             if (testMethods == null || testMethods.Count==0)
             {
-                _log.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
+                _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;
             }
 
@@ -64,7 +65,7 @@ namespace TesterSuite.Core
                     OnSucceedTest(testMethod);
                 } catch (AssertException e) {
                     OnFailedTest(testMethod);
-                    _log.Error(e.Message);
+                    _logger.Error(e.Message);
                 }
             }
         }

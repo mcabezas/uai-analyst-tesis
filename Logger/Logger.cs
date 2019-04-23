@@ -1,5 +1,5 @@
 /**
- * Created by Marcelo Cabezas on 2019-Apr-19 6:58:04 PM
+ * Created by Marcelo Cabezas on 2019-Apr-22 7:08:47 PM
  * Student 11211 of UAI University
  *
  * Copyright 2019 - 2020 UAI Projects   
@@ -11,24 +11,16 @@ namespace Logger
 {
     public class Logger
     {
-        
-        #region Singleton
-        
-        private static readonly Lazy<Logger> Lazy = new Lazy<Logger>
-        (() => new Logger());
+        private readonly Type _sourceClass;
 
-        public static Logger Instance => Lazy.Value;
-
-        private Logger()
+        public Logger(Type sourceClass)
         {
+            _sourceClass = sourceClass;
         }
 
-        #endregion
-        
         public void Info(object message)
         {
             Log(LogLevel.Info, message);
-
         }
         
         public void Debug(object message)
@@ -43,12 +35,13 @@ namespace Logger
         
         public void Log(LogLevel level, object message)
         {
-            Print("["+ level.ToString().ToUpper() +"] - " + message);
+            Print("["+ level.ToString().ToUpper() +"] - " + _sourceClass+ " : " + message);
         }
 
         private void Print(string message)
         {
             Console.WriteLine(message);
         }
+
     }
 }

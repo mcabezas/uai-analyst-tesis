@@ -12,7 +12,7 @@ namespace TesterSuite.Core.Executors.Statistics
 {
     public class StatisticsService
     {
-        private readonly Logger.Logger _logger = Logger.Logger.Instance;
+        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(StatisticsService));
         private int SucceedTestsCounter { get; set; }
         private int FailedTestsCounter { get; set; }
 

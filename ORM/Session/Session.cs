@@ -7,12 +7,13 @@
 
 using System;
 using System.Data.SqlClient;
+using Logger;
 
 namespace ORM.Session
 {
     public class Session : IDisposable
     {
-        private readonly Logger.Logger _logger = Logger.Logger.Instance;
+        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(Session));
 
         #region OnClossedSession
         
