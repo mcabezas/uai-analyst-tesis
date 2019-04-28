@@ -13,7 +13,17 @@ namespace TesterSuite.Core.Utilities
 {
     public static class VType
     {
-        public static Collection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
+        public static Collection<TestSuite> GetAllTestSuites()
+        {
+            Collection<TestSuite> suites = new Collection<TestSuite>();
+            GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
+                .ForEach(type => {
+                    suites.Add((TestSuite) Activator.CreateInstance(type));
+                });
+            return suites;
+        }
+
+        private static Collection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
         {
             // Get all types from the given assembly
             Type[] types = assembly.GetTypes();
@@ -33,7 +43,7 @@ namespace TesterSuite.Core.Utilities
             return derivedTypes;
         }
 
-        public static bool IsSubclassOf(Type type, Type baseType)
+        private static bool IsSubclassOf(Type type, Type baseType)
         {
             if (type == null || baseType == null || type == baseType)
                 return false;
@@ -53,25 +63,15 @@ namespace TesterSuite.Core.Utilities
 
             while (type != objectType && type != null)
             {
-                Type curentType = type.IsGenericType ?
+                Type currentType = type.IsGenericType ?
                     type.GetGenericTypeDefinition() : type;
-                if (curentType == baseType)
+                if (currentType == baseType)
                     return true;
 
                 type = type.BaseType;
             }
 
             return false;
-        }
-
-        public static Collection<TestSuite> GetAllTestSuites()
-        {
-            Collection<TestSuite> suites = new Collection<TestSuite>();
-            GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
-                .ForEach(type => {
-                suites.Add((TestSuite) Activator.CreateInstance(type));
-            });
-            return suites;
         }
     }
 }

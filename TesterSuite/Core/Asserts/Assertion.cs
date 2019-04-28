@@ -12,91 +12,79 @@ using TesterSuite.Core.Exceptions;
 
 namespace TesterSuite.Core.Asserts
 {
-    public class Assert
+    public static class Assertion
     {
-        public Assert Fail(string message = null)
+        public static void Fail(string message = null)
+        {
+            throw new AssertException(
+                string.IsNullOrWhiteSpace(message)
+                    ? "Test marked as failed"
+                    : message);
+        }
+
+        public static void Pass()
+        {
+            //Dummy ... semantic method
+        }
+
+        public static void AreEqual(IComparable expected, IComparable actual, string message = null)
         {
             throw new NotImplementedException();
         }
 
-        public Assert Pass(string message = null)
+        public static void AreNotEqual(IComparable expected, IComparable actual, string message = null)
         {
             throw new NotImplementedException();
         }
 
-        public Assert AreEqual(IComparable expected, IComparable actual, string message = null)
+        public static void IsTrue(bool value, string message = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public Assert AreNotEqual(IComparable expected, IComparable actual, string message = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Assert IsTrue(bool value, string message = null)
-        {
-            if (!value)
-            {
-                throw new AssertException(ExpectedActualMessage(message, null, true, null, null, value, null));
+            if (!value) {
+                throw new AssertException(ExpectedActualMessage(message, null, true, null, null, false, null));
             }
-
-            return this;
         }
 
-        public virtual Assert IsFalse(bool value, string message = null)
+        public static void IsFalse(bool value, string message = null)
         {
-            if (value)
-            {
-                throw new AssertException(ExpectedActualMessage(message, null, false, null, null, value, null));
+            if (value) {
+                throw new AssertException(ExpectedActualMessage(message, null, false, null, null, true, null));
             }
-
-            return this;
         }
 
-        public virtual Assert IsNull(object value, string message = null)
+        public static void IsNull(object value, string message = null)
         {
-            if (value != null)
-            {
+            if (value != null) {
                 throw new AssertException(ExpectedActualMessage(message, null, null, null, null, value, null));
             }
-
-            return this;
         }
 
-        public virtual Assert IsNotNull(object value, string message = null)
+        public static void IsNotNull(object value, string message = null)
         {
-            if (value == null)
-            {
+            if (value == null) {
                 throw new AssertException(ExpectedActualMessage(message, "Not ", null, null, null, null, null));
             }
-
-            return this;
         }
         
-        public virtual Assert AreSameReference(object expected, object actual, string message = null)
+        public static void AreSameReference(object expected, object actual, string message = null)
         {
-            if (!ReferenceEquals(expected, actual))
-            {
+            if (!ReferenceEquals(expected, actual)) {
                 throw new AssertException(ExpectedActualMessage(message, null, expected, null, null, actual, null));
             }
 
-            return this;
         }
         
-        public virtual Assert AreNotSameReference(object expected, object actual, string message = null)
+        public static void AreNotSameReference(object expected, object actual, string message = null)
         {
             if (ReferenceEquals(expected, actual))
             {
                 throw new AssertException(ExpectedActualMessage(message, "Not ", expected, null, null, actual, null));
             }
-
-            return this;
         }
 
         
         #region Protected Helpers
-        protected virtual string ExpectedActualMessage(string preMessage, string preExpected, object expected, string postExpected, string preActual, object actual, string postActual)
+
+        private static string ExpectedActualMessage(string preMessage, string preExpected, object expected, string postExpected, string preActual, object actual, string postActual)
         {
             if (expected != default(object) && !(expected is string) && (expected is IEnumerable))
             {
@@ -115,7 +103,7 @@ namespace TesterSuite.Core.Asserts
                 Safeguard(preActual) + Safeguard(actual, "NULL") + Safeguard(postActual));
         }
 
-        private string Safeguard(object value, string defaultValue = "")
+        private static string Safeguard(object value, string defaultValue = "")
         {
             return value == default(object)
                 ? defaultValue
@@ -123,7 +111,7 @@ namespace TesterSuite.Core.Asserts
         }
 
 
-        private string BuildEnumerableString(IEnumerable items)
+        private static string BuildEnumerableString(IEnumerable items)
         {
             StringBuilder builder = new StringBuilder();
 

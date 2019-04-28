@@ -6,6 +6,7 @@
  */
 
 using TesterSuite.Core.Executors;
+using TesterSuite.ORMTest;
 using Utilities;
 using static TesterSuite.Core.Utilities.VType;
 
@@ -17,7 +18,8 @@ namespace TesterSuite
         {
 //            object value = args?.GetValue(0);
             TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
-            suiteExecutor.ExecuteSuite(GetAllTestSuites());
+            suiteExecutor.ExecuteSuite(new SessionTest());
+            //suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }
 }

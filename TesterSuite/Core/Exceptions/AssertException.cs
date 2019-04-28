@@ -6,20 +6,19 @@
  */
 
 using System;
-using TesterSuite.Core.Enums;
 
 namespace TesterSuite.Core.Exceptions
 {
-    public class AssertException : TestResultStateException
+    public class AssertException : Exception
     {
 
         #region Constructor
 
-        public AssertException(string message, TestResultState state = TestResultState.Failure)
-            : base(message, state) { }
+        public AssertException(string message)
+            : base(message) { }
 
-        public AssertException(string message, Exception inner, TestResultState state = TestResultState.Failure)
-            : base(message, inner, state) { }
+        public AssertException(string message, Exception inner)
+            : base(message, inner) { }
 
         #endregion
 

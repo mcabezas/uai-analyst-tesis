@@ -8,8 +8,8 @@
 using System;
 using ORM.Session;
 using TesterSuite.Core;
-using TesterSuite.Core.Asserts;
 using Utilities.Generics;
+using static TesterSuite.Core.Asserts.Assertion;
 
 namespace TesterSuite.ORMTest
 {
@@ -41,26 +41,26 @@ namespace TesterSuite.ORMTest
         private void OpenSessionTest()
         {
             Session session = _sessionFactory.OpenSession();
-            AssertFactory.Instance.IsNotNull(session);
+            IsNotNull(session);
         }
 
         private void GetSessionTest()
         {
             Session session = _sessionFactory.OpenSession();
             Session session2 = _sessionFactory.GetSession();
-            AssertFactory.Instance.AreSameReference(session, session2);
+            AreSameReference(session, session2);
         }
         
         private void CloseSessionTest()
         {
             Session session = _sessionFactory.OpenSession();
-            AssertFactory.Instance.IsTrue(session.IsOpen, "1");
+            IsTrue(session.IsOpen);
 
             session.Close();
-            AssertFactory.Instance.IsFalse(session.IsOpen, "2");
+            IsFalse(session.IsOpen);
             
             Session session2 = _sessionFactory.OpenSession();
-            AssertFactory.Instance.AreNotSameReference(session, session2, "3");
+            AreNotSameReference(session, session2, "3");
         }
 
     }

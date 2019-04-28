@@ -5,10 +5,12 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace ORM.Query
+using Utilities.Generics;
+
+namespace ORM.Result
 {
     public class ResultSet
     {
-        
+        public readonly Collection<DbRow> Rows = new Collection<DbRow>();
     }
 }
