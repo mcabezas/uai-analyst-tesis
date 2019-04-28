@@ -29,12 +29,16 @@ namespace TesterSuite.Core.Asserts
 
         public static void AreEqual(IComparable expected, IComparable actual, string message = null)
         {
-            throw new NotImplementedException();
+            if (!Equals(expected, actual)) {
+                throw new AssertException(ExpectedActualMessage(message, null, expected, null, null, actual, null));
+            }
         }
 
         public static void AreNotEqual(IComparable expected, IComparable actual, string message = null)
         {
-            throw new NotImplementedException();
+            if (Equals(expected, actual)) {
+                throw new AssertException(ExpectedActualMessage(message, "Not ", expected, null, null, actual, null));
+            }
         }
 
         public static void IsTrue(bool value, string message = null)

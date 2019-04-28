@@ -7,8 +7,6 @@
 
 using System;
 using System.Data.SqlClient;
-using ORM;
-using ORM.Query;
 using ORM.Result;
 using ORM.Session;
 using TesterSuite.Core;
@@ -20,6 +18,14 @@ namespace TesterSuite.ORMTest
     public class SessionTest : TestSuite
     {
         private Session _session;
+
+        private const string DropDummyTable = 
+            "IF OBJECT_ID('dbo.DUMMY', 'U') IS NOT NULL " +
+            "DROP TABLE dbo.DUMMY; ";
+        private const string CreateDummyTable = 
+            "CREATE TABLE dbo.DUMMY ( DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
+
+
         public override void SetUpClass()
         {
             _session = new Session();
@@ -29,6 +35,11 @@ namespace TesterSuite.ORMTest
         public override void CleanUpClass()
         {
             _session.Dispose();
+        }
+
+        public override void SetUp()
+        {
+           _session.ExecuteNativeNonQuery(DropDummyTable);
         }
 
         protected override Collection<Action> Test()
@@ -54,22 +65,20 @@ namespace TesterSuite.ORMTest
         
         private void ExecuteNonQueryTest()
         {
-            const string query = "IF OBJECT_ID('dbo.DUMMY', 'U') IS NOT NULL " +
-                                 "DROP TABLE dbo.DUMMY; " +
-                                 "CREATE TABLE dbo.DUMMY ( DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
-            _session.ExecuteNativeNonQuery(query);
+            _session.ExecuteNativeNonQuery(CreateDummyTable);
         }
 
         private void ExecuteQueryTest()
         {
-            _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('A', 1)");
-            _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('B', 2)");
-            _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('C', 3)");
+            _session.ExecuteNativeNonQuery(CreateDummyTable);
+
             _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
             _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
             ResultSet resultSet = _session.ExecuteNativeQuery("SELECT * FROM dbo.DUMMY;");
             
+            AreEqual(2, resultSet.Rows.Count);
+            AreEqual(2, resultSet.Rows[0].Columns.Count);
         }
     }
 }
