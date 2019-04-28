@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesterSuite", "TesterSuite\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{6ECFE46A-E976-496C-86DE-92EE1CC0A965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ECFE46A-E976-496C-86DE-92EE1CC0A965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ECFE46A-E976-496C-86DE-92EE1CC0A965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ECFE46A-E976-496C-86DE-92EE1CC0A965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ECFE46A-E976-496C-86DE-92EE1CC0A965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

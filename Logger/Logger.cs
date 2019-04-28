@@ -35,10 +35,10 @@ namespace Logger
         
         public void Log(LogLevel level, object message)
         {
-            Print("["+ level.ToString().ToUpper() +"] - " + _sourceClass+ " : " + message);
+            PrintLog("["+ level.ToString().ToUpper() +"] - " + _sourceClass+ " : " + message);
         }
 
-        private void Print(string message)
+        public static void PrintLog(string message)
         {
             Console.WriteLine(message);
         }

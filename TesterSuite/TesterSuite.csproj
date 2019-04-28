@@ -8,6 +8,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Logger\Logger.csproj" />
       <ProjectReference Include="..\ORM\ORM.csproj" />
+      <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
 
 </Project>

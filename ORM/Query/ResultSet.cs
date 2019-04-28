@@ -5,7 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace ORM
+namespace ORM.Query
 {
     public class ResultSet
     {

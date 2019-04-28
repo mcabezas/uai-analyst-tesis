@@ -8,6 +8,7 @@
 using System;
 using System.Data.SqlClient;
 using Logger;
+using ORM.Query;
 
 namespace ORM.Session
 {

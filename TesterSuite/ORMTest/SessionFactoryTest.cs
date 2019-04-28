@@ -6,10 +6,10 @@
  */
 
 using System;
-using System.Collections.Generic;
 using ORM.Session;
 using TesterSuite.Core;
 using TesterSuite.Core.Asserts;
+using Utilities.Generics;
 
 namespace TesterSuite.ORMTest
 {
@@ -28,9 +28,14 @@ namespace TesterSuite.ORMTest
             _sessionFactory?.GetSession()?.Close();
         }
 
-        protected override List<Action> Test()
+        protected override Collection<Action> Test()
         {
-            return new List<Action> {OpenSessionTest, GetSessionTest, CloseSessionTest};
+            return new Collection<Action>
+            {
+                OpenSessionTest, 
+                GetSessionTest, 
+                CloseSessionTest
+            };
         }
 
         private void OpenSessionTest()

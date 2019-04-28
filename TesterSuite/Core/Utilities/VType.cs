@@ -6,18 +6,18 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
+using Utilities.Generics;
 
 namespace TesterSuite.Core.Utilities
 {
     public static class VType
     {
-        public static List<Type> GetDerivedTypes(Type baseType, Assembly assembly)
+        public static Collection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
         {
             // Get all types from the given assembly
             Type[] types = assembly.GetTypes();
-            List<Type> derivedTypes = new List<Type>();
+            Collection<Type> derivedTypes = new Collection<Type>();
 
             for (int i = 0, count = types.Length; i < count; i++)
             {
@@ -64,15 +64,13 @@ namespace TesterSuite.Core.Utilities
             return false;
         }
 
-        public static IEnumerable<TestSuite> GetAllTestSuites()
+        public static Collection<TestSuite> GetAllTestSuites()
         {
-            List<TestSuite> suites = new List<TestSuite>();
-            List<Type> types = GetDerivedTypes(typeof(TestSuite),
-                Assembly.GetExecutingAssembly());
-            foreach (Type type in types)
-            {
-                suites.Add((TestSuite)Activator.CreateInstance(type));
-            }
+            Collection<TestSuite> suites = new Collection<TestSuite>();
+            GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
+                .ForEach(type => {
+                suites.Add((TestSuite) Activator.CreateInstance(type));
+            });
             return suites;
         }
     }

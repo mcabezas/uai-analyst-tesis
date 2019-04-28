@@ -8,11 +8,11 @@
 using System.Reflection;
 using Logger;
 
-namespace TesterSuite.Core.Executors.Statistics
+namespace TesterSuite.Core.Executors
 {
-    public class StatisticsService
+    public class TestStatisticsService
     {
-        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(StatisticsService));
+        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(TestStatisticsService));
         private int SucceedTestsCounter { get; set; }
         private int FailedTestsCounter { get; set; }
 
@@ -30,7 +30,7 @@ namespace TesterSuite.Core.Executors.Statistics
 
         public void Print()
         {
-            _logger.Info("===============================================================================");
+            Logger.Logger.PrintLog("===============================================================================");
             _logger.Info(SucceedTestsCounter + FailedTestsCounter + " tests executed");
             _logger.Log( FailedTestsCounter > 0 ? LogLevel.Error:LogLevel.Info, "Success: " + SucceedTestsCounter + " ; Failure: " + FailedTestsCounter);
         }

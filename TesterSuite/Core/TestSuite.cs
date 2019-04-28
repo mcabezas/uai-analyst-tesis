@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using Logger;
 using TesterSuite.Core.Exceptions;
+using Utilities;
+using Utilities.Generics;
 
 namespace TesterSuite.Core
 {
@@ -20,7 +22,7 @@ namespace TesterSuite.Core
         public virtual void SetUp() {}
         public virtual void CleanUp() {}
 
-        protected abstract List<Action> Test();
+        protected abstract Collection<Action> Test();
 
         #region events
         
@@ -49,25 +51,23 @@ namespace TesterSuite.Core
 
         public void ExecuteTests()
         {
-            List<Action> testMethods = Test();
-            if (testMethods == null || testMethods.Count==0)
-            {
+            Collection<Action> testMethods = Test();
+            if(Predefined.IsEmpty(testMethods)) {
                 _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;
             }
-
-            foreach (Action testMethod in testMethods)
-            {
+            
+            testMethods.ForEach(testMethod => {
                 try {
                     SetUp();
                     testMethod();
                     CleanUp();
                     OnSucceedTest(testMethod);
-                } catch (AssertException e) {
+                } catch (Exception e) {
                     OnFailedTest(testMethod);
                     _logger.Error(e.Message);
                 }
-            }
+            });
         }
     }
 

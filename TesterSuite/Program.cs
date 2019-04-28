@@ -6,6 +6,8 @@
  */
 
 using TesterSuite.Core.Executors;
+using Utilities;
+using static TesterSuite.Core.Utilities.VType;
 
 namespace TesterSuite
 {
@@ -13,8 +15,9 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
-            IExecutor executor = new GeneralTestExecutor();
-            executor.Run();
+//            object value = args?.GetValue(0);
+            TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
+            suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }
 }

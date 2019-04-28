@@ -6,10 +6,11 @@
  */
 
 using System;
-using System.Collections.Generic;
 using ORM;
+using ORM.Query;
 using ORM.Session;
 using TesterSuite.Core;
+using Utilities.Generics;
 
 namespace TesterSuite.ORMTest
 {
@@ -21,9 +22,12 @@ namespace TesterSuite.ORMTest
             _session = new Session();
         }
 
-        protected override List<Action> Test()
+        protected override Collection<Action> Test()
         {
-            return new List<Action> {ExecuteQueryTest};
+            return new Collection<Action>
+            {
+                ExecuteQueryTest
+            };
         }
 
         private void ExecuteQueryTest()
