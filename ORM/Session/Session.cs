@@ -61,7 +61,7 @@ namespace ORM.Session
 
         #region OpenConnection
         
-        public void Open()
+        public Session Open()
         {
             DatabaseProperties dbProperties = SessionFactory.Instance.DatabaseProperties;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -75,6 +75,7 @@ namespace ORM.Session
             _connection = new SqlConnection(builder.ConnectionString);
             _connection.Open();
             IsOpen = true;
+            return this;
         }
         
         #endregion

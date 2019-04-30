@@ -32,25 +32,16 @@ namespace ORM.Session
         #endregion
 
         public DatabaseProperties DatabaseProperties { get; }
-        private Session _session;
-
-        private void OnClosedSession(object source, EventArgs args)
-        {
-            _session.Dispose();
-            _session = null;
-        }
+        private readonly Session _session = new Session();
 
         public Session OpenSession()
         {
-            if (_session == null) { _session = new Session(); }
-            _session.Open();
-            _session.ClosedSession += OnClosedSession;
-            return _session;
+            return _session.Open();
         }
 
         public Session GetSession()
         {
-            return _session ?? (_session = new Session());
+            return _session;
         }
     }
 }

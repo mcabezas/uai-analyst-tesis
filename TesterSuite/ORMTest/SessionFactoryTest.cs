@@ -57,14 +57,16 @@ namespace TesterSuite.ORMTest
             session0.Close();
             session0.Close();
             
-            Session session = _sessionFactory.OpenSession();
-            IsTrue(session.IsOpen);
+            Session session1 = _sessionFactory.OpenSession();
+            IsTrue(session1.IsOpen);
 
-            session.Close();
-            IsFalse(session.IsOpen);
+            session1.Close();
+            IsFalse(session1.IsOpen);
             
             Session session2 = _sessionFactory.OpenSession();
-            AreNotSameReference(session, session2, "3");
+            Session session3 = _sessionFactory.OpenSession();
+
+            AreSameReference(session2, session3);
         }
     }
 }
