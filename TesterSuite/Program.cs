@@ -18,8 +18,8 @@ namespace TesterSuite
         {
 //            object value = args?.GetValue(0);
             TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
-            suiteExecutor.ExecuteSuite(new SessionaFactoryTest());
-            //suiteExecutor.ExecuteSuite(GetAllTestSuites());
+            //suiteExecutor.ExecuteSuite(new SessionFactoryTest());
+            suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }
 }

@@ -31,13 +31,13 @@ namespace ORM.Session
 
         #endregion
 
-        #region SqlServer
         private SqlConnection _connection;
 
-        #endregion
 
         public bool IsOpen { get; private set; }
 
+        #region CloseConnection
+        
         public void Dispose()
         {
             CloseConnection();
@@ -45,6 +45,7 @@ namespace ORM.Session
 
         private void CloseConnection()
         {
+            IsOpen = false;
             _connection?.Close();
             _connection?.Dispose();
         }
@@ -52,10 +53,33 @@ namespace ORM.Session
         public void Close()
         {
             _logger.Debug("Closing connection");
-            IsOpen = false;
             CloseConnection();
             OnClosedSession();
         }
+        
+        #endregion
+
+        #region OpenConnection
+        
+        public void Open()
+        {
+            DatabaseProperties dbProperties = SessionFactory.Instance.DatabaseProperties;
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = dbProperties.Host;
+            builder.UserID = dbProperties.User;
+            builder.Password = dbProperties.Password;
+            builder.InitialCatalog = dbProperties.Schema;
+
+            CloseConnection();
+            _logger.Debug("Connecting to SQL Server ... ");
+            _connection = new SqlConnection(builder.ConnectionString);
+            _connection.Open();
+            IsOpen = true;
+        }
+        
+        #endregion
+
+        #region ExecuteQuery
 
         public void ExecuteNativeNonQuery(string query)
         {
@@ -65,11 +89,6 @@ namespace ORM.Session
             {
                 command.ExecuteNonQuery();
             }
-        }
-
-        private void CheckConnection()
-        {
-            if (!IsOpen) throw new NonOpenConnectionException();
         }
 
         public ResultSet ExecuteNativeQuery(string query)
@@ -100,21 +119,15 @@ namespace ORM.Session
             return resultSet;
         }
 
+        #endregion
 
-        public void Open()
+        #region Helpers
+
+        private void CheckConnection()
         {
-            DatabaseProperties dbProperties = SessionFactory.Instance.DatabaseProperties;
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = dbProperties.Host;
-            builder.UserID = dbProperties.User;
-            builder.Password = dbProperties.Password;
-            builder.InitialCatalog = dbProperties.Schema;
-
-            CloseConnection();
-            _logger.Debug("Connecting to SQL Server ... ");
-            _connection = new SqlConnection(builder.ConnectionString);
-            _connection.Open();
-            IsOpen = true;
+            if (!IsOpen) throw new NonOpenConnectionException();
         }
+
+        #endregion
     }
 }

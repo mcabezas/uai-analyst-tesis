@@ -14,7 +14,7 @@ using static TesterSuite.Core.Asserts.Assertion;
 namespace TesterSuite.ORMTest
 {
 
-    public class SessionaFactoryTest : TestSuite
+    public class SessionFactoryTest : TestSuite
     {
         private SessionFactory _sessionFactory;
         
