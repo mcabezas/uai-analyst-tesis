@@ -20,7 +20,7 @@ namespace ORM.Session
     {
         private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(Session));
 
-        #region OnClossedSession
+        #region OnClosedSession
         
         public delegate void ClosedSessionEventHandler(object source, EventArgs args);
         public event ClosedSessionEventHandler ClosedSession;
@@ -31,34 +31,50 @@ namespace ORM.Session
 
         #endregion
 
+        #region SqlServer
         private SqlConnection _connection;
+
+        #endregion
 
         public bool IsOpen { get; private set; }
 
+        public void Dispose()
+        {
+            CloseConnection();
+        }
+
+        private void CloseConnection()
+        {
+            _connection?.Close();
+            _connection?.Dispose();
+        }
+
         public void Close()
         {
-            if (!IsOpen){ return; }
             _logger.Debug("Closing connection");
-            _connection.Close();
-            _connection.Dispose();
-            _connection = null;
             IsOpen = false;
+            CloseConnection();
             OnClosedSession();
         }
 
         public void ExecuteNativeNonQuery(string query)
         {
-            if (!IsOpen) throw new NonOpenConnectionException();
+            CheckConnection();
 
             using (SqlCommand command = new SqlCommand(query, _connection))
             {
                 command.ExecuteNonQuery();
             }
         }
-        
-        public ResultSet ExecuteNativeQuery(string query)
+
+        private void CheckConnection()
         {
             if (!IsOpen) throw new NonOpenConnectionException();
+        }
+
+        public ResultSet ExecuteNativeQuery(string query)
+        {
+            CheckConnection();
 
             ResultSet resultSet = new ResultSet();
 
@@ -72,8 +88,9 @@ namespace ORM.Session
                     for (int i = 0; i <= reader.FieldCount-1; i++) //The mathematical formula for reading the next fields must be <=
                     {
                         DbColumn column = new DbColumn();
-                        column.ColumnType = reader.GetFieldType(i);
+                        column.Type = reader.GetFieldType(i);
                         column.Value = reader.GetValue(i);
+                        column.Name = reader.GetName(i);
                         row.Columns.Add(column);
                     }
                     resultSet.Rows.Add(row);
@@ -93,17 +110,11 @@ namespace ORM.Session
             builder.Password = dbProperties.Password;
             builder.InitialCatalog = dbProperties.Schema;
 
+            CloseConnection();
             _logger.Debug("Connecting to SQL Server ... ");
-            _connection?.Dispose();
             _connection = new SqlConnection(builder.ConnectionString);
             _connection.Open();
             IsOpen = true;
-        }
-
-        public void Dispose()
-        {
-            _connection?.Close();
-            _connection?.Dispose();
         }
     }
 }

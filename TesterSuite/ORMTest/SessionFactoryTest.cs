@@ -53,6 +53,10 @@ namespace TesterSuite.ORMTest
         
         private void CloseSessionTest()
         {
+            Session session0 = _sessionFactory.GetSession();
+            session0.Close();
+            session0.Close();
+            
             Session session = _sessionFactory.OpenSession();
             IsTrue(session.IsOpen);
 
@@ -62,6 +66,5 @@ namespace TesterSuite.ORMTest
             Session session2 = _sessionFactory.OpenSession();
             AreNotSameReference(session, session2, "3");
         }
-
     }
 }

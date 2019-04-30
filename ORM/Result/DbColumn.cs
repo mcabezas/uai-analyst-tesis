@@ -11,8 +11,8 @@ namespace ORM.Result
 {
     public class DbColumn
     {
-        public Type ColumnType { get; set; }
+        public Type Type { get; set; }
+        public string Name { get; set; }
         public object Value { get; set; }
-
     }
 }
