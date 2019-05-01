@@ -9,7 +9,7 @@ using System;
 
 namespace ORM.Session.Exceptions
 {
-    public class NonOpenConnectionException : Exception
+    public class NotOpenConnectionException : SystemException
     {
 
     }

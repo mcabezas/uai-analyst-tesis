@@ -12,6 +12,8 @@ using Logger;
 using ORM.Query;
 using ORM.Result;
 using ORM.Session.Exceptions;
+using ORM.Session.Handlers;
+using ORM.Session.States;
 using Utilities.Generics;
 
 namespace ORM.Session
@@ -20,21 +22,16 @@ namespace ORM.Session
     {
         private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(Session));
 
-        #region OnClosedSession
-        
-        public delegate void ClosedSessionEventHandler(object source, EventArgs args);
-        public event ClosedSessionEventHandler ClosedSession;
-        protected virtual void OnClosedSession()
-        {
-            ClosedSession?.Invoke(this, EventArgs.Empty);
-        }
-
-        #endregion
-
         private SqlConnection _connection;
 
 
         public bool IsOpen { get; private set; }
+        private DateTime _lastConnectionRefresh;
+
+        public Session()
+        {
+            IsOpen = false;
+        }
 
         #region CloseConnection
         
@@ -52,16 +49,27 @@ namespace ORM.Session
 
         public void Close()
         {
-            _logger.Debug("Closing connection");
+            _logger.Debug("Closing connection...");
             CloseConnection();
-            OnClosedSession();
         }
         
         #endregion
 
         #region OpenConnection
         
-        public Session Open()
+        public Session Open(int connectionTimeout = 30)
+        {
+            SessionState sessionState = SessionStateHandler.ToHandle(this);
+            sessionState.Open(this, connectionTimeout);
+            return this;
+        }
+
+        public void OpenDbConnectionWhenOpen()
+        {
+            //The connection it is already open... do nothing
+        }
+
+        public void OpenDbConnectionWhenNotOpen(int connectionTimeout)
         {
             DatabaseProperties dbProperties = SessionFactory.Instance.DatabaseProperties;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -69,44 +77,50 @@ namespace ORM.Session
             builder.UserID = dbProperties.User;
             builder.Password = dbProperties.Password;
             builder.InitialCatalog = dbProperties.Schema;
+            builder.ConnectTimeout = connectionTimeout;
 
-            CloseConnection();
             _logger.Debug("Connecting to SQL Server ... ");
             _connection = new SqlConnection(builder.ConnectionString);
+            _lastConnectionRefresh = DateTime.Now;
             _connection.Open();
             IsOpen = true;
-            return this;
         }
-        
+
         #endregion
 
         #region ExecuteQuery
 
-        public void ExecuteNativeNonQuery(string query)
+        private T ExecuteOnSafeSqlCommand<T>(string query, Func<SqlCommand, T> executeSqlCommand)
         {
-            CheckConnection();
-
-            using (SqlCommand command = new SqlCommand(query, _connection))
-            {
-                command.ExecuteNonQuery();
+            Open();
+            using (SqlCommand command = new SqlCommand(query, _connection)) {
+                return executeSqlCommand(command);
             }
         }
 
-        public ResultSet ExecuteNativeQuery(string query)
+
+        public int ExecuteNativeNonQuery(string query, int commandTimeout = 30)
         {
-            CheckConnection();
+            return ExecuteOnSafeSqlCommand(query, command => {
+                command.CommandTimeout = commandTimeout;
+                _lastConnectionRefresh = DateTime.Now;
+                return command.ExecuteNonQuery();
+            });            
+        }
 
-            ResultSet resultSet = new ResultSet();
-
-            using (SqlCommand command = new SqlCommand(query, _connection))
-            {
+        public ResultSet ExecuteNativeQuery(string query, int commandTimeout = 30)
+        {
+            return ExecuteOnSafeSqlCommand(query, command => {
+                ResultSet resultSet = new ResultSet();
+                command.CommandTimeout = commandTimeout;
                 var reader = command.ExecuteReader();
+                _lastConnectionRefresh = DateTime.Now;
 
-                while (reader.Read())
-                {
+                while (reader.Read()) {
+                    _lastConnectionRefresh = DateTime.Now;
+
                     DbRow row = new DbRow();
-                    for (int i = 0; i <= reader.FieldCount-1; i++) //The mathematical formula for reading the next fields must be <=
-                    {
+                    for (int i = 0; i <= reader.FieldCount-1; i++) {
                         DbColumn column = new DbColumn();
                         column.Type = reader.GetFieldType(i);
                         column.Value = reader.GetValue(i);
@@ -115,19 +129,14 @@ namespace ORM.Session
                     }
                     resultSet.Rows.Add(row);
                 }
-            }
-
-            return resultSet;
+                reader.Close();
+                return resultSet;
+            });            
         }
 
         #endregion
 
         #region Helpers
-
-        private void CheckConnection()
-        {
-            if (!IsOpen) throw new NonOpenConnectionException();
-        }
 
         #endregion
     }

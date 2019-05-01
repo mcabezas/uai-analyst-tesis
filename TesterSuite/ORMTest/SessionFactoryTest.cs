@@ -6,8 +6,12 @@
  */
 
 using System;
+using System.Threading;
+using System.Timers;
+using ORM.Result;
 using ORM.Session;
 using TesterSuite.Core;
+using TesterSuite.Core.Asserts;
 using Utilities.Generics;
 using static TesterSuite.Core.Asserts.Assertion;
 
@@ -34,7 +38,8 @@ namespace TesterSuite.ORMTest
             {
                 OpenSessionTest, 
                 GetSessionTest, 
-                CloseSessionTest
+                CloseSessionTest,
+                SessionTimeoutTest
             };
         }
 
@@ -68,5 +73,27 @@ namespace TesterSuite.ORMTest
 
             AreSameReference(session2, session3);
         }
+
+        private void SessionTimeoutTest()
+        {
+            //TODO timeout to be tested
+//            Session session = _sessionFactory.GetSession();
+//            const int connectionTimeout = 2;
+//            session.Open(connectionTimeout);
+//
+//            Console.WriteLine("Starting timer... " + DateTime.Now.ToString());
+//
+//            System.Timers.Timer aTimer = new System.Timers.Timer();
+//            aTimer.Elapsed+=OnTimedEvent;
+//            aTimer.Interval=20000;
+//            aTimer.Enabled=true;
+//            
+//            while(Console.Read()!='q');
+
+        }
+
+//        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+//        {
+//        }
     }
 }

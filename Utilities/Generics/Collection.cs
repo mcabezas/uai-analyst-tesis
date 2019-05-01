@@ -37,5 +37,11 @@ namespace Utilities.Generics
                 action(item);
             }
         }
+        
+        public T GetFirst()
+        {
+            return this[0];
+        }
+
     }
 }
