@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Data.SqlClient;
 
 namespace ORM.Session
 {
@@ -21,18 +22,19 @@ namespace ORM.Session
 
         private SessionFactory()
         {
-            DatabaseProperties = new DatabaseProperties(
-                "mcabezas.database.windows.net",
-                "1433", 
-                "mcabezas", 
-                "_2053Pega_", 
-                "mcabezas");
-        }
+            ConnectionStringBuilder = new SqlConnectionStringBuilder();
+            ConnectionStringBuilder.DataSource = "mcabezas.database.windows.net";
+            ConnectionStringBuilder.UserID = "mcabezas";
+            ConnectionStringBuilder.Password = "_2053Pega_";
+            ConnectionStringBuilder.InitialCatalog = "mcabezas";
+            
+            _session = new Session(ConnectionStringBuilder);
+       }
         
         #endregion
 
-        public DatabaseProperties DatabaseProperties { get; }
-        private readonly Session _session = new Session();
+        public SqlConnectionStringBuilder ConnectionStringBuilder { get; }
+        private readonly Session _session;
 
         public Session OpenSession()
         {

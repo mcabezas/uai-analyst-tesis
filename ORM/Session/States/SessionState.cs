@@ -9,7 +9,8 @@ namespace ORM.Session.States
 {
     public abstract class SessionState
     {
-        public abstract bool CanHandle(Session session);
-        public abstract void Open(Session session, int connectionTimeout);
+        public abstract bool CanHandle(Session aSession);
+        public abstract void Open(Session aSession, int connectionTimeout);
+        public abstract void Close(Session aSession);
     }
 }

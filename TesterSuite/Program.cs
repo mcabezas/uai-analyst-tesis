@@ -16,10 +16,9 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
-//            object value = args?.GetValue(0);
             TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
-            //suiteExecutor.ExecuteSuite(new SessionFactoryTest());
-            suiteExecutor.ExecuteSuite(GetAllTestSuites());
+            suiteExecutor.ExecuteSuite(new SessionFactoryTest());
+            //suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }
 }

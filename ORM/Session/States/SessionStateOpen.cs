@@ -9,14 +9,19 @@ namespace ORM.Session.States
 {
     public class SessionStateOpen : SessionState
     {
-        public override bool CanHandle(Session session)
+        public override bool CanHandle(Session aSession)
         {
-            return session.IsOpen;
+            return aSession.IsOpen;
         }
 
-        public override void Open(Session session, int connectionTimeout)
+        public override void Open(Session aSession, int connectionTimeout)
         {
-            session.OpenDbConnectionWhenOpen();
+            aSession.OpenDbConnectionWhenOpen();
+        }
+
+        public override void Close(Session aSession)
+        {
+            aSession.CloseDbConnectionWhenOpen();
         }
     }
 }

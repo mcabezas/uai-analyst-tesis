@@ -19,22 +19,22 @@ namespace Utilities.Generics
             return collection;
         }
 
-        public Collection<T> Filter(Predicate<T> condition)
+        public Collection<T> Filter(Predicate<T> aPredicate)
         {
-            Collection<T> result = new Collection<T>();
-            ForEach(condition, item => { result.Add(item); });
-            return result;
+            Collection<T> newCollection = new Collection<T>();
+            ForEach(aPredicate, anItem => { newCollection.Add(anItem); });
+            return newCollection;
         }
 
-        public void ForEach(Predicate<T> condition, Action<T> action)
+        public void ForEach(Predicate<T> aPredicate, Action<T> anAction)
         {
-            ForEach(item => { if (condition(item)) action(item); });
+            ForEach(anItem => { if (aPredicate(anItem)) anAction(anItem); });
         }
 
-        public new void ForEach(Action<T> action)
+        public new void ForEach(Action<T> anAction)
         {
-            foreach (var item in this) {
-                action(item);
+            foreach (var anItem in this) {
+                anAction(anItem);
             }
         }
         

@@ -6,15 +6,12 @@
  */
 
 using System;
-using System.Data;
 using System.Data.SqlClient;
+using System.Timers;
 using Logger;
-using ORM.Query;
 using ORM.Result;
-using ORM.Session.Exceptions;
-using ORM.Session.Handlers;
 using ORM.Session.States;
-using Utilities.Generics;
+using static ORM.Session.Handlers.SessionStateHandler;
 
 namespace ORM.Session
 {
@@ -23,14 +20,19 @@ namespace ORM.Session
         private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(Session));
 
         private SqlConnection _connection;
-
+        private Timer _refreshTimer;
+        private readonly SqlConnectionStringBuilder _connectionStringBuilder;
 
         public bool IsOpen { get; private set; }
-        private DateTime _lastConnectionRefresh;
+        private void DbConnectionRefresh(object source, ElapsedEventArgs e)
+        {
+            _logger.Debug("Refreshing db connection...");
+        }
 
-        public Session()
+        public Session(SqlConnectionStringBuilder connectionStringBuilder)
         {
             IsOpen = false;
+            _connectionStringBuilder = connectionStringBuilder;
         }
 
         #region CloseConnection
@@ -42,10 +44,19 @@ namespace ORM.Session
 
         private void CloseConnection()
         {
-            IsOpen = false;
-            _connection?.Close();
-            _connection?.Dispose();
+            ToHandleSessionState(this).Close(this);
         }
+
+        public void CloseDbConnectionWhenOpen()
+        {
+            IsOpen = false;
+            _connection.Close();
+            _connection.Dispose();
+            _refreshTimer.Enabled = false;
+            _refreshTimer.Dispose();
+        }
+
+        public void CloseDbConnectionWhenClose() { }
 
         public void Close()
         {
@@ -59,31 +70,34 @@ namespace ORM.Session
         
         public Session Open(int connectionTimeout = 30)
         {
-            SessionState sessionState = SessionStateHandler.ToHandle(this);
-            sessionState.Open(this, connectionTimeout);
+            ToHandleSessionState(this).Open(this, connectionTimeout);
             return this;
         }
 
         public void OpenDbConnectionWhenOpen()
         {
-            //The connection it is already open... do nothing
+            /* The connection it's already open... do nothing */
         }
 
         public void OpenDbConnectionWhenNotOpen(int connectionTimeout)
         {
-            DatabaseProperties dbProperties = SessionFactory.Instance.DatabaseProperties;
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = dbProperties.Host;
-            builder.UserID = dbProperties.User;
-            builder.Password = dbProperties.Password;
-            builder.InitialCatalog = dbProperties.Schema;
-            builder.ConnectTimeout = connectionTimeout;
-
             _logger.Debug("Connecting to SQL Server ... ");
-            _connection = new SqlConnection(builder.ConnectionString);
-            _lastConnectionRefresh = DateTime.Now;
+            _connectionStringBuilder.ConnectTimeout  = connectionTimeout;
+            _connection = new SqlConnection(_connectionStringBuilder.ConnectionString);
             _connection.Open();
             IsOpen = true;
+
+            ScheduleDbConnectionRefresh();
+        }
+
+        private void ScheduleDbConnectionRefresh()
+        {
+            _logger.Debug("Scheduling a DB connection refresh");
+            const int refreshRatio = 500;
+            _refreshTimer = new Timer();
+            _refreshTimer.Elapsed += DbConnectionRefresh;
+            _refreshTimer.Interval = _connectionStringBuilder.ConnectTimeout * refreshRatio;
+            _refreshTimer.Enabled = true;
         }
 
         #endregion
@@ -103,7 +117,6 @@ namespace ORM.Session
         {
             return ExecuteOnSafeSqlCommand(query, command => {
                 command.CommandTimeout = commandTimeout;
-                _lastConnectionRefresh = DateTime.Now;
                 return command.ExecuteNonQuery();
             });            
         }
@@ -114,17 +127,16 @@ namespace ORM.Session
                 ResultSet resultSet = new ResultSet();
                 command.CommandTimeout = commandTimeout;
                 var reader = command.ExecuteReader();
-                _lastConnectionRefresh = DateTime.Now;
 
                 while (reader.Read()) {
-                    _lastConnectionRefresh = DateTime.Now;
-
                     DbRow row = new DbRow();
-                    for (int i = 0; i <= reader.FieldCount-1; i++) {
-                        DbColumn column = new DbColumn();
-                        column.Type = reader.GetFieldType(i);
-                        column.Value = reader.GetValue(i);
-                        column.Name = reader.GetName(i);
+                    for (int ii = 0; ii <= reader.FieldCount-1; ii++) {
+                        DbColumn column = new DbColumn
+                        {
+                            Type = reader.GetFieldType(ii), 
+                            Value = reader.GetValue(ii),
+                            Name = reader.GetName(ii)
+                        };
                         row.Columns.Add(column);
                     }
                     resultSet.Rows.Add(row);
@@ -133,10 +145,6 @@ namespace ORM.Session
                 return resultSet;
             });            
         }
-
-        #endregion
-
-        #region Helpers
 
         #endregion
     }

@@ -28,7 +28,13 @@ namespace TesterSuite.ORMTest
 
         public override void SetUpClass()
         {
-            _session = new Session();
+            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder();
+            connectionStringBuilder.DataSource = "mcabezas.database.windows.net";
+            connectionStringBuilder.UserID = "mcabezas";
+            connectionStringBuilder.Password = "_2053Pega_";
+            connectionStringBuilder.InitialCatalog = "mcabezas";
+
+            _session = new Session(connectionStringBuilder);
             _session.Open();
         }
 
@@ -37,7 +43,7 @@ namespace TesterSuite.ORMTest
             _session.Dispose();
         }
 
-        public override void SetUp()
+        protected override void SetUp()
         {
            _session.ExecuteNativeNonQuery(DropDummyTable);
         }

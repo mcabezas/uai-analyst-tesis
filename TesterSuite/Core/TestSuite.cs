@@ -19,8 +19,8 @@ namespace TesterSuite.Core
         private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(TestSuite));
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
-        public virtual void SetUp() {}
-        public virtual void CleanUp() {}
+        protected virtual void SetUp() {}
+        protected virtual void CleanUp() {}
 
         protected abstract Collection<Action> Test();
 
