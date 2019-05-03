@@ -21,7 +21,7 @@ namespace ORM.Session.States
 
         public override void Close(Session aSession)
         {
-            aSession.CloseDbConnectionWhenClose();
+            Session.CloseDbConnectionWhenClose();
         }
     }
 }

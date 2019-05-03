@@ -6,41 +6,75 @@
  */
 
 using System;
+using Logger.Configuration;
+using static Logger.Configuration.LoggerConfigurationHandler;
 
 namespace Logger
 {
     public class Logger
     {
+        public const string INFO = "INFO";
+        public const string ERROR = "ERROR";
+        public const string DEBUG = "DEBUG";
+
         private readonly Type _sourceClass;
+        public readonly LoggerConfiguration Configuration;
 
         public Logger(Type sourceClass)
         {
             _sourceClass = sourceClass;
+            Configuration = new LoggerConfiguration();
+        }
+        
+        public Logger(Type sourceClass, LoggerConfiguration configuration)
+        {
+            _sourceClass = sourceClass;
+            Configuration = configuration;
         }
 
         public void Info(object message)
         {
-            Log(LogLevel.Info, message);
+            ToHandleInfoState(this).Log(this, message);
         }
         
         public void Debug(object message)
         {
-            Log(LogLevel.Debug, message);
+            ToHandleDebugState(this).Log(this, message);
         }
         
         public void Error(object message)
         {
-            Log(LogLevel.Error, message);
+            ToHandleErrorState(this).Log(this, message);
+        }
+
+
+        internal void LogInfo(object message)
+        {
+            Log(INFO, message);
+        }
+
+        internal void LogDebug(object message)
+        {
+            Log(DEBUG, message);
+        }
+
+        internal void LogError(object message)
+        {
+            Log(ERROR, message);
         }
         
-        public void Log(LogLevel level, object message)
+        public void Log(string level, object message)
         {
-            PrintLog("["+ level.ToString().ToUpper() +"] - " + _sourceClass+ " : " + message);
+            PrintLog("["+ level +"] - " + _sourceClass+ " : " + message);
         }
 
         public static void PrintLog(string message)
         {
             Console.WriteLine(message);
+        }
+
+        internal static void LogWhenNotEnable()
+        {
         }
 
     }

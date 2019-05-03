@@ -10,7 +10,6 @@ using System.Data.SqlClient;
 using System.Timers;
 using Logger;
 using ORM.Result;
-using ORM.Session.States;
 using static ORM.Session.Handlers.SessionStateHandler;
 
 namespace ORM.Session
@@ -47,7 +46,7 @@ namespace ORM.Session
             ToHandleSessionState(this).Close(this);
         }
 
-        public void CloseDbConnectionWhenOpen()
+        internal void CloseDbConnectionWhenOpen()
         {
             IsOpen = false;
             _connection.Close();
@@ -56,7 +55,10 @@ namespace ORM.Session
             _refreshTimer.Dispose();
         }
 
-        public void CloseDbConnectionWhenClose() { }
+        internal static void CloseDbConnectionWhenClose()
+        {
+            /* The connection it's already close... do nothing */
+        }
 
         public void Close()
         {
@@ -74,12 +76,12 @@ namespace ORM.Session
             return this;
         }
 
-        public void OpenDbConnectionWhenOpen()
+        internal void OpenDbConnectionWhenOpen()
         {
             /* The connection it's already open... do nothing */
         }
 
-        public void OpenDbConnectionWhenNotOpen(int connectionTimeout)
+        internal void OpenDbConnectionWhenNotOpen(int connectionTimeout)
         {
             _logger.Debug("Connecting to SQL Server ... ");
             _connectionStringBuilder.ConnectTimeout  = connectionTimeout;

@@ -36,7 +36,7 @@ namespace TesterSuite.ORMTest
                 OpenSessionTest, 
                 GetSessionTest, 
                 CloseSessionTest,
-                SessionTimeoutTest
+//                SessionTimeoutTest
             };
         }
 

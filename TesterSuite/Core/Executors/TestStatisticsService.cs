@@ -32,7 +32,8 @@ namespace TesterSuite.Core.Executors
         {
             Logger.Logger.PrintLog("===============================================================================");
             _logger.Info(SucceedTestsCounter + FailedTestsCounter + " tests executed");
-            _logger.Log( FailedTestsCounter > 0 ? LogLevel.Error:LogLevel.Info, "Success: " + SucceedTestsCounter + " ; Failure: " + FailedTestsCounter);
+            _logger.Log( FailedTestsCounter > 0 ? Logger.Logger.ERROR:Logger.Logger.INFO,
+                "Success: " + SucceedTestsCounter + " ; Failure: " + FailedTestsCounter);
         }
     }
 }

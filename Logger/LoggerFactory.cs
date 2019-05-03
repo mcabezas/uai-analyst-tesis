@@ -6,6 +6,7 @@
  */
 
 using System;
+using Logger.Configuration;
 
 namespace Logger
 {
@@ -29,6 +30,12 @@ namespace Logger
         {
             return new Logger(sourceClass);
         }
+        
+        public Logger GetLogger(Type sourceClass, LoggerConfiguration configuration)
+        {
+            return new Logger(sourceClass, configuration);
+        }
+
         
     }
 }

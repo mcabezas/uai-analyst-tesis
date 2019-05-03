@@ -16,9 +16,10 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
+            //if(arg[])
             TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
-            suiteExecutor.ExecuteSuite(new SessionFactoryTest());
-            //suiteExecutor.ExecuteSuite(GetAllTestSuites());
+            //suiteExecutor.ExecuteSuite(new SessionFactoryTest());
+            suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }
 }
