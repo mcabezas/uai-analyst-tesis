@@ -12,7 +12,7 @@ namespace TesterSuite.Core.Executors
 {
     public class TestStatisticsService
     {
-        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(TestStatisticsService));
+        private readonly ILogger _logger = new Logger.Logger(typeof(TestStatisticsService));
         private int SucceedTestsCounter { get; set; }
         private int FailedTestsCounter { get; set; }
 
@@ -30,10 +30,9 @@ namespace TesterSuite.Core.Executors
 
         public void Print()
         {
-            Logger.Logger.PrintLog("===============================================================================");
+            _logger.Log("===============================================================================");
             _logger.Info(SucceedTestsCounter + FailedTestsCounter + " tests executed");
-            _logger.Log( FailedTestsCounter > 0 ? Logger.Logger.ERROR:Logger.Logger.INFO,
-                "Success: " + SucceedTestsCounter + " ; Failure: " + FailedTestsCounter);
+            _logger.Log( "Success: " + SucceedTestsCounter + " ; Failure: " + FailedTestsCounter);
         }
     }
 }

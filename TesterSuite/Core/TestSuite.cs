@@ -6,9 +6,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using Logger;
-using TesterSuite.Core.Exceptions;
 using Utilities;
 using Utilities.Generics;
 
@@ -16,7 +14,7 @@ namespace TesterSuite.Core
 {
     public abstract class TestSuite
     {
-        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(TestSuite));
+        private readonly ILogger _logger = new Logger.Logger(typeof(TestSuite));
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
         protected virtual void SetUp() {}

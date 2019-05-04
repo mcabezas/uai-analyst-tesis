@@ -5,9 +5,10 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using System;
 using TesterSuite.Core.Executors;
 using TesterSuite.ORMTest;
-using Utilities;
+using Utilities.Generics;
 using static TesterSuite.Core.Utilities.VType;
 
 namespace TesterSuite
@@ -16,9 +17,10 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
-            //if(arg[])
-            TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
+            //Collection<string> objects = Collection<string>.From(args);
             //suiteExecutor.ExecuteSuite(new SessionFactoryTest());
+            
+            TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
             suiteExecutor.ExecuteSuite(GetAllTestSuites());
         }
     }

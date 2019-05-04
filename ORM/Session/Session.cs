@@ -16,7 +16,7 @@ namespace ORM.Session
 {
     public class Session : IDisposable
     {
-        private readonly Logger.Logger _logger = LoggerFactory.Instance.GetLogger(typeof(Session));
+        private readonly ILogger _logger = new Logger.Logger(typeof(Session));
 
         private SqlConnection _connection;
         private Timer _refreshTimer;
@@ -41,6 +41,12 @@ namespace ORM.Session
             CloseConnection();
         }
 
+        public void Close()
+        {
+            _logger.Debug("Closing connection...");
+            CloseConnection();
+        }
+
         private void CloseConnection()
         {
             ToHandleSessionState(this).Close(this);
@@ -60,12 +66,6 @@ namespace ORM.Session
             /* The connection it's already close... do nothing */
         }
 
-        public void Close()
-        {
-            _logger.Debug("Closing connection...");
-            CloseConnection();
-        }
-        
         #endregion
 
         #region OpenConnection

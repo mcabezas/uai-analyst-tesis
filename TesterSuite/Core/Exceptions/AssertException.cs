@@ -17,9 +17,6 @@ namespace TesterSuite.Core.Exceptions
         public AssertException(string message)
             : base(message) { }
 
-        public AssertException(string message, Exception inner)
-            : base(message, inner) { }
-
         #endregion
 
     }

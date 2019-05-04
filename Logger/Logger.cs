@@ -6,75 +6,68 @@
  */
 
 using System;
-using Logger.Configuration;
-using static Logger.Configuration.LoggerConfigurationHandler;
+using Logger.Logs;
+using Logger.Printers;
+using Utilities.Generics;
 
 namespace Logger
 {
-    public class Logger
-    {
-        public const string INFO = "INFO";
-        public const string ERROR = "ERROR";
-        public const string DEBUG = "DEBUG";
+    public class Logger : ILogger {
+
+        private readonly Collection<IPrintable> _printers;
+        private readonly Collection<ILoggable> _loggers;
 
         private readonly Type _sourceClass;
-        public readonly LoggerConfiguration Configuration;
 
         public Logger(Type sourceClass)
         {
             _sourceClass = sourceClass;
-            Configuration = new LoggerConfiguration();
+
+            _printers = new Collection<IPrintable>{
+                new ConsolePrinter(),
+                new FilePrinter()
+            };
+
+            _loggers = new Collection<ILoggable> {
+                new Info(),
+                new Debug(),
+                new Error()
+            };
         }
         
-        public Logger(Type sourceClass, LoggerConfiguration configuration)
+        public Logger(Type sourceClass, Collection<ILoggable> loggers)
         {
             _sourceClass = sourceClass;
-            Configuration = configuration;
+            _loggers = loggers;
         }
 
-        public void Info(object message)
+        public void Log(string message)
         {
-            ToHandleInfoState(this).Log(this, message);
+            _printers.ForEach(printer => printer.Print(message));        
+        }
+
+        public void Info(string message)
+        {
+            Log<Info>(message);
         }
         
-        public void Debug(object message)
+        public void Debug(string message)
         {
-            ToHandleDebugState(this).Log(this, message);
+            Log<Debug>(message);
         }
         
-        public void Error(object message)
+        public void Error(string message)
         {
-            ToHandleErrorState(this).Log(this, message);
+            Log<Error>(message);
         }
 
-
-        internal void LogInfo(object message)
+        private void  Log<T>(string message)
         {
-            Log(INFO, message);
-        }
-
-        internal void LogDebug(object message)
-        {
-            Log(DEBUG, message);
-        }
-
-        internal void LogError(object message)
-        {
-            Log(ERROR, message);
-        }
-        
-        public void Log(string level, object message)
-        {
-            PrintLog("["+ level +"] - " + _sourceClass+ " : " + message);
-        }
-
-        public static void PrintLog(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        internal static void LogWhenNotEnable()
-        {
+            _loggers.ForEach(
+                logType => logType is T,
+                logType => logType.Log(this, 
+                    _sourceClass + ": " + message)
+            );
         }
 
     }
