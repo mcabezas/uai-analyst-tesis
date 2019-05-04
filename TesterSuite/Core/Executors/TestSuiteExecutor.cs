@@ -20,7 +20,7 @@ namespace TesterSuite.Core.Executors
             });
         }
 
-        public void ExecuteSuite(Collection<TestSuite> suites)
+        public void ExecuteSuite(ICollection<TestSuite> suites)
         {
             PrepareSuite(statisticsService => {
                 suites.ForEach(suite => {

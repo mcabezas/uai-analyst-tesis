@@ -13,9 +13,9 @@ namespace TesterSuite.Core.Utilities
 {
     public static class VType
     {
-        public static Collection<TestSuite> GetAllTestSuites()
+        public static ICollection<TestSuite> GetAllTestSuites()
         {
-            Collection<TestSuite> suites = new Collection<TestSuite>();
+            ICollection<TestSuite> suites = new Collection<TestSuite>();
             GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
                 .ForEach(type => {
                     suites.Add((TestSuite) Activator.CreateInstance(type));
@@ -23,11 +23,11 @@ namespace TesterSuite.Core.Utilities
             return suites;
         }
 
-        private static Collection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
+        private static ICollection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
         {
             // Get all types from the given assembly
             Type[] types = assembly.GetTypes();
-            Collection<Type> derivedTypes = new Collection<Type>();
+            ICollection<Type> derivedTypes = new Collection<Type>();
 
             for (int i = 0, count = types.Length; i < count; i++)
             {

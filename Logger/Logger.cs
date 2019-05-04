@@ -14,8 +14,8 @@ namespace Logger
 {
     public class Logger : ILogger {
 
-        private readonly Collection<IPrintable> _printers;
-        private readonly Collection<ILoggable> _loggers;
+        private readonly ICollection<IPrintable> _printers;
+        private readonly ICollection<ILoggable> _loggers;
 
         private readonly Type _sourceClass;
 
@@ -35,7 +35,7 @@ namespace Logger
             };
         }
         
-        public Logger(Type sourceClass, Collection<ILoggable> loggers)
+        public Logger(Type sourceClass, ICollection<ILoggable> loggers)
         {
             _sourceClass = sourceClass;
             _loggers = loggers;

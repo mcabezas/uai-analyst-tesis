@@ -11,7 +11,6 @@ using ORM.Result;
 using ORM.Session;
 using TesterSuite.Core;
 using Utilities.Generics;
-using static TesterSuite.Core.Asserts.Assertion;
 
 namespace TesterSuite.ORMTest
 {
@@ -48,7 +47,7 @@ namespace TesterSuite.ORMTest
            _session.ExecuteNativeNonQuery(DropDummyTable);
         }
 
-        protected override Collection<Action> Test()
+        protected override ICollection<Action> Test()
         {
             return new Collection<Action>
             {
@@ -60,12 +59,13 @@ namespace TesterSuite.ORMTest
 
         private void ExecuteNonQueryNegativeTest()
         {
-            try {
+            try
+            {
                 _session.ExecuteNativeNonQuery("Executing wrong query ...");
-                Fail();
+                Assertion.Fail();
             }
             catch (SqlException) {
-                Pass();
+                Assertion.Pass();
             }
         }
         
@@ -83,8 +83,8 @@ namespace TesterSuite.ORMTest
 
             ResultSet resultSet = _session.ExecuteNativeQuery("SELECT * FROM dbo.DUMMY;");
             
-            AreEqual(2, resultSet.Rows.Count);
-            AreEqual(2, resultSet.Rows[0].Columns.Count);
+            Assertion.AreEqual(2, resultSet.Rows.Count);
+            Assertion.AreEqual(2, resultSet.Rows[0].Columns.Count);
         }
     }
 }

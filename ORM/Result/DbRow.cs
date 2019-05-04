@@ -10,6 +10,6 @@ namespace ORM.Result
 {
     public class DbRow
     {
-        public readonly Collection<DbColumn> Columns = new Collection<DbColumn>();
+        public readonly ICollection<DbColumn> Columns = new Collection<DbColumn>();
     }
 }

@@ -11,6 +11,6 @@ namespace ORM.Result
 {
     public class ResultSet
     {
-        public readonly Collection<DbRow> Rows = new Collection<DbRow>();
+        public readonly ICollection<DbRow> Rows = new Collection<DbRow>();
     }
 }

@@ -7,6 +7,7 @@
 
 using System;
 using Logger;
+using TesterSuite.Core.Asserts;
 using Utilities;
 using Utilities.Generics;
 
@@ -15,12 +16,13 @@ namespace TesterSuite.Core
     public abstract class TestSuite
     {
         private readonly ILogger _logger = new Logger.Logger(typeof(TestSuite));
+        protected readonly IAssertion Assertion = new Assertion();
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
         protected virtual void SetUp() {}
         protected virtual void CleanUp() {}
 
-        protected abstract Collection<Action> Test();
+        protected abstract ICollection<Action> Test();
 
         #region events
         
@@ -49,7 +51,7 @@ namespace TesterSuite.Core
 
         public void ExecuteTests()
         {
-            Collection<Action> testMethods = Test();
+            ICollection<Action> testMethods = Test();
             if(Predefined.IsEmpty(testMethods)) {
                 _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;

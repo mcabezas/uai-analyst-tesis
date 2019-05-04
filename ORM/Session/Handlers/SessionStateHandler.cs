@@ -12,7 +12,7 @@ namespace ORM.Session.Handlers
 {
     public static class SessionStateHandler
     {
-        private static readonly Collection<SessionState> States = new Collection<SessionState>
+        private static readonly ICollection<SessionState> States = new Collection<SessionState>
         {
             new SessionStateOpen(), 
             new SessionStateClose()

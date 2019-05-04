@@ -10,7 +10,6 @@ using System.Threading;
 using ORM.Session;
 using TesterSuite.Core;
 using Utilities.Generics;
-using static TesterSuite.Core.Asserts.Assertion;
 
 namespace TesterSuite.ORMTest
 {
@@ -29,7 +28,7 @@ namespace TesterSuite.ORMTest
             _sessionFactory?.GetSession()?.Close();
         }
 
-        protected override Collection<Action> Test()
+        protected override ICollection<Action> Test()
         {
             return new Collection<Action>
             {
@@ -43,14 +42,14 @@ namespace TesterSuite.ORMTest
         private void OpenSessionTest()
         {
             Session session = _sessionFactory.OpenSession();
-            IsNotNull(session);
+            Assertion.IsNotNull(session);
         }
 
         private void GetSessionTest()
         {
             Session session = _sessionFactory.OpenSession();
             Session session2 = _sessionFactory.GetSession();
-            AreSameReference(session, session2);
+            Assertion.AreSameReference(session, session2);
         }
         
         private void CloseSessionTest()
@@ -60,15 +59,15 @@ namespace TesterSuite.ORMTest
             session0.Close();
             
             Session session1 = _sessionFactory.OpenSession();
-            IsTrue(session1.IsOpen);
+            Assertion.IsTrue(session1.IsOpen);
 
             session1.Close();
-            IsFalse(session1.IsOpen);
+            Assertion.IsFalse(session1.IsOpen);
             
             Session session2 = _sessionFactory.OpenSession();
             Session session3 = _sessionFactory.OpenSession();
 
-            AreSameReference(session2, session3);
+            Assertion.AreSameReference(session2, session3);
         }
 
         private void SessionTimeoutTest()
@@ -80,7 +79,7 @@ namespace TesterSuite.ORMTest
             
             Thread.Sleep(_sessionFactory.ConnectionStringBuilder.ConnectTimeout * 2000);
             
-            IsTrue(session.IsOpen);
+            Assertion.IsTrue(session.IsOpen);
         }
     }
 }

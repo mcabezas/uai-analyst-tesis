@@ -10,16 +10,16 @@ using System.Collections.Generic;
 
 namespace Utilities.Generics
 {
-    public class Collection<T> : List<T>
+    public class Collection<T> : List<T>, ICollection<T>
     {
-        public static Collection<T> From(IEnumerable<T> source)
+        public ICollection<T> From(IEnumerable<T> source)
         {
             Collection<T> collection = new Collection<T>();
             collection.AddRange(source);
             return collection;
         }
 
-        public Collection<T> Filter(Predicate<T> aPredicate)
+        public ICollection<T> Filter(Predicate<T> aPredicate)
         {
             Collection<T> newCollection = new Collection<T>();
             ForEach(aPredicate, anItem => { newCollection.Add(anItem); });

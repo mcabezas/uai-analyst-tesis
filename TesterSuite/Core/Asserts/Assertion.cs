@@ -12,9 +12,9 @@ using TesterSuite.Core.Exceptions;
 
 namespace TesterSuite.Core.Asserts
 {
-    public static class Assertion
+    public class Assertion : IAssertion
     {
-        public static void Fail(string message = null)
+        public void Fail(string message = null)
         {
             throw new AssertException(
                 string.IsNullOrWhiteSpace(message)
@@ -22,54 +22,54 @@ namespace TesterSuite.Core.Asserts
                     : message);
         }
 
-        public static void Pass()
+        public void Pass()
         {
             //Dummy ... semantic method
         }
 
-        public static void AreEqual(IComparable expected, IComparable actual, string message = null)
+        public void AreEqual(IComparable expected, IComparable actual, string message = null)
         {
             if (!Equals(expected, actual)) {
                 throw new AssertException(ExpectedActualMessage(message, null, expected, null, null, actual, null));
             }
         }
 
-        public static void AreNotEqual(IComparable expected, IComparable actual, string message = null)
+        public void AreNotEqual(IComparable expected, IComparable actual, string message = null)
         {
             if (Equals(expected, actual)) {
                 throw new AssertException(ExpectedActualMessage(message, "Not ", expected, null, null, actual, null));
             }
         }
 
-        public static void IsTrue(bool value, string message = null)
+        public void IsTrue(bool value, string message = null)
         {
             if (!value) {
                 throw new AssertException(ExpectedActualMessage(message, null, true, null, null, false, null));
             }
         }
 
-        public static void IsFalse(bool value, string message = null)
+        public void IsFalse(bool value, string message = null)
         {
             if (value) {
                 throw new AssertException(ExpectedActualMessage(message, null, false, null, null, true, null));
             }
         }
 
-        public static void IsNull(object value, string message = null)
+        public void IsNull(object value, string message = null)
         {
             if (value != null) {
                 throw new AssertException(ExpectedActualMessage(message, null, null, null, null, value, null));
             }
         }
 
-        public static void IsNotNull(object value, string message = null)
+        public void IsNotNull(object value, string message = null)
         {
             if (value == null) {
                 throw new AssertException(ExpectedActualMessage(message, "Not ", null, null, null, null, null));
             }
         }
         
-        public static void AreSameReference(object expected, object actual, string message = null)
+        public void AreSameReference(object expected, object actual, string message = null)
         {
             if (!ReferenceEquals(expected, actual)) {
                 throw new AssertException(ExpectedActualMessage(message, null, expected, null, null, actual, null));
@@ -77,7 +77,7 @@ namespace TesterSuite.Core.Asserts
 
         }
         
-        public static void AreNotSameReference(object expected, object actual, string message = null)
+        public void AreNotSameReference(object expected, object actual, string message = null)
         {
             if (ReferenceEquals(expected, actual))
             {
