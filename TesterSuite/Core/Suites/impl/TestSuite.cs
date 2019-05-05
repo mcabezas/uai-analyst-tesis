@@ -6,16 +6,18 @@
  */
 
 using System;
-using Logger;
+using Log4CS.Core;
+using Log4CS.Core.impl;
 using TesterSuite.Core.Asserts;
+using TesterSuite.Core.Asserts.impl;
 using Utilities;
 using Utilities.Generics;
 
-namespace TesterSuite.Core
+namespace TesterSuite.Core.Suites.impl
 {
     public abstract class TestSuite : ITestSuite
     {
-        private readonly ILogger _logger = new Logger.Logger(typeof(TestSuite));
+        private readonly ILogger _logger = new Logger(typeof(TestSuite));
         protected readonly IAssertion Assertion = new Assertion();
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}

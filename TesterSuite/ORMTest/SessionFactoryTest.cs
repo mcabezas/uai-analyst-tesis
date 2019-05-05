@@ -9,7 +9,9 @@ using System;
 using System.Threading;
 using ORM.Session;
 using TesterSuite.Core;
+using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
 namespace TesterSuite.ORMTest
 {

@@ -5,9 +5,10 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using TesterSuite.Core.Suites;
 using Utilities.Generics;
 
-namespace TesterSuite.Core.Executors.implementation
+namespace TesterSuite.Core.Executors.impl
 {
     public class CustomConfiguration : IConfiguration
     {

@@ -7,9 +7,12 @@
 
 using System;
 using System.Reflection;
+using TesterSuite.Core.Suites;
+using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Utilities
+namespace TesterSuite.Core.Executors.impl
 {
     public class TestSuiteAssemblyFinder : ITestSuiteFinder
     {

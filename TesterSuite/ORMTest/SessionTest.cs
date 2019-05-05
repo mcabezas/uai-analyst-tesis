@@ -10,7 +10,9 @@ using System.Data.SqlClient;
 using ORM.Result;
 using ORM.Session;
 using TesterSuite.Core;
+using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
 namespace TesterSuite.ORMTest
 {

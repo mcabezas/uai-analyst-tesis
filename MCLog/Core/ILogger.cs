@@ -5,7 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace Logger
+namespace Log4CS.Core
 {
     public interface ILogger
     {

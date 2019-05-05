@@ -7,6 +7,7 @@
 
 using ORM.Session.States;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
 namespace ORM.Session.Handlers
 {

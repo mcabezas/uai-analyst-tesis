@@ -10,7 +10,7 @@ using System.Collections;
 using System.Text;
 using TesterSuite.Core.Exceptions;
 
-namespace TesterSuite.Core.Asserts
+namespace TesterSuite.Core.Asserts.impl
 {
     public class Assertion : IAssertion
     {

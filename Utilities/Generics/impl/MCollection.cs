@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Utilities.Generics
+namespace Utilities.Generics.impl
 {
     public class MCollection<T> : List<T>, IMCollection<T>
     {

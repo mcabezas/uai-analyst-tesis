@@ -5,6 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
 namespace ORM.Result
 {

@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
+        <RootNamespace>Log4CS</RootNamespace>
+        <AssemblyName>Log4CS</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

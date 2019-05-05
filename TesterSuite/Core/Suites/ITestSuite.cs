@@ -6,9 +6,8 @@
  */
 
 using System;
-using Utilities.Generics;
 
-namespace TesterSuite.Core
+namespace TesterSuite.Core.Suites
 {
     public interface ITestSuite
     {

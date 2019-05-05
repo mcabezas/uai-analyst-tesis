@@ -5,8 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using System.Reflection;
-using Logger;
+using TesterSuite.Core.Suites;
 
 namespace TesterSuite.Core.Executors
 {

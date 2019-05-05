@@ -6,6 +6,7 @@
  */
 
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
 namespace ORM.Result
 {

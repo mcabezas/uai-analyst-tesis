@@ -7,7 +7,7 @@
 
 using System;
 
-namespace Logger.Printers
+namespace Log4CS.Printers.impl
 {
     public class ConsolePrinter : IPrintable
     {

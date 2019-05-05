@@ -7,15 +7,17 @@
 
 using System;
 using System.Collections.Generic;
-using Logger;
-using TesterSuite.Core.Utilities;
+using Log4CS.Core;
+using Log4CS.Core.impl;
+using TesterSuite.Core.Suites;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Executors.implementation
+namespace TesterSuite.Core.Executors.impl
 {
     public class TestSuiteExecutor : IExecutor, IConfigurable
     {
-        ILogger _logger = new Logger.Logger(typeof(TestSuiteExecutor));
+        private readonly ILogger _logger = new Logger(typeof(TestSuiteExecutor));
 
         private IMCollection<string> _configuration;
 
@@ -23,6 +25,7 @@ namespace TesterSuite.Core.Executors.implementation
         {
             _configuration = new MCollection<string>().From(tests);
         }
+        
         public void ExecuteSuites()
         {
             IMCollection<ITestSuite> suites = GetTestSuites();

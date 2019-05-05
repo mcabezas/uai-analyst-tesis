@@ -6,8 +6,9 @@
  */
 
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Executors.implementation
+namespace TesterSuite.Core.Executors.impl
 {
     public class TestExecutorHandler : ITestExecutorHandler
     {

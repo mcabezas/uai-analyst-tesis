@@ -6,7 +6,7 @@
  */
 
 using TesterSuite.Core.Executors;
-using TesterSuite.Core.Executors.implementation;
+using TesterSuite.Core.Executors.impl;
 
 namespace TesterSuite
 {

@@ -5,9 +5,11 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace Logger.Logs
+using Log4CS.Core;
+
+namespace Log4CS.Logs.impl
 {
-    public class Error : ILoggable
+    public class Info : ILoggable
     {
         public void Log(ILogger aLogger, string message)
         {

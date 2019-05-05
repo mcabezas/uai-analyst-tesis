@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "ORM\ORM.csproj", "{0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesterSuite", "TesterSuite\TesterSuite.csproj", "{4EDCE22E-576E-4224-96CB-23EF2646E96D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCLog", "MCLog\MCLog.csproj", "{3E5FDFB6-E5AC-4F06-A932-91021A6C26EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{6ECFE46A-E976-496C-86DE-92EE1CC0A965}"
 EndProject

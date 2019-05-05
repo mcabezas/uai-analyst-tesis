@@ -8,7 +8,8 @@
 using System;
 using System.Data.SqlClient;
 using System.Timers;
-using Logger;
+using Log4CS.Core;
+using Log4CS.Core.impl;
 using ORM.Result;
 using static ORM.Session.Handlers.SessionStateHandler;
 
@@ -16,7 +17,7 @@ namespace ORM.Session
 {
     public class Session : IDisposable
     {
-        private readonly ILogger _logger = new Logger.Logger(typeof(Session));
+        private readonly ILogger _logger = new Logger(typeof(Session));
 
         private SqlConnection _connection;
         private Timer _refreshTimer;

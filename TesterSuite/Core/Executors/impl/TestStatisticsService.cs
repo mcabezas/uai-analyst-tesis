@@ -6,13 +6,15 @@
  */
 
 using System.Reflection;
-using Logger;
+using Log4CS.Core;
+using Log4CS.Core.impl;
+using TesterSuite.Core.Suites;
 
-namespace TesterSuite.Core.Executors
+namespace TesterSuite.Core.Executors.impl
 {
     public class TestStatisticsService : ITestStatisticsService
     {
-        private readonly ILogger _logger = new Logger.Logger(typeof(TestStatisticsService));
+        private readonly ILogger _logger = new Logger(typeof(TestStatisticsService));
         private int SucceedTestsCounter { get; set; }
         private int FailedTestsCounter { get; set; }
 

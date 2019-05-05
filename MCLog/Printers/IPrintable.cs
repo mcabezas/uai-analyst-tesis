@@ -5,7 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace Logger.Printers
+namespace Log4CS.Printers
 {
     public interface IPrintable
     {

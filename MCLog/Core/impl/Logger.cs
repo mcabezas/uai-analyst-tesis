@@ -6,11 +6,14 @@
  */
 
 using System;
-using Logger.Logs;
-using Logger.Printers;
+using Log4CS.Logs;
+using Log4CS.Logs.impl;
+using Log4CS.Printers;
+using Log4CS.Printers.impl;
 using Utilities.Generics;
+using Utilities.Generics.impl;
 
-namespace Logger
+namespace Log4CS.Core.impl
 {
     public class Logger : ILogger {
 
