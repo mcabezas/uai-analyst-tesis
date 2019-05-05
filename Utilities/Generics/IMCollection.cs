@@ -10,17 +10,19 @@ using System.Collections.Generic;
 
 namespace Utilities.Generics
 {
-    public interface ICollection<T> : IList<T>
+    public interface IMCollection<T> : IList<T>
     {
-        ICollection<T> From(IEnumerable<T> source);
+        IMCollection<T> From(IEnumerable<T> source);
         
-        ICollection<T> Filter(Predicate<T> aPredicate);
+        IMCollection<T> Filter(Predicate<T> aPredicate);
         
         void ForEach(Predicate<T> aPredicate, Action<T> anAction);
         
         void ForEach(Action<T> anAction);
 
         T GetFirst();
+
+        bool IsEmpty();
 
     }
 }

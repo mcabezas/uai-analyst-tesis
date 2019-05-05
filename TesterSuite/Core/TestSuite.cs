@@ -19,10 +19,10 @@ namespace TesterSuite.Core
         protected readonly IAssertion Assertion = new Assertion();
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
-        public virtual void SetUp() {}
-        public virtual void CleanUp() {}
+        protected virtual void SetUp() {}
+        protected virtual void CleanUp() {}
 
-        public abstract ICollection<Action> Tests();
+        protected abstract IMCollection<Action> Tests();
 
         #region events
         
@@ -51,7 +51,7 @@ namespace TesterSuite.Core
 
         public void ExecuteTests()
         {
-            ICollection<Action> testMethods = Tests();
+            IMCollection<Action> testMethods = Tests();
             if(Predefined.IsEmpty(testMethods)) {
                 _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;

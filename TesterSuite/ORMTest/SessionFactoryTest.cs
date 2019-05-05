@@ -23,14 +23,14 @@ namespace TesterSuite.ORMTest
             _sessionFactory = SessionFactory.Instance;
         }
 
-        public override void CleanUp()
+        protected override void CleanUp()
         {
             _sessionFactory?.GetSession()?.Close();
         }
 
-        public override ICollection<Action> Tests()
+        protected override IMCollection<Action> Tests()
         {
-            return new Collection<Action>
+            return new MCollection<Action>
             {
                 OpenSessionTest, 
                 GetSessionTest, 

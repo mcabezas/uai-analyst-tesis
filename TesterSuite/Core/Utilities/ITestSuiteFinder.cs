@@ -11,6 +11,6 @@ namespace TesterSuite.Core.Utilities
 {
     public interface ITestSuiteFinder
     {
-        ICollection<ITestSuite> GetAllTestSuites();
+        IMCollection<ITestSuite> GetAllTestSuites();
     }
 }

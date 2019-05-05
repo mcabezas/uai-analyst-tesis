@@ -11,7 +11,7 @@ namespace Utilities
 {
     public static class Predefined
     {
-        public static bool IsEmpty<T>(ICollection<T> e)
+        public static bool IsEmpty<T>(IMCollection<T> e)
         {
             return e?.Count == 0;
         }

@@ -13,9 +13,9 @@ namespace TesterSuite.Core.Utilities
 {
     public class TestSuiteAssemblyFinder : ITestSuiteFinder
     {
-        public ICollection<ITestSuite> GetAllTestSuites()
+        public IMCollection<ITestSuite> GetAllTestSuites()
         {
-            ICollection<ITestSuite> suites = new Collection<ITestSuite>();
+            IMCollection<ITestSuite> suites = new MCollection<ITestSuite>();
             GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
                 .ForEach(type => {
                     suites.Add((TestSuite) Activator.CreateInstance(type));
@@ -23,11 +23,11 @@ namespace TesterSuite.Core.Utilities
             return suites;
         }
 
-        private ICollection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
+        private IMCollection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
         {
             // Get all types from the given assembly
             Type[] types = assembly.GetTypes();
-            ICollection<Type> derivedTypes = new Collection<Type>();
+            IMCollection<Type> derivedTypes = new MCollection<Type>();
 
             for (int i = 0, count = types.Length; i < count; i++)
             {

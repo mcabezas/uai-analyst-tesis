@@ -10,7 +10,7 @@ using Logger;
 
 namespace TesterSuite.Core.Executors
 {
-    public class TestStatisticsService
+    public class TestStatisticsService : ITestStatisticsService
     {
         private readonly ILogger _logger = new Logger.Logger(typeof(TestStatisticsService));
         private int SucceedTestsCounter { get; set; }

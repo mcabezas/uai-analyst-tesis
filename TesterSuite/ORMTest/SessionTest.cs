@@ -42,14 +42,14 @@ namespace TesterSuite.ORMTest
             _session.Dispose();
         }
 
-        public override void SetUp()
+        protected override void SetUp()
         {
            _session.ExecuteNativeNonQuery(DropDummyTable);
         }
 
-        public override ICollection<Action> Tests()
+        protected override IMCollection<Action> Tests()
         {
-            return new Collection<Action>
+            return new MCollection<Action>
             {
                 ExecuteNonQueryTest,
                 ExecuteNonQueryNegativeTest,

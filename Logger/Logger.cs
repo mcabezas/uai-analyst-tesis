@@ -14,8 +14,8 @@ namespace Logger
 {
     public class Logger : ILogger {
 
-        private readonly ICollection<IPrintable> _printers;
-        private readonly ICollection<ILoggable> _loggers;
+        private readonly IMCollection<IPrintable> _printers;
+        private readonly IMCollection<ILoggable> _loggers;
 
         private readonly Type _sourceClass;
 
@@ -23,19 +23,19 @@ namespace Logger
         {
             _sourceClass = sourceClass;
 
-            _printers = new Collection<IPrintable>{
+            _printers = new MCollection<IPrintable>{
                 new ConsolePrinter(),
                 new FilePrinter()
             };
 
-            _loggers = new Collection<ILoggable> {
+            _loggers = new MCollection<ILoggable> {
                 new Info(),
                 new Debug(),
                 new Error()
             };
         }
         
-        public Logger(Type sourceClass, ICollection<ILoggable> loggers)
+        public Logger(Type sourceClass, IMCollection<ILoggable> loggers)
         {
             _sourceClass = sourceClass;
             _loggers = loggers;

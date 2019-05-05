@@ -14,10 +14,6 @@ namespace TesterSuite.Core
     {
         void SetUpClass();
         void CleanUpClass();
-        void SetUp();
-        void CleanUp();
-
-        ICollection<Action> Tests();
 
         void ExecuteTests();
 
