@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MCLog\MCLog.csproj" />
+      <ProjectReference Include="..\Log4CS\Log4CS.csproj" />
       <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
 
