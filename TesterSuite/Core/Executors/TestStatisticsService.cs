@@ -16,16 +16,16 @@ namespace TesterSuite.Core.Executors
         private int SucceedTestsCounter { get; set; }
         private int FailedTestsCounter { get; set; }
 
-        public void OnSucceedTest(object source, TestEventArgs args)
+        public void OnSucceedTest(object source, ITestEventArgs args)
         {
             SucceedTestsCounter++;
-            _logger.Info("[SUCCESS] " + source + " => " + args.TestMethod.GetMethodInfo());
+            _logger.Info("[SUCCESS] " + source + " => " + args.GetTestMethod().GetMethodInfo());
         }
 
-        public void OnFailedTest(object source, TestEventArgs args)
+        public void OnFailedTest(object source, ITestEventArgs args)
         {
             FailedTestsCounter++;
-            _logger.Error("[FAILURE] " + source + " => " + args.TestMethod.GetMethodInfo());
+            _logger.Error("[FAILURE] " + source + " => " + args.GetTestMethod().GetMethodInfo());
         }
 
         public void Print()

@@ -11,11 +11,11 @@ using Utilities.Generics;
 
 namespace TesterSuite.Core.Utilities
 {
-    public static class VType
+    public class TestSuiteAssemblyFinder : ITestSuiteFinder
     {
-        public static ICollection<TestSuite> GetAllTestSuites()
+        public ICollection<ITestSuite> GetAllTestSuites()
         {
-            ICollection<TestSuite> suites = new Collection<TestSuite>();
+            ICollection<ITestSuite> suites = new Collection<ITestSuite>();
             GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
                 .ForEach(type => {
                     suites.Add((TestSuite) Activator.CreateInstance(type));
@@ -23,7 +23,7 @@ namespace TesterSuite.Core.Utilities
             return suites;
         }
 
-        private static ICollection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
+        private ICollection<Type> GetDerivedTypes(Type baseType, Assembly assembly)
         {
             // Get all types from the given assembly
             Type[] types = assembly.GetTypes();
@@ -43,7 +43,7 @@ namespace TesterSuite.Core.Utilities
             return derivedTypes;
         }
 
-        private static bool IsSubclassOf(Type type, Type baseType)
+        private bool IsSubclassOf(Type type, Type baseType)
         {
             if (type == null || baseType == null || type == baseType)
                 return false;

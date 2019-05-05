@@ -13,37 +13,37 @@ using Utilities.Generics;
 
 namespace TesterSuite.Core
 {
-    public abstract class TestSuite
+    public abstract class TestSuite : ITestSuite
     {
         private readonly ILogger _logger = new Logger.Logger(typeof(TestSuite));
         protected readonly IAssertion Assertion = new Assertion();
         public virtual void SetUpClass() {}
         public virtual void CleanUpClass() {}
-        protected virtual void SetUp() {}
-        protected virtual void CleanUp() {}
+        public virtual void SetUp() {}
+        public virtual void CleanUp() {}
 
-        protected abstract ICollection<Action> Test();
+        public abstract ICollection<Action> Tests();
 
         #region events
         
         #region OnSucceedTest
-        
-        public delegate void SucceedTestEventHandler(object source, TestEventArgs args);
-        public event SucceedTestEventHandler SucceedTest;
-        protected virtual void OnSucceedTest(Action testMethod)
+
+        public event EventHandler<ITestEventArgs> SucceedTest;
+
+        private void OnSucceedTest(Action testMethod)
         {
-            SucceedTest?.Invoke(this, new TestEventArgs() {TestMethod = testMethod});
+            SucceedTest?.Invoke(this, new TestEventArgs(testMethod));
         }
         
         #endregion
         
         #region OnFailedTest
         
-        public delegate void FailedTestEventHandler(object source, TestEventArgs args);
-        public event FailedTestEventHandler FailedTest;
-        protected virtual void OnFailedTest(Action testMethod)
+        public event EventHandler<ITestEventArgs> FailedTest;
+
+        private void OnFailedTest(Action testMethod)
         {
-            FailedTest?.Invoke(this, new TestEventArgs() {TestMethod = testMethod});
+            FailedTest?.Invoke(this, new TestEventArgs(testMethod));
         }
         
         #endregion
@@ -51,7 +51,7 @@ namespace TesterSuite.Core
 
         public void ExecuteTests()
         {
-            ICollection<Action> testMethods = Test();
+            ICollection<Action> testMethods = Tests();
             if(Predefined.IsEmpty(testMethods)) {
                 _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;
@@ -71,8 +71,18 @@ namespace TesterSuite.Core
         }
     }
 
-    public class TestEventArgs : EventArgs
+    public class TestEventArgs : ITestEventArgs
     {
-        public Action TestMethod { get; set; }
+        private readonly Action _testMethod;
+
+        public TestEventArgs(Action testMethod)
+        {
+            _testMethod = testMethod;
+        }
+
+        public Action GetTestMethod()
+        {
+            return _testMethod;
+        }
     }
 }

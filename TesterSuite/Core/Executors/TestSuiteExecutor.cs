@@ -13,14 +13,14 @@ namespace TesterSuite.Core.Executors
     public class TestSuiteExecutor
     {
 
-        public void ExecuteSuite(TestSuite suite)
+        public void ExecuteSuite(ITestSuite suite)
         {
             PrepareSuite(statisticsService => {
                     RunSuite(suite, statisticsService);
             });
         }
 
-        public void ExecuteSuite(ICollection<TestSuite> suites)
+        public void ExecuteSuite(ICollection<ITestSuite> suites)
         {
             PrepareSuite(statisticsService => {
                 suites.ForEach(suite => {
@@ -36,7 +36,7 @@ namespace TesterSuite.Core.Executors
             statisticsService.Print();
         }
 
-        private static void RunSuite(TestSuite suite, TestStatisticsService statisticsService)
+        private static void RunSuite(ITestSuite suite, TestStatisticsService statisticsService)
         {
             suite.SucceedTest += statisticsService.OnSucceedTest;
             suite.FailedTest += statisticsService.OnFailedTest;

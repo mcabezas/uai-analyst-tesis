@@ -7,9 +7,10 @@
 
 using System;
 using TesterSuite.Core.Executors;
+using TesterSuite.Core.Utilities;
 using TesterSuite.ORMTest;
 using Utilities.Generics;
-using static TesterSuite.Core.Utilities.VType;
+using static TesterSuite.Core.Utilities.TestSuiteAssemblyFinder;
 
 namespace TesterSuite
 {
@@ -19,9 +20,10 @@ namespace TesterSuite
         {
             //Collection<string> objects = Collection<string>.From(args);
             //suiteExecutor.ExecuteSuite(new SessionFactoryTest());
+            ITestSuiteFinder suiteFinder = new TestSuiteAssemblyFinder();
             
             TestSuiteExecutor suiteExecutor = new TestSuiteExecutor();
-            suiteExecutor.ExecuteSuite(GetAllTestSuites());
+            suiteExecutor.ExecuteSuite(suiteFinder.GetAllTestSuites());
         }
     }
 }
