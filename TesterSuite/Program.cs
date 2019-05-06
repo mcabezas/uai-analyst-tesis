@@ -14,8 +14,7 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
-            IExecutor suiteExecutor = new TestSuiteExecutor();
-            suiteExecutor.Configure(args);
+            IExecutor suiteExecutor = new TestSuiteExecutor(args);
             suiteExecutor.ExecuteSuites();
         }
     }

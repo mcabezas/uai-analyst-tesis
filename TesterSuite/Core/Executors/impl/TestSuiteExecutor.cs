@@ -19,9 +19,9 @@ namespace TesterSuite.Core.Executors.impl
     {
         private readonly ILogger _logger = new Logger(typeof(TestSuiteExecutor));
 
-        private IMCollection<string> _configuration;
+        private readonly IMCollection<string> _configuration;
 
-        public void Configure(IEnumerable<string> tests)
+        public TestSuiteExecutor(IEnumerable<string> tests)
         {
             _configuration = new MCollection<string>().From(tests);
         }

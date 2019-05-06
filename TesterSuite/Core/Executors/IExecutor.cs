@@ -13,6 +13,5 @@ namespace TesterSuite.Core.Executors
     public interface IExecutor
     {
         void ExecuteSuites();
-        void Configure(IEnumerable<string> tests);
     }
 }
