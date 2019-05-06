@@ -15,7 +15,7 @@ using static ORM.Session.Handlers.SessionStateHandler;
 
 namespace ORM.Session
 {
-    public class Session : IDisposable
+    public sealed class Session : IDisposable
     {
         private readonly ILogger _logger = new Logger(typeof(Session));
 

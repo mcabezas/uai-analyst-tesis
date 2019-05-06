@@ -12,7 +12,7 @@ using TesterSuite.Core.Exceptions;
 
 namespace TesterSuite.Core.Asserts.impl
 {
-    public class Assertion : IAssertion
+    public sealed class Assertion : IAssertion
     {
         public void Fail(string message = null)
         {

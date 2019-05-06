@@ -7,19 +7,19 @@
 
 namespace ORM.Session.States
 {
-    public class SessionStateClose : SessionState
+    public sealed class SessionStateClose : ISessionState
     {
-        public override bool CanHandle(Session aSession)
+        public bool CanHandle(Session aSession)
         {
             return !aSession.IsOpen;
         }
 
-        public override void Open(Session aSession, int connectionTimeout)
+        public void Open(Session aSession, int connectionTimeout)
         {
             aSession.OpenDbConnectionWhenNotOpen(connectionTimeout);
         }
 
-        public override void Close(Session aSession)
+        public void Close(Session aSession)
         {
             Session.CloseDbConnectionWhenClose();
         }

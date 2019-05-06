@@ -10,7 +10,7 @@ using Utilities.Generics.impl;
 
 namespace ORM.Result
 {
-    public class ResultSet
+    public sealed class ResultSet
     {
         public readonly IMCollection<DbRow> Rows = new MCollection<DbRow>();
     }

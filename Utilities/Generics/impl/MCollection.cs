@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Utilities.Generics.impl
 {
-    public class MCollection<T> : List<T>, IMCollection<T>
+    public sealed class MCollection<T> : List<T>, IMCollection<T>
     {
         public IMCollection<T> From(IEnumerable<T> source)
         {

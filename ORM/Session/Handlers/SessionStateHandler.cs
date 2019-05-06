@@ -11,15 +11,15 @@ using Utilities.Generics.impl;
 
 namespace ORM.Session.Handlers
 {
-    public static class SessionStateHandler
+    public sealed class SessionStateHandler
     {
-        private static readonly IMCollection<SessionState> States = new MCollection<SessionState>
+        private static readonly IMCollection<ISessionState> States = new MCollection<ISessionState>
         {
             new SessionStateOpen(), 
             new SessionStateClose()
         };
         
-        public static SessionState ToHandleSessionState(Session aSession)
+        public static ISessionState ToHandleSessionState(Session aSession)
         {
             return States.Filter(state => state.CanHandle(aSession)).GetFirst();
         }

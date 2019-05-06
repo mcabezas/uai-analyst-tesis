@@ -15,7 +15,7 @@ using Utilities.Generics.impl;
 
 namespace Log4CS.Core.impl
 {
-    public class Logger : ILogger {
+    public sealed class Logger : ILogger {
 
         private readonly IMCollection<IPrintable> _printers;
         private readonly IMCollection<ILoggable> _loggers;

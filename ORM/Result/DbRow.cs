@@ -9,7 +9,7 @@ using Utilities.Generics.impl;
 
 namespace ORM.Result
 {
-    public class DbRow
+    public sealed class DbRow
     {
         public readonly IMCollection<DbColumn> Columns = new MCollection<DbColumn>();
     }

@@ -9,7 +9,7 @@ using Log4CS.Core;
 
 namespace Log4CS.Logs.impl
 {
-    public class Debug : ILoggable
+    public sealed class Debug : ILoggable
     {
         public void Log(ILogger aLogger, string message)
         {

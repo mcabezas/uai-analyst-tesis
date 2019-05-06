@@ -9,7 +9,7 @@ using System;
 
 namespace ORM.Result
 {
-    public class DbColumn
+    public sealed class DbColumn
     {
         public Type Type { get; set; }
         public string Name { get; set; }

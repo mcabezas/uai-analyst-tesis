@@ -9,7 +9,7 @@ using System;
 
 namespace TesterSuite.Core.Exceptions
 {
-    public class AssertException : Exception
+    public sealed class AssertException : Exception
     {
 
         #region Constructor

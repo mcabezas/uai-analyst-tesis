@@ -10,7 +10,7 @@ using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Executors.impl
 {
-    public class TestExecutorHandler : ITestExecutorHandler
+    public sealed class TestExecutorHandler : ITestExecutorHandler
     {
         private static readonly IMCollection<IConfiguration> Executors = new MCollection<IConfiguration>
         {

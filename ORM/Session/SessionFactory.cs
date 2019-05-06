@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace ORM.Session
 {
-    public class SessionFactory
+    public sealed class SessionFactory
     {
         
         #region Singleton

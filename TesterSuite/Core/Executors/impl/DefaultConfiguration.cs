@@ -10,7 +10,7 @@ using Utilities.Generics;
 
 namespace TesterSuite.Core.Executors.impl
 {
-    public class DefaultConfiguration : IConfiguration
+    public sealed class DefaultConfiguration : IConfiguration
     {
         public bool CanHandle(IMCollection<string> tests)
         {

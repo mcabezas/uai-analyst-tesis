@@ -14,7 +14,7 @@ using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Executors.impl
 {
-    public class TestSuiteAssemblyFinder : ITestSuiteFinder
+    public sealed class TestSuiteAssemblyFinder : ITestSuiteFinder
     {
         public IMCollection<ITestSuite> GetAllTestSuites()
         {

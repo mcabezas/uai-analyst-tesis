@@ -12,7 +12,7 @@ using TesterSuite.Core.Suites;
 
 namespace TesterSuite.Core.Executors.impl
 {
-    public class TestStatisticsService : ITestStatisticsService
+    public sealed class TestStatisticsService : ITestStatisticsService
     {
         private readonly ILogger _logger = new Logger(typeof(TestStatisticsService));
         private int SucceedTestsCounter { get; set; }

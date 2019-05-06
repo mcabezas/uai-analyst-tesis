@@ -9,7 +9,7 @@ using System;
 
 namespace Log4CS.Printers.impl
 {
-    public class ConsolePrinter : IPrintable
+    public sealed class ConsolePrinter : IPrintable
     {
         public void Print(string message)
         {

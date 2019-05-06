@@ -15,7 +15,7 @@ using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Executors.impl
 {
-    public class TestSuiteExecutor : IExecutor, IConfigurable
+    public sealed class TestSuiteExecutor : IExecutor, IConfigurable
     {
         private readonly ILogger _logger = new Logger(typeof(TestSuiteExecutor));
 

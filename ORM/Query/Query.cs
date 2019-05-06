@@ -7,7 +7,7 @@
 
 namespace ORM.Query
 {
-    public class Query
+    public sealed class Query
     {
         //
     }
