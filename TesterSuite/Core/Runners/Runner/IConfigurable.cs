@@ -8,7 +8,7 @@
 using TesterSuite.Core.Suites;
 using Utilities.Generics;
 
-namespace TesterSuite.Core.Runners.Configuration
+namespace TesterSuite.Core.Runners.Runner
 {
     public interface IConfigurable
     {
