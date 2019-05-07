@@ -8,7 +8,7 @@
 using TesterSuite.Core.Suites;
 using Utilities.Generics;
 
-namespace TesterSuite.Core.Executors.impl
+namespace TesterSuite.Core.Runners.Configuration.impl
 {
     public sealed class CustomConfiguration : IConfiguration
     {

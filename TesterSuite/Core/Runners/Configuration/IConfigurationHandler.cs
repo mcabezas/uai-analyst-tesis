@@ -7,10 +7,10 @@
 
 using Utilities.Generics;
 
-namespace TesterSuite.Core.Executors
+namespace TesterSuite.Core.Runners.Configuration
 {
-    public interface ITestExecutorHandler
+    public interface IConfigurationHandler
     {
-        IConfiguration ToHandleTestExecutor(IMCollection<string> testSuites);
+        IConfiguration ToHandleTestConfiguration(IMCollection<string> testSuites);
     }
 }

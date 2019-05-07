@@ -7,7 +7,7 @@
 
 using System;
 
-namespace TesterSuite.Core.Exceptions
+namespace TesterSuite.Core.Asserts.impl
 {
     public sealed class AssertException : Exception
     {

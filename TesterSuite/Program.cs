@@ -5,8 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using TesterSuite.Core.Executors;
-using TesterSuite.Core.Executors.impl;
+using TesterSuite.Core.Runners.Runner;
+using TesterSuite.Core.Runners.Runner.impl;
 
 namespace TesterSuite
 {
@@ -14,8 +14,8 @@ namespace TesterSuite
     {
         private static void Main(string[] args)
         {
-            IExecutor suiteExecutor = new TestSuiteExecutor(args);
-            suiteExecutor.ExecuteSuites();
+            ISuiteRunner suiteRunner = new SuiteRunner(args);
+            suiteRunner.ExecuteSuites();
         }
     }
 }

@@ -12,9 +12,9 @@ using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
 using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Executors.impl
+namespace TesterSuite.Core.Runners.SuiteFinder.impl
 {
-    public sealed class TestSuiteAssemblyFinder : ITestSuiteFinder
+    public sealed class SuiteAssemblyFinder : ISuiteFinder
     {
         public IMCollection<ITestSuite> GetAllTestSuites()
         {

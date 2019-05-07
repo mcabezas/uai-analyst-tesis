@@ -6,11 +6,9 @@
  */
 
 
-using System.Collections.Generic;
-
-namespace TesterSuite.Core.Executors
+namespace TesterSuite.Core.Runners.Runner
 {
-    public interface IExecutor
+    public interface ISuiteRunner
     {
         void ExecuteSuites();
     }

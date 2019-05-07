@@ -8,9 +8,9 @@
 using Utilities.Generics;
 using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Executors.impl
+namespace TesterSuite.Core.Runners.Configuration.impl
 {
-    public sealed class TestExecutorHandler : ITestExecutorHandler
+    public sealed class ConfigurationHandler : IConfigurationHandler
     {
         private static readonly IMCollection<IConfiguration> Executors = new MCollection<IConfiguration>
         {
@@ -18,9 +18,9 @@ namespace TesterSuite.Core.Executors.impl
             new CustomConfiguration()
         };
         
-        public IConfiguration ToHandleTestExecutor(IMCollection<string> args)
+        public IConfiguration ToHandleTestConfiguration(IMCollection<string> args)
         {
-            return Executors.Filter(executor => executor.CanHandle(args)).GetFirst();
+            return Executors.Filter(configuration => configuration.CanHandle(args)).GetFirst();
         }
     }
 }

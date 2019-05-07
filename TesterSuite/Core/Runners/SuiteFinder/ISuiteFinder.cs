@@ -8,9 +8,9 @@
 using TesterSuite.Core.Suites;
 using Utilities.Generics;
 
-namespace TesterSuite.Core.Executors
+namespace TesterSuite.Core.Runners.SuiteFinder
 {
-    public interface ITestSuiteFinder
+    public interface ISuiteFinder
     {
         IMCollection<ITestSuite> GetAllTestSuites();
     }

@@ -7,7 +7,7 @@
 
 using TesterSuite.Core.Suites;
 
-namespace TesterSuite.Core.Executors
+namespace TesterSuite.Core.Runners.Statistics
 {
     public interface ITestStatisticsService
     {

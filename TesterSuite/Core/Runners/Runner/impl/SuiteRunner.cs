@@ -9,19 +9,25 @@ using System;
 using System.Collections.Generic;
 using Log4CS.Core;
 using Log4CS.Core.impl;
+using TesterSuite.Core.Runners.Configuration;
+using TesterSuite.Core.Runners.Configuration.impl;
+using TesterSuite.Core.Runners.Statistics;
+using TesterSuite.Core.Runners.Statistics.impl;
+using TesterSuite.Core.Runners.SuiteFinder;
+using TesterSuite.Core.Runners.SuiteFinder.impl;
 using TesterSuite.Core.Suites;
 using Utilities.Generics;
 using Utilities.Generics.impl;
 
-namespace TesterSuite.Core.Executors.impl
+namespace TesterSuite.Core.Runners.Runner.impl
 {
-    public sealed class TestSuiteExecutor : IExecutor, IConfigurable
+    public sealed class SuiteRunner : ISuiteRunner, IConfigurable
     {
-        private readonly ILogger _logger = new Logger(typeof(TestSuiteExecutor));
+        private readonly ILogger _logger = new Logger(typeof(SuiteRunner));
 
         private readonly IMCollection<string> _configuration;
 
-        public TestSuiteExecutor(IEnumerable<string> tests)
+        public SuiteRunner(IEnumerable<string> tests)
         {
             _configuration = new MCollection<string>().From(tests);
         }
@@ -39,9 +45,9 @@ namespace TesterSuite.Core.Executors.impl
 
         private IMCollection<ITestSuite> GetTestSuites()
         {
-            ITestExecutorHandler configurationHandler = new TestExecutorHandler();
+            IConfigurationHandler configurationHandler = new ConfigurationHandler();
             
-            IConfiguration configuration = configurationHandler.ToHandleTestExecutor(_configuration);
+            IConfiguration configuration = configurationHandler.ToHandleTestConfiguration(_configuration);
             
             return configuration.GetTestsSuites(this);
         }
@@ -67,8 +73,8 @@ namespace TesterSuite.Core.Executors.impl
 
         public IMCollection<ITestSuite> GetDefaultTests()
         {
-            ITestSuiteFinder testFinder = new TestSuiteAssemblyFinder();
-            return testFinder.GetAllTestSuites();
+            ISuiteFinder finder = new SuiteAssemblyFinder();
+            return finder.GetAllTestSuites();
         }
 
         public IMCollection<ITestSuite> GetTestsByConfiguration()
