@@ -18,7 +18,7 @@ namespace TesterSuite.ORMTest
 {
     public class SessionTest : TestSuite
     {
-        private Session _session;
+        private ISession _sqlSession;
 
         private const string DropDummyTable = 
             "IF OBJECT_ID('dbo.DUMMY', 'U') IS NOT NULL " +
@@ -35,18 +35,18 @@ namespace TesterSuite.ORMTest
             connectionStringBuilder.Password = "_2053Pega_";
             connectionStringBuilder.InitialCatalog = "mcabezas";
 
-            _session = new Session(connectionStringBuilder);
-            _session.Open();
+            _sqlSession = new SqlSession(connectionStringBuilder);
+            _sqlSession.Open();
         }
 
         public override void CleanUpClass()
         {
-            _session.Dispose();
+            _sqlSession.Dispose();
         }
 
         protected override void SetUp()
         {
-           _session.ExecuteNativeNonQuery(DropDummyTable);
+           _sqlSession.ExecuteNativeNonQuery(DropDummyTable);
         }
 
         protected override IMCollection<Action> Tests()
@@ -63,7 +63,7 @@ namespace TesterSuite.ORMTest
         {
             try
             {
-                _session.ExecuteNativeNonQuery("Executing wrong query ...");
+                _sqlSession.ExecuteNativeNonQuery("Executing wrong query ...");
                 Assertion.Fail();
             }
             catch (SqlException) {
@@ -73,17 +73,17 @@ namespace TesterSuite.ORMTest
         
         private void ExecuteNonQueryTest()
         {
-            _session.ExecuteNativeNonQuery(CreateDummyTable);
+            _sqlSession.ExecuteNativeNonQuery(CreateDummyTable);
         }
 
         private void ExecuteQueryTest()
         {
-            _session.ExecuteNativeNonQuery(CreateDummyTable);
+            _sqlSession.ExecuteNativeNonQuery(CreateDummyTable);
 
-            _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
-            _session.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
+            _sqlSession.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
+            _sqlSession.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
-            ResultSet resultSet = _session.ExecuteNativeQuery("SELECT * FROM dbo.DUMMY;");
+            ResultSet resultSet = _sqlSession.ExecuteNativeQuery("SELECT * FROM dbo.DUMMY;");
             
             Assertion.AreEqual(2, resultSet.Rows.Count);
             Assertion.AreEqual(2, resultSet.Rows[0].Columns.Count);

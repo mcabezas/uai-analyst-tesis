@@ -8,7 +8,6 @@
 using System;
 using System.Threading;
 using ORM.Session;
-using TesterSuite.Core;
 using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
 using Utilities.Generics.impl;
@@ -43,31 +42,31 @@ namespace TesterSuite.ORMTest
 
         private void OpenSessionTest()
         {
-            Session session = _sessionFactory.OpenSession();
-            Assertion.IsNotNull(session);
+            ISession sqlSession = _sessionFactory.OpenSession();
+            Assertion.IsNotNull(sqlSession);
         }
 
         private void GetSessionTest()
         {
-            Session session = _sessionFactory.OpenSession();
-            Session session2 = _sessionFactory.GetSession();
-            Assertion.AreSameReference(session, session2);
+            ISession sqlSession = _sessionFactory.OpenSession();
+            ISession session2 = _sessionFactory.GetSession();
+            Assertion.AreSameReference(sqlSession, session2);
         }
         
         private void CloseSessionTest()
         {
-            Session session0 = _sessionFactory.GetSession();
+            ISession session0 = _sessionFactory.GetSession();
             session0.Close();
             session0.Close();
             
-            Session session1 = _sessionFactory.OpenSession();
-            Assertion.IsTrue(session1.IsOpen);
+            ISession session1 = _sessionFactory.OpenSession();
+            Assertion.IsTrue(session1.IsOpen());
 
             session1.Close();
-            Assertion.IsFalse(session1.IsOpen);
+            Assertion.IsFalse(session1.IsOpen());
             
-            Session session2 = _sessionFactory.OpenSession();
-            Session session3 = _sessionFactory.OpenSession();
+            ISession session2 = _sessionFactory.OpenSession();
+            ISession session3 = _sessionFactory.OpenSession();
 
             Assertion.AreSameReference(session2, session3);
         }
@@ -75,13 +74,13 @@ namespace TesterSuite.ORMTest
         private void SessionTimeoutTest()
         {
             _sessionFactory.ConnectionStringBuilder.ConnectTimeout = 15;
-            Session session = _sessionFactory.GetSession();
+            ISession sqlSession = _sessionFactory.GetSession();
 
-            session.Open();
+            sqlSession.Open();
             
             Thread.Sleep(_sessionFactory.ConnectionStringBuilder.ConnectTimeout * 2000);
             
-            Assertion.IsTrue(session.IsOpen);
+            Assertion.IsTrue(sqlSession.IsOpen());
         }
     }
 }

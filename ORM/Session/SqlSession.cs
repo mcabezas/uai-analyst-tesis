@@ -15,23 +15,23 @@ using static ORM.Session.Handlers.SessionStateHandler;
 
 namespace ORM.Session
 {
-    public sealed class Session : IDisposable
+    public sealed class SqlSession : ISession, IStateHandleable
     {
-        private readonly ILogger _logger = new Logger(typeof(Session));
+        private readonly ILogger _logger = new Logger(typeof(SqlSession));
 
         private SqlConnection _connection;
         private Timer _refreshTimer;
         private readonly SqlConnectionStringBuilder _connectionStringBuilder;
 
-        public bool IsOpen { get; private set; }
+        private bool _isOpen;
         private void DbConnectionRefresh(object source, ElapsedEventArgs e)
         {
             _logger.Debug("Refreshing db connection...");
         }
 
-        public Session(SqlConnectionStringBuilder connectionStringBuilder)
+        public SqlSession(SqlConnectionStringBuilder connectionStringBuilder)
         {
-            IsOpen = false;
+            _isOpen = false;
             _connectionStringBuilder = connectionStringBuilder;
         }
 
@@ -48,14 +48,19 @@ namespace ORM.Session
             CloseConnection();
         }
 
+        bool ISession.IsOpen()
+        {
+            return _isOpen;
+        }
+
         private void CloseConnection()
         {
             ToHandleSessionState(this).Close(this);
         }
 
-        internal void CloseDbConnectionWhenOpen()
+        public void CloseDbConnectionWhenOpen()
         {
-            IsOpen = false;
+            _isOpen = false;
             _connection.Close();
             _connection.Dispose();
             _refreshTimer.Enabled = false;
@@ -71,24 +76,24 @@ namespace ORM.Session
 
         #region OpenConnection
         
-        public Session Open(int connectionTimeout = 30)
+        public ISession Open(int connectionTimeout = 30)
         {
             ToHandleSessionState(this).Open(this, connectionTimeout);
             return this;
         }
 
-        internal void OpenDbConnectionWhenOpen()
+        public void OpenDbConnectionWhenOpen()
         {
             /* The connection it's already open... do nothing */
         }
 
-        internal void OpenDbConnectionWhenNotOpen(int connectionTimeout)
+        public void OpenDbConnectionWhenNotOpen(int connectionTimeout)
         {
             _logger.Debug("Connecting to SQL Server ... ");
             _connectionStringBuilder.ConnectTimeout  = connectionTimeout;
             _connection = new SqlConnection(_connectionStringBuilder.ConnectionString);
             _connection.Open();
-            IsOpen = true;
+            _isOpen = true;
 
             ScheduleDbConnectionRefresh();
         }
@@ -114,7 +119,6 @@ namespace ORM.Session
                 return executeSqlCommand(command);
             }
         }
-
 
         public int ExecuteNativeNonQuery(string query, int commandTimeout = 30)
         {

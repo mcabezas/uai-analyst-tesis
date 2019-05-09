@@ -28,20 +28,20 @@ namespace ORM.Session
             ConnectionStringBuilder.Password = "_2053Pega_";
             ConnectionStringBuilder.InitialCatalog = "mcabezas";
             
-            _session = new Session(ConnectionStringBuilder);
+            _session = new SqlSession(ConnectionStringBuilder);
        }
         
         #endregion
 
         public SqlConnectionStringBuilder ConnectionStringBuilder { get; }
-        private readonly Session _session;
+        private readonly ISession _session;
 
-        public Session OpenSession()
+        public ISession OpenSession()
         {
             return _session.Open();
         }
 
-        public Session GetSession()
+        public ISession GetSession()
         {
             return _session;
         }

@@ -9,8 +9,8 @@ namespace ORM.Session.States
 {
     public interface ISessionState
     {
-        bool CanHandle(Session aSession);
-        void Open(Session aSession, int connectionTimeout);
-        void Close(Session aSession);
+        bool CanHandle(ISession aSqlSession);
+        void Open(IStateHandleable aSqlSession, int connectionTimeout);
+        void Close(IStateHandleable aSqlSession);
     }
 }

@@ -9,19 +9,19 @@ namespace ORM.Session.States
 {
     public sealed class SessionStateClose : ISessionState
     {
-        public bool CanHandle(Session aSession)
+        public bool CanHandle(ISession aSqlSession)
         {
-            return !aSession.IsOpen;
+            return !aSqlSession.IsOpen();
         }
 
-        public void Open(Session aSession, int connectionTimeout)
+        public void Open(IStateHandleable aSqlSession, int connectionTimeout)
         {
-            aSession.OpenDbConnectionWhenNotOpen(connectionTimeout);
+            aSqlSession.OpenDbConnectionWhenNotOpen(connectionTimeout);
         }
 
-        public void Close(Session aSession)
+        public void Close(IStateHandleable aSqlSession)
         {
-            Session.CloseDbConnectionWhenClose();
+            SqlSession.CloseDbConnectionWhenClose();
         }
     }
 }
