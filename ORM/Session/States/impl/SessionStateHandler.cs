@@ -19,9 +19,9 @@ namespace ORM.Session.Handlers
             new SessionStateClose()
         };
         
-        public static ISessionState ToHandleSessionState(SqlSession aSqlSession)
+        public static ISessionState ToHandleSessionState(ISession aSession)
         {
-            return States.Filter(state => state.CanHandle(aSqlSession)).GetFirst();
+            return States.Filter(state => state.CanHandle(aSession)).GetFirst();
         }
     }
 }

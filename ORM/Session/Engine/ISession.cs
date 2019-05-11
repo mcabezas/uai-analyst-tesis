@@ -7,10 +7,11 @@
 
 using System;
 using ORM.Result;
+using ORM.Session.Engine;
 
 namespace ORM.Session
 {
-    public interface ISession : IDisposable
+    public interface ISession
     {
         ISession Open(int connectionTimeout = 30);
         void Close();

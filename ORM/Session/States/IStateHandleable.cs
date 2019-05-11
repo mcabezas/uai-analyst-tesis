@@ -12,5 +12,7 @@ namespace ORM.Session
         void OpenDbConnectionWhenNotOpen(int connectionTimeout);
         void OpenDbConnectionWhenOpen();
         void CloseDbConnectionWhenOpen();
+
+        void CloseDbConnectionWhenClose();
     }
 }

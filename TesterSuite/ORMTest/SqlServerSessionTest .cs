@@ -9,23 +9,21 @@ using System;
 using System.Data.SqlClient;
 using ORM.Result;
 using ORM.Session;
-using TesterSuite.Core;
 using TesterSuite.Core.Suites.impl;
 using Utilities.Generics;
 using Utilities.Generics.impl;
 
 namespace TesterSuite.ORMTest
 {
-    public class SessionTest : TestSuite
+    public class SqlServerSessionTest : TestSuite
     {
-        private ISession _sqlSession;
+        private ISession _session;
 
-        private const string DropDummyTable = 
+        private const string SqlDropDummyTable = 
             "IF OBJECT_ID('dbo.DUMMY', 'U') IS NOT NULL " +
-            "DROP TABLE dbo.DUMMY; ";
-        private const string CreateDummyTable = 
-            "CREATE TABLE dbo.DUMMY ( DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
-
+            "DROP TABLE DUMMY; ";
+        private const string SqlCreateDummyTable = 
+            "CREATE TABLE DUMMY ( DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
 
         public override void SetUpClass()
         {
@@ -35,20 +33,20 @@ namespace TesterSuite.ORMTest
             connectionStringBuilder.Password = "_2053Pega_";
             connectionStringBuilder.InitialCatalog = "mcabezas";
 
-            _sqlSession = new SqlSession(connectionStringBuilder);
-            _sqlSession.Open();
+            _session = SqlServerSessionFactory.Instance.GetSession();
+            _session.Open();
         }
 
         public override void CleanUpClass()
         {
-            _sqlSession.Dispose();
+            _session?.Close();
         }
 
         protected override void SetUp()
         {
-           _sqlSession.ExecuteNativeNonQuery(DropDummyTable);
+            _session.ExecuteNativeNonQuery(SqlDropDummyTable);
         }
-
+        
         protected override IMCollection<Action> Tests()
         {
             return new MCollection<Action>
@@ -63,7 +61,7 @@ namespace TesterSuite.ORMTest
         {
             try
             {
-                _sqlSession.ExecuteNativeNonQuery("Executing wrong query ...");
+                _session.ExecuteNativeNonQuery("Executing wrong query ...");
                 Assertion.Fail();
             }
             catch (SqlException) {
@@ -73,17 +71,17 @@ namespace TesterSuite.ORMTest
         
         private void ExecuteNonQueryTest()
         {
-            _sqlSession.ExecuteNativeNonQuery(CreateDummyTable);
+            _session.ExecuteNativeNonQuery(SqlCreateDummyTable);
         }
 
         private void ExecuteQueryTest()
         {
-            _sqlSession.ExecuteNativeNonQuery(CreateDummyTable);
+            _session.ExecuteNativeNonQuery(SqlCreateDummyTable);
 
-            _sqlSession.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
-            _sqlSession.ExecuteNativeNonQuery("INSERT INTO dbo.DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
+            _session.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
+            _session.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
-            ResultSet resultSet = _sqlSession.ExecuteNativeQuery("SELECT * FROM dbo.DUMMY;");
+            ResultSet resultSet = _session.ExecuteNativeQuery("SELECT * FROM DUMMY;");
             
             Assertion.AreEqual(2, resultSet.Rows.Count);
             Assertion.AreEqual(2, resultSet.Rows[0].Columns.Count);
