@@ -7,7 +7,7 @@
 
 namespace Log4CS.Printers
 {
-    public interface IPrintable
+    internal interface IPrintable
     {
         void Print(string message);
     }

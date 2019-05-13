@@ -5,8 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using Utilities.Generics;
-using Utilities.Generics.impl;
+using Commons.Generics;
+using Commons.Generics.impl;
 
 namespace TesterSuite.Core.Runners.Configuration.impl
 {

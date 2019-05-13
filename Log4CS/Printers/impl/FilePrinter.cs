@@ -7,7 +7,7 @@
 
 namespace Log4CS.Printers.impl
 {
-    public sealed class FilePrinter : IPrintable
+    internal sealed class FilePrinter : IPrintable
     {
         public void Print(string message)
         {

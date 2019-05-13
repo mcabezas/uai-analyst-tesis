@@ -6,12 +6,12 @@
  */
 
 using System;
+using Commons;
+using Commons.Generics;
 using Log4CS.Core;
 using Log4CS.Core.impl;
 using TesterSuite.Core.Asserts;
 using TesterSuite.Core.Asserts.impl;
-using Utilities;
-using Utilities.Generics;
 
 namespace TesterSuite.Core.Suites.impl
 {
@@ -55,10 +55,16 @@ namespace TesterSuite.Core.Suites.impl
         {
             IMCollection<Action> testMethods = Tests();
             if(Predefined.IsEmpty(testMethods)) {
-                _logger.Info("[IGNORED] "+ this +" There are no tests to be executed here...");
+                _logger.Log("[IGNORED] "+ this +" There are no tests to be executed here...");
                 return;
             }
-            
+
+            if (IgnoreSuite())
+            {
+                _logger.Log("[IGNORED] "+ this +" This suite is marked to be ignored");
+                return;
+            }
+
             testMethods.ForEach(testMethod => {
                 try {
                     SetUp();
@@ -71,6 +77,11 @@ namespace TesterSuite.Core.Suites.impl
                 }
             });
         }
+
+        protected virtual bool IgnoreSuite() {
+            return false;
+        }
+
     }
 
     public class TestEventArgs : ITestEventArgs
@@ -87,4 +98,5 @@ namespace TesterSuite.Core.Suites.impl
             return _testMethod;
         }
     }
+    
 }

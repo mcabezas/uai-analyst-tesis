@@ -5,8 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Commons.Generics;
 using TesterSuite.Core.Suites;
-using Utilities.Generics;
 
 namespace TesterSuite.Core.Runners.Runner
 {

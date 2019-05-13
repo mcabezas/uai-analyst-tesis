@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <RootNamespace>Security</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Service" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Commons\Commons.csproj" />
+      <ProjectReference Include="..\DBWrapper\DBWrapper.csproj" />
+    </ItemGroup>
+
+</Project>

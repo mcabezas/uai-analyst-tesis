@@ -2,13 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Commons\Commons.csproj" />
+      <ProjectReference Include="..\DBWrapper\DBWrapper.csproj" />
       <ProjectReference Include="..\Log4CS\Log4CS.csproj" />
-      <ProjectReference Include="..\ORM\ORM.csproj" />
-      <ProjectReference Include="..\Utilities\Utilities.csproj" />
     </ItemGroup>
 
 </Project>

@@ -7,19 +7,19 @@
 
 using System;
 using System.Reflection;
+using Commons.Generics;
+using Commons.Generics.impl;
 using TesterSuite.Core.Suites;
 using TesterSuite.Core.Suites.impl;
-using Utilities.Generics;
-using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Runners.SuiteFinder.impl
 {
     public sealed class SuiteAssemblyFinder : ISuiteFinder
     {
-        public IMCollection<ITestSuite> GetAllTestSuites()
+        public IMCollection<ITestSuite> GetAllTestSuites(string moduleToTest)
         {
             IMCollection<ITestSuite> suites = new MCollection<ITestSuite>();
-            GetDerivedTypes(typeof(TestSuite), Assembly.GetExecutingAssembly())
+            GetDerivedTypes(typeof(TestSuite), Assembly.Load(moduleToTest))
                 .ForEach(type => {
                     suites.Add((TestSuite) Activator.CreateInstance(type));
                 });

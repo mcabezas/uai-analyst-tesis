@@ -6,12 +6,12 @@
  */
 
 using System;
+using Commons.Generics;
+using Commons.Generics.impl;
 using Log4CS.Logs;
 using Log4CS.Logs.impl;
 using Log4CS.Printers;
 using Log4CS.Printers.impl;
-using Utilities.Generics;
-using Utilities.Generics.impl;
 
 namespace Log4CS.Core.impl
 {

@@ -7,6 +7,8 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Generics;
+using Commons.Generics.impl;
 using Log4CS.Core;
 using Log4CS.Core.impl;
 using TesterSuite.Core.Runners.Configuration;
@@ -16,8 +18,6 @@ using TesterSuite.Core.Runners.Statistics.impl;
 using TesterSuite.Core.Runners.SuiteFinder;
 using TesterSuite.Core.Runners.SuiteFinder.impl;
 using TesterSuite.Core.Suites;
-using Utilities.Generics;
-using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Runners.Runner.impl
 {
@@ -27,9 +27,11 @@ namespace TesterSuite.Core.Runners.Runner.impl
 
         private readonly IMCollection<string> _configuration;
 
-        public SuiteRunner(IEnumerable<string> tests)
+        private readonly string _module;
+        public SuiteRunner(string module, IEnumerable<string> tests)
         {
             _configuration = new MCollection<string>().From(tests);
+            _module = module;
         }
         
         public void ExecuteSuites()
@@ -74,7 +76,7 @@ namespace TesterSuite.Core.Runners.Runner.impl
         public IMCollection<ITestSuite> GetDefaultTests()
         {
             ISuiteFinder finder = new SuiteAssemblyFinder();
-            return finder.GetAllTestSuites();
+            return finder.GetAllTestSuites(_module);
         }
 
         public IMCollection<ITestSuite> GetTestsByConfiguration()

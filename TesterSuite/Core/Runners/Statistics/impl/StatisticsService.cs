@@ -6,11 +6,11 @@
  */
 
 using System.Reflection;
+using Commons.Generics;
+using Commons.Generics.impl;
 using Log4CS.Core;
 using Log4CS.Core.impl;
 using TesterSuite.Core.Suites;
-using Utilities.Generics;
-using Utilities.Generics.impl;
 
 namespace TesterSuite.Core.Runners.Statistics.impl
 {
@@ -27,13 +27,13 @@ namespace TesterSuite.Core.Runners.Statistics.impl
         public void OnSucceedTest(object source, ITestEventArgs args)
         {
             _testCasesStatistics.Add(new TestCaseStateSucceed());
-            _logger.Info("[SUCCESS] " + source + " => " + args.GetTestMethod().GetMethodInfo());
+            _logger.Log("[SUCCESS] " + source + " => " + args.GetTestMethod().GetMethodInfo());
         }
 
         public void OnFailedTest(object source, ITestEventArgs args)
         {
             _testCasesStatistics.Add(new TestCaseStateFailure());
-            _logger.Error("[FAILURE] " + source + " => " + args.GetTestMethod().GetMethodInfo());
+            _logger.Log("[FAILURE] " + source + " => " + args.GetTestMethod().GetMethodInfo());
         }
 
         public void Print()
