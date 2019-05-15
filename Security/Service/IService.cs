@@ -5,9 +5,9 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-namespace Security.DAO
+namespace Security.Service
 {
-    public interface IDao<TEntity, in TPrimaryKey>
+    public interface IService<TEntity, in TPrimaryKey>
     {
         TEntity Insert(TEntity entity);
         TEntity FindById(TPrimaryKey id);

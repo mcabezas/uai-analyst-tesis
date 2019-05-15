@@ -33,7 +33,7 @@ namespace Log4CS.Core.impl
 
             _loggers = new MCollection<ILoggable> {
                 new Info(),
-                new Debug(),
+//                new Debug(),
                 new Error()
             };
         }

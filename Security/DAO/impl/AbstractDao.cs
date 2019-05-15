@@ -10,13 +10,13 @@ using DBW.DBWrapper.Engine;
 
 namespace Security.DAO.impl
 {
-    public abstract class AbstractDao<TEntity, TPK> : IDao<TEntity, TPK>
+    public abstract class AbstractDao<TEntity, TPrimaryKey> : IDao<TEntity, TPrimaryKey>
     {
         protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
         
         public abstract TEntity Insert(TEntity entity);
 
-        public abstract TEntity FindById(TPK entity);
+        public abstract TEntity FindById(TPrimaryKey id);
 
         public abstract TEntity Update(TEntity entity);
 

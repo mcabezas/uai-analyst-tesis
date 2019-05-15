@@ -108,6 +108,12 @@ namespace DBWrapperTest.DBWrapper
 
             Assertion.AreSameReference(session2, session3);
         }
+
+        protected override bool IgnoreSuite()
+        {
+            return true;
+        }
+
 //        private void SessionTimeoutTest()
 //        {
 //            _sessionFactory.ConnectionStringBuilder.ConnectTimeout = 15;

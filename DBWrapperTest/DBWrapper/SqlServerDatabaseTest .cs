@@ -11,7 +11,6 @@ using Commons.Generics;
 using Commons.Generics.impl;
 using DBW.DBWrapper.Core.impl;
 using DBW.DBWrapper.Engine;
-using DBW.DBWrapper.Result;
 using TesterSuite.Core.Suites.impl;
 
 namespace DBWrapperTest.DBWrapper
@@ -80,10 +79,10 @@ namespace DBWrapperTest.DBWrapper
             _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
             _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
-            ResultSet resultSet = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;");
+            var dbRows = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;");
             
-            Assertion.AreEqual(2, resultSet.Rows.Count);
-            Assertion.AreEqual(2, resultSet.Rows[0].Columns.Count);
+            Assertion.AreEqual(2, dbRows.Count);
+            Assertion.AreEqual(2, dbRows[0].Columns.Count);
         }
         
         protected override bool IgnoreSuite()

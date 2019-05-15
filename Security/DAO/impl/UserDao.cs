@@ -18,7 +18,7 @@ namespace Security.DAO.impl
             throw new System.NotImplementedException();
         }
 
-        public override User FindById(BigInteger entity)
+        public override User FindById(BigInteger id)
         {
             throw new System.NotImplementedException();
         }

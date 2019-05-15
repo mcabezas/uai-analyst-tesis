@@ -11,8 +11,15 @@ namespace DBW.DBWrapper.Result
 {
     public sealed class DbColumn
     {
-        public Type Type { get; set; }
-        public string Name { get; set; }
-        public object Value { get; set; }
+        public DbColumn(Type type, string name, object value)
+        {
+            Type = type;
+            Name = name;
+            Value = value;
+        }
+
+        public Type Type { get;}
+        public string Name { get;}
+        public object Value { get;}
     }
 }

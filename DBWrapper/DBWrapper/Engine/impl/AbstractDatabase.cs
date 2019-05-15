@@ -8,6 +8,8 @@
 using System;
 using System.Data.Common;
 using System.Timers;
+using Commons.Generics;
+using Commons.Generics.impl;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.States;
 using DBW.DBWrapper.States.impl;
@@ -129,28 +131,26 @@ namespace DBW.DBWrapper.Engine.impl
             });
         }
 
-        public ResultSet ExecuteNativeQuery(string query, int commandTimeout = 30)
+        public IMCollection<DbRow> ExecuteNativeQuery(string query, int commandTimeout = 30)
         {
             return ExecuteOnSafeSqlCommand(query, command => {
-                ResultSet resultSet = new ResultSet();
+                IMCollection<DbRow> dbRows = new MCollection<DbRow>();
                 command.CommandTimeout = commandTimeout;
                 var reader = command.ExecuteReader();
 
                 while (reader.Read()) {
                     DbRow row = new DbRow();
-                    for (int ii = 0; ii <= reader.FieldCount-1; ii++) {
-                        DbColumn column = new DbColumn
-                        {
-                            Type = reader.GetFieldType(ii), 
-                            Value = reader.GetValue(ii),
-                            Name = reader.GetName(ii)
-                        };
+                    for (int ii = 0; ii <= reader.FieldCount-1; ii++)
+                    {
+                        DbColumn column = new DbColumn(reader.GetFieldType(ii),
+                            reader.GetName(ii),
+                            reader.GetValue(ii));
                         row.Columns.Add(column);
                     }
-                    resultSet.Rows.Add(row);
+                    dbRows.Add(row);
                 }
                 reader.Close();
-                return resultSet;
+                return dbRows;
             });
         }
 

@@ -5,6 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Commons.Generics;
 using DBW.DBWrapper.Result;
 
 namespace DBW.DBWrapper.Engine
@@ -12,7 +13,7 @@ namespace DBW.DBWrapper.Engine
     public interface IDatabase
     {
         int ExecuteNativeNonQuery(string query, int commandTimeout = 30);
-        ResultSet ExecuteNativeQuery(string query, int commandTimeout = 30);
+        IMCollection<DbRow> ExecuteNativeQuery(string query, int commandTimeout = 30);
 
     }
 }
