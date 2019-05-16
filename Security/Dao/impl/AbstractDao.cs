@@ -5,21 +5,26 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Commons.Generics;
 using DBW.DBWrapper.Core.impl;
 using DBW.DBWrapper.Engine;
 
-namespace Security.DAO.impl
+namespace Security.Dao.impl
 {
     public abstract class AbstractDao<TEntity, TPrimaryKey> : IDao<TEntity, TPrimaryKey>
     {
         protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
         
-        public abstract TEntity Insert(TEntity entity);
+        public abstract void Insert(TEntity anEntity);
 
-        public abstract TEntity FindById(TPrimaryKey id);
+        public abstract TEntity FindById(TPrimaryKey anId);
 
-        public abstract TEntity Update(TEntity entity);
+        public abstract IMCollection<TEntity> FindAll();
 
-        public abstract void Delete(TEntity entity);
+        public abstract TEntity Update(TEntity anEntity);
+
+        public abstract void Delete(TEntity anEntity);
+        public abstract void DeleteAll();
+        
     }
 }

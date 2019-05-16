@@ -5,14 +5,13 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using System.Numerics;
-using Security.DAO.impl;
+using Security.Dao.impl;
 using Security.Model;
 using Security.Service.impl;
 
 namespace Security.Service
 {
-    public class UserService : GenericService<User, BigInteger>
+    public class UserService : GenericService<User, int>
 
     {
         public UserService()

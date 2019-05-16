@@ -5,6 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using System.Data;
 using System.Data.Common;
 using Npgsql;
 
@@ -15,9 +16,15 @@ namespace DBW.DBWrapper.Engine.impl
         public PostgresDatabase(string connectionString) : base(connectionString)
         {
         }
-        protected override DbConnection ConnectionFactory(string connectionString)
+
+        protected override DbParameter NewParameter(string aParameterName, DbType aDbType)
         {
-            return new NpgsqlConnection(connectionString);
+            return new NpgsqlParameter(aParameterName, aDbType);
+        }
+
+        protected override DbConnection ConnectionFactory(string aConnectionString)
+        {
+            return new NpgsqlConnection(aConnectionString);
         }
 
         protected override DbCommand CommandFactory(string query)

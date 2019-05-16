@@ -43,7 +43,7 @@ namespace DBW.DBWrapper.Result.impl
             return resultObjects;
         }
 
-        private PropertyInfo GetPrivatePropertyInfo(IReflect type, string propertyName)
+        private PropertyInfo GetPrivatePropertyInfo(IReflect aType, string aPropertyName)
         {
             
             const BindingFlags flags = BindingFlags.Instance
@@ -54,10 +54,10 @@ namespace DBW.DBWrapper.Result.impl
                                        | BindingFlags.NonPublic
                                        | BindingFlags.Public;
 
-            var props = type.GetProperties(flags);
+            var props = aType.GetProperties(flags);
             return props.FirstOrDefault(propInfo => 
                 string.Equals(propInfo.Name, 
-                    propertyName, 
+                    aPropertyName, 
                     StringComparison.CurrentCultureIgnoreCase));
         }
 

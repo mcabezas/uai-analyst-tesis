@@ -5,13 +5,22 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Commons.Generics;
+
 namespace Security.Service
 {
     public interface IService<TEntity, in TPrimaryKey>
     {
-        TEntity Insert(TEntity entity);
-        TEntity FindById(TPrimaryKey id);
-        TEntity Update(TEntity entity);
-        void Delete(TEntity entity);
+        void Insert(TEntity anEntity);
+        
+        TEntity FindById(TPrimaryKey anId);
+        
+        IMCollection<TEntity> FindAll();
+
+        TEntity Update(TEntity anEntity);
+        
+        void Delete(TEntity anEntity);
+
+        void DeleteAll();
     }
 }

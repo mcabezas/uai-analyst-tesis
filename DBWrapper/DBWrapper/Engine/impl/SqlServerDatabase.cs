@@ -5,6 +5,7 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -16,9 +17,14 @@ namespace DBW.DBWrapper.Engine.impl
         {
         }
 
-        protected override DbConnection ConnectionFactory(string connectionString)
+        protected override DbParameter NewParameter(string aParameterName, DbType aDbType)
         {
-            return new SqlConnection(connectionString);
+            return new SqlParameter(aParameterName, aDbType);
+        }
+
+        protected override DbConnection ConnectionFactory(string aConnectionString)
+        {
+            return new SqlConnection(aConnectionString);
         }
 
         protected override DbCommand CommandFactory(string query)

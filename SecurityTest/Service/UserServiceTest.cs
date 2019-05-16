@@ -6,7 +6,6 @@
  */
 
 using System;
-using System.Numerics;
 using Commons.Generics;
 using Commons.Generics.impl;
 using Security.Model;
@@ -17,24 +16,44 @@ namespace SecurityTest.Service
 {
     public class UserServiceTest : TestSuite
     {
-        
-        IService<User, BigInteger> service = new UserService();
+        private readonly IService<User, int> _userService = new UserService();
+
+        protected override void SetUp()
+        {
+            _userService.DeleteAll();
+        }
+
         protected override IMCollection<Action> Tests()
         {
             return new MCollection<Action>()
             {
-//                InsertUserTest
+                CanInsertAUserTest,
+                CanInsertMoreThanOneUserTest
             };
         }
 
-        private void InsertUserTest()
+        private void CanInsertAUserTest()
         {
+            Assertion.AreEqual(0, _userService.FindAll().Count);
+
             User user = new User("Marcelo", "Cabezas");
-            User insertedUser = service.Insert(user);
-            User foundUser = service.FindById(insertedUser.Id);
-            Assertion.AreEqual(insertedUser.Id, foundUser.Id);
-            Assertion.AreEqual(insertedUser.FirstName, foundUser.FirstName);
-            Assertion.AreEqual(insertedUser.LastName, insertedUser.LastName);
+            _userService.Insert(user);
+            
+            Assertion.AreEqual(1, _userService.FindAll().Count);
+        }
+        
+        private void CanInsertMoreThanOneUserTest()
+        {
+            Assertion.AreEqual(0, _userService.FindAll().Count);
+
+            User user = new User("Marcelo", "Cabezas");
+            User user2 = new User("Marcelo2", "Cabezas");
+            User user3 = new User("Marcelo3", "Cabezas");
+            _userService.Insert(user);
+            _userService.Insert(user2);
+            _userService.Insert(user3);
+            
+            Assertion.AreEqual(3, _userService.FindAll().Count);
         }
     }
 }

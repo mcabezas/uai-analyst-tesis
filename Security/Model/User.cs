@@ -1,17 +1,19 @@
-﻿using System.Numerics;
-
-namespace Security.Model
+﻿namespace Security.Model
 {
     public class User
     {
+        public User()
+        {
+        }
+
         public User(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
         }
 
-        public BigInteger Id { get; set; }
-        public string FirstName { get; }
-        public string LastName { get; }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Timers;
 using Commons.Generics;
@@ -75,10 +76,9 @@ namespace DBW.DBWrapper.Engine.impl
             return this;
         }
 
-        public IConnection CheckConnectionState(int connectionTimeout = 30)
+        private void CheckConnectionState(int connectionTimeout = 30)
         {
             ConnectionStateHandler.ToHandleConnectionState(this).Open(this, connectionTimeout);
-            return this;
         }
 
         public void Close()
@@ -131,9 +131,11 @@ namespace DBW.DBWrapper.Engine.impl
             });
         }
 
-        public IMCollection<DbRow> ExecuteNativeQuery(string query, int commandTimeout = 30)
+        public IMCollection<DbRow> ExecuteNativeQuery(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration,int commandTimeout = 30)
         {
-            return ExecuteOnSafeSqlCommand(query, command => {
+            return ExecuteOnSafeSqlCommand(query, command =>
+            {
+                parametersConfiguration(command, NewParameter);
                 IMCollection<DbRow> dbRows = new MCollection<DbRow>();
                 command.CommandTimeout = commandTimeout;
                 var reader = command.ExecuteReader();
@@ -154,7 +156,9 @@ namespace DBW.DBWrapper.Engine.impl
             });
         }
 
-        protected abstract DbConnection ConnectionFactory(string connectionString);
+        protected abstract DbParameter NewParameter(string aParameterName, DbType aDbType);
+
+        protected abstract DbConnection ConnectionFactory(string aConnectionString);
 
     }
 }

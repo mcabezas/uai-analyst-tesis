@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS USERS;
+CREATE TABLE USERS (
+  id              SERIAL PRIMARY KEY,
+  first_name           VARCHAR(100) NOT NULL,
+  last_name  VARCHAR(100) NULL
+);
+

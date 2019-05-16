@@ -5,7 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using Security.DAO;
+using Commons.Generics;
+using Security.Dao;
 
 namespace Security.Service.impl
 {
@@ -13,24 +14,34 @@ namespace Security.Service.impl
     {
         protected IDao<TEntity, TPrimaryKey> Dao;
 
-        public TEntity Insert(TEntity entity)
+        public void Insert(TEntity anEntity)
         {
-            return Dao.Insert(entity);
+            Dao.Insert(anEntity);
         }
 
-        public TEntity FindById(TPrimaryKey id)
+        public TEntity FindById(TPrimaryKey anId)
         {
-            return Dao.FindById(id);
+            return Dao.FindById(anId);
         }
 
-        public TEntity Update(TEntity entity)
+        public IMCollection<TEntity> FindAll()
         {
-            return Dao.Update(entity);
+            return Dao.FindAll();
         }
 
-        public void Delete(TEntity entity)
+        public TEntity Update(TEntity anEntity)
         {
-            Dao.Delete(entity);
+            return Dao.Update(anEntity);
+        }
+
+        public void Delete(TEntity anEntity)
+        {
+            Dao.Delete(anEntity);
+        }
+
+        public void DeleteAll()
+        {
+            Dao.DeleteAll();
         }
     }
 }

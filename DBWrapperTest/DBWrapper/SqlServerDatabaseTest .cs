@@ -79,7 +79,7 @@ namespace DBWrapperTest.DBWrapper
             _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
             _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
-            var dbRows = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;");
+            var dbRows = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;", (command, newParameter) => { });
             
             Assertion.AreEqual(2, dbRows.Count);
             Assertion.AreEqual(2, dbRows[0].Columns.Count);
