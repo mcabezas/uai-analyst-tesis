@@ -11,7 +11,7 @@ namespace Security.Dao
 {
     public interface IDao<TEntity, in TPrimaryKey>
     {
-        void Insert(TEntity anEntity);
+        object Insert(TEntity anEntity);
         
         TEntity FindById(TPrimaryKey anId);
         

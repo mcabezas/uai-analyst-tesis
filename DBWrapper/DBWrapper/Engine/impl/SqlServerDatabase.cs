@@ -17,6 +17,12 @@ namespace DBW.DBWrapper.Engine.impl
         {
         }
 
+        protected override string PrepareInsertOutput(string query)
+        {
+            string[] strings = query.Split("VALUES");
+            return strings[0] + " OUTPUT INSERTED.ID VALUES " + strings[1];
+        }
+
         protected override DbParameter NewParameter(string aParameterName, DbType aDbType)
         {
             return new SqlParameter(aParameterName, aDbType);

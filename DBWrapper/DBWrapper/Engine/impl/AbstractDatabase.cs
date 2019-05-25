@@ -94,7 +94,7 @@ namespace DBW.DBWrapper.Engine.impl
 
         public void OpenDbConnectionWhenNotOpen(int connectionTimeout)
         {
-            _logger.Debug("Connecting to SQL Server ... ");
+            _logger.Debug("Connecting to DB Server ... ");
             Connection = ConnectionFactory(_connectionString);
             Connection.Open();
             _isOpen = true;
@@ -123,13 +123,27 @@ namespace DBW.DBWrapper.Engine.impl
             /* The connection it's already close... do nothing */
         }
 
-        public int ExecuteNativeNonQuery(string query, int commandTimeout = 30)
+        public object ExecuteInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30)
         {
-            return ExecuteOnSafeSqlCommand(query, command => {
+            
+            return ExecuteOnSafeSqlCommand(PrepareInsertOutput(query),
+                command => {
+                parametersConfiguration(command, NewParameter);
                 command.CommandTimeout = commandTimeout;
-                return command.ExecuteNonQuery();
+                return command.ExecuteScalar();
             });
         }
+
+        public void ExecuteScalar(string query, int commandTimeout = 30)
+        {
+            ExecuteOnSafeSqlCommand(query,
+                command => {
+                    command.CommandTimeout = commandTimeout;
+                    return command.ExecuteScalar();
+                });
+        }
+
+        protected abstract string PrepareInsertOutput(string query);
 
         public IMCollection<DbRow> ExecuteNativeQuery(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration,int commandTimeout = 30)
         {

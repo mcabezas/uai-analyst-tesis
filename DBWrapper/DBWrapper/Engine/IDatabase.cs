@@ -15,7 +15,8 @@ namespace DBW.DBWrapper.Engine
 {
     public interface IDatabase
     {
-        int ExecuteNativeNonQuery(string query, int commandTimeout = 30);
+        object ExecuteInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30);
+        void ExecuteScalar(string query, int commandTimeout = 30);
 
         IMCollection<DbRow> ExecuteNativeQuery(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30);
 

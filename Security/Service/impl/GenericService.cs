@@ -14,9 +14,9 @@ namespace Security.Service.impl
     {
         protected IDao<TEntity, TPrimaryKey> Dao;
 
-        public void Insert(TEntity anEntity)
+        public object Insert(TEntity anEntity)
         {
-            Dao.Insert(anEntity);
+            return Dao.Insert(anEntity);
         }
 
         public TEntity FindById(TPrimaryKey anId)

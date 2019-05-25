@@ -10,16 +10,18 @@ using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
 using Security.Model;
+using static Security.Model.User;
 
 namespace Security.Dao.impl
 {
-    public class UserDao : AbstractDao<User, int>
+    public class UserDao : AbstractEntityDao<User, int>
     {
-        public override void Insert(User anEntity)
+        public override object Insert(User anEntity)
         {
-            const string query = "INSERT INTO USERS(first_name, last_name) " + 
-                    "VALUES (@FIRSTNAME, @LASTNAME)";
-            Database.ExecuteNativeQuery(query, (command, newParameter) =>
+            const string query = "INSERT INTO users(first_name, last_name) " +
+                                 "VALUES (@FIRSTNAME, @LASTNAME)"; 
+            
+            return Database.ExecuteInsert(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@FIRSTNAME", DbType.String));
                 command.Parameters["@FIRSTNAME"].Value = anEntity.FirstName;
@@ -30,14 +32,23 @@ namespace Security.Dao.impl
 
         public override User FindById(int anId)
         {
-            throw new System.NotImplementedException();
+            const string query = "SELECT id, first_name, last_name FROM users WHERE id=@ID";
+
+            IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) =>
+            {
+                command.Parameters.Add(newParameter("@ID", DbType.Int32));
+                command.Parameters["@ID"].Value = anId;
+            });
+            
+            ResultTransformer<User> transformer = new ResultTransformer<User>(dbRows);
+            return transformer.Transform().GetFirstOrDefault(NullUser);
         }
 
         public override IMCollection<User> FindAll()
         {
             const string query = "SELECT id, first_name, last_name FROM users";
-            IMCollection<DbRow> resultSet = Database.ExecuteNativeQuery(query, (command, newParameter) => { });
-            ResultTransformer<User> transformer = new ResultTransformer<User>(resultSet);
+            IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) => { });
+            ResultTransformer<User> transformer = new ResultTransformer<User>(dbRows);
             return transformer.Transform();
         }
 
@@ -54,7 +65,7 @@ namespace Security.Dao.impl
         public override void DeleteAll()
         {
             const string query = "DELETE FROM users";
-            Database.ExecuteNativeNonQuery(query);
+            Database.ExecuteScalar(query);
         }
     }
 }

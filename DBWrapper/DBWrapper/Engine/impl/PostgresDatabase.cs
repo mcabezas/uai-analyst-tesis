@@ -17,6 +17,11 @@ namespace DBW.DBWrapper.Engine.impl
         {
         }
 
+        protected override string PrepareInsertOutput(string query)
+        {
+            return query + "returning id";
+        }
+
         protected override DbParameter NewParameter(string aParameterName, DbType aDbType)
         {
             return new NpgsqlParameter(aParameterName, aDbType);

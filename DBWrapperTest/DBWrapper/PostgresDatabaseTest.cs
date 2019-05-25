@@ -22,7 +22,7 @@ namespace DBWrapperTest.DBWrapper
         private const string PostgresDropDummyTable = 
             "DROP TABLE IF EXISTS dummy;";
         private const string PostgresCreateDummyTable = 
-            "CREATE TABLE DUMMY ( DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
+            "CREATE TABLE DUMMY ( id SERIAL PRIMARY KEY, DUMMY1 VARCHAR(1), DUMMY2 NUMERIC )";
 
 
         public override void SetUpClass()
@@ -37,7 +37,7 @@ namespace DBWrapperTest.DBWrapper
 
         protected override void SetUp()
         {
-           _database.ExecuteNativeNonQuery(PostgresDropDummyTable);
+           _database.ExecuteScalar(PostgresDropDummyTable);
         }
 
         protected override IMCollection<Action> Tests()
@@ -54,7 +54,7 @@ namespace DBWrapperTest.DBWrapper
         {
             try
             {
-                _database.ExecuteNativeNonQuery("Executing wrong query ...");
+                _database.ExecuteScalar("Executing wrong query ...");
                 Assertion.Fail();
             }
             catch (DbException) {
@@ -64,21 +64,20 @@ namespace DBWrapperTest.DBWrapper
         
         private void ExecuteNonQueryTest()
         {
-            _database.ExecuteNativeNonQuery(PostgresCreateDummyTable);
+            _database.ExecuteScalar(PostgresCreateDummyTable);
         }
 
         private void ExecuteQueryTest()
         {
-//            _sqlSession.ExecuteNativeNonQuery(SqlCreateDummyTable);
-            _database.ExecuteNativeNonQuery(PostgresCreateDummyTable);
+            _database.ExecuteScalar(PostgresCreateDummyTable);
 
-            _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
-            _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
+            _database.ExecuteScalar("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
+            _database.ExecuteScalar("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
 
             var dbRows = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;", (command, newParameter) => { });
             
             Assertion.AreEqual(2, dbRows.Count);
-            Assertion.AreEqual(2, dbRows[0].Columns.Count);
+            Assertion.AreEqual(3, dbRows[0].Columns.Count);
         }
     }
 }

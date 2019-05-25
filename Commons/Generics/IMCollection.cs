@@ -10,17 +10,20 @@ using System.Collections.Generic;
 
 namespace Commons.Generics
 {
-    public interface IMCollection<T> : IList<T>
+    public interface IMCollection<TSource> : IList<TSource>
     {
-        IMCollection<T> From(IEnumerable<T> source);
+        IMCollection<TSource> From(IEnumerable<TSource> source);
         
-        IMCollection<T> Filter(Predicate<T> aPredicate);
+        IMCollection<TSource> Filter(Predicate<TSource> aPredicate);
         
-        void ForEach(Predicate<T> aPredicate, Action<T> anAction);
+        void ForEach(Predicate<TSource> aPredicate, Action<TSource> anAction);
         
-        void ForEach(Action<T> anAction);
+        void ForEach(Action<TSource> anAction);
 
-        T GetFirst();
+        TSource GetFirst();
+        
+        TSource GetFirstOrDefault(TSource source);
+
 
         bool IsEmpty();
 

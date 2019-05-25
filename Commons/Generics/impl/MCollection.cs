@@ -47,6 +47,11 @@ namespace Commons.Generics.impl
             return this[0];
         }
 
+        public T GetFirstOrDefault(T source)
+        {
+            return Count == 0 ? source : this[0];
+        }
+
         public bool IsEmpty()
         {
             return Count==0;

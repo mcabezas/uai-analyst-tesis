@@ -42,7 +42,7 @@ namespace DBWrapperTest.DBWrapper
 
         protected override void SetUp()
         {
-            _database.ExecuteNativeNonQuery(SqlDropDummyTable);
+            _database.ExecuteInsert(SqlDropDummyTable, (command, newProperty) => {});
         }
         
         protected override IMCollection<Action> Tests()
@@ -59,7 +59,7 @@ namespace DBWrapperTest.DBWrapper
         {
             try
             {
-                _database.ExecuteNativeNonQuery("Executing wrong query ...");
+                _database.ExecuteInsert("Executing wrong query ...", (command, newProperty) => {});
                 Assertion.Fail();
             }
             catch (SqlException) {
@@ -69,15 +69,15 @@ namespace DBWrapperTest.DBWrapper
         
         private void ExecuteNonQueryTest()
         {
-            _database.ExecuteNativeNonQuery(SqlCreateDummyTable);
+            _database.ExecuteInsert(SqlCreateDummyTable, (command, newProperty) => {});
         }
 
         private void ExecuteQueryTest()
         {
-            _database.ExecuteNativeNonQuery(SqlCreateDummyTable);
+            _database.ExecuteInsert(SqlCreateDummyTable, (command, newProperty) => {});
 
-            _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)");
-            _database.ExecuteNativeNonQuery("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)");
+            _database.ExecuteInsert("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('D', 4)", (command, newProperty) => {});
+            _database.ExecuteInsert("INSERT INTO DUMMY(DUMMY1, DUMMY2) VALUES ('E', 5)", (command, newProperty) => {});
 
             var dbRows = _database.ExecuteNativeQuery("SELECT * FROM DUMMY;", (command, newParameter) => { });
             

@@ -5,3 +5,8 @@ CREATE TABLE USERS (
   last_name  VARCHAR(100) NULL
 );
 
+DROP TABLE IF EXISTS IDIOM;
+CREATE TABLE IDIOM (
+  id              SERIAL PRIMARY KEY,
+  description           VARCHAR(100) NOT NULL
+);
