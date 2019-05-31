@@ -10,8 +10,8 @@ using Commons.Generics;
 using Commons.Generics.impl;
 using Security.Model;
 using Security.Service;
+using SecurityTest.Builder;
 using TesterSuite.Core.Suites.impl;
-using static Security.Model.Idiom;
 using static Security.Model.User;
 
 namespace SecurityTest.Service
@@ -19,6 +19,11 @@ namespace SecurityTest.Service
     public class UserServiceTest : TestSuite
     {
         private readonly IService<User, int> _userService = new UserService();
+        private readonly IService<Idiom, int> _idiomService = new IdiomService();
+
+        private readonly UserBuilder _userBuilder = new UserBuilder();
+        private readonly IdiomBuilder _idiomBuilder = new IdiomBuilder();
+
 
         protected override void SetUp()
         {
@@ -27,12 +32,13 @@ namespace SecurityTest.Service
 
         protected override IMCollection<Action> Tests()
         {
-            return new MCollection<Action>()
+            return new MCollection<Action>
             {
                 CanInsertAUserTest,
                 CanInsertMoreThanOneUserTest,
                 CanFindUserWithAValidId,
-                CanNotFoundUserWithAnInvalidId
+                CanNotFoundUserWithAnInvalidId,
+                CanInsertAUserWithAnIdiom
             };
         }
 
@@ -40,20 +46,16 @@ namespace SecurityTest.Service
         {
             Assertion.AreEqual(0, _userService.FindAll().Count);
 
-            User user = new User("Marcelo", "Cabezas", NullIdiom);
-            _userService.Insert(user);
+            _userService.Insert(_userBuilder.Build());
             
             Assertion.AreEqual(1, _userService.FindAll().Count);
         }
         
         private void CanInsertMoreThanOneUserTest()
         {
-            User user = new User("Marcelo", "Cabezas", NullIdiom);
-            User user2 = new User("Marcelo2", "Cabezas", NullIdiom);
-            User user3 = new User("Marcelo3", "Cabezas", NullIdiom);
-            _userService.Insert(user);
-            _userService.Insert(user2);
-            _userService.Insert(user3);
+            _userService.Insert(_userBuilder.Build());
+            _userService.Insert(_userBuilder.Build());
+            _userService.Insert(_userBuilder.Build());
             
             Assertion.AreEqual(3, _userService.FindAll().Count);
         }
@@ -62,8 +64,8 @@ namespace SecurityTest.Service
         {
             const string aFirstName = "MarceloIDLoco";
             
-            User user = new User(aFirstName, "Cabezas", NullIdiom);
-            int insertedId = (int) _userService.Insert(user);
+            User user = _userBuilder.WithFirstName(aFirstName).Build();
+            int insertedId = _userService.Insert(user);
 
             User userFoundById = _userService.FindById(insertedId);
             
@@ -78,11 +80,18 @@ namespace SecurityTest.Service
             Assertion.AreSameReference(NullUser, userFoundById);
         }
 
-        private void CanFoundUserWithIdiomAggregation()
+        private void CanInsertAUserWithAnIdiom()
         {
-            const int invalidId = 1234;
-            User userFoundById = _userService.FindById(invalidId);
-            Assertion.AreSameReference(NullUser, userFoundById);
+            Idiom anIdiom = _idiomBuilder.Build();
+            int anInsertedIdiomId = _idiomService.Insert(anIdiom);
+            Idiom anInsertedIdiom = _idiomService.FindById(anInsertedIdiomId);
+
+            User aUser = _userBuilder.WithIdiom(anInsertedIdiom).Build();
+            int insertedUserId = _userService.Insert(aUser);
+            User anInsertedUser = _userService.FindById(insertedUserId);
+            
+            Assertion.AreEqual(anInsertedIdiom.Id, 
+                anInsertedUser.Idiom.Id);
         }
     }
 }

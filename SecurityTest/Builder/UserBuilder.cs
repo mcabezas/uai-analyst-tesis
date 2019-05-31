@@ -6,6 +6,7 @@
  */
 
 using Security.Model;
+using static SecurityTest.Builder.RandomGenerator;
 
 namespace SecurityTest.Builder
 {
@@ -14,35 +15,36 @@ namespace SecurityTest.Builder
         private string _firstName;
         private string _lastName;
         private Idiom _idiom;
+        private readonly IdiomBuilder _idiomBuilder = new IdiomBuilder();
 
-        public UserBuilder()
-        {
-            
-        }
-
-        public void WithFirstName(string firstName)
+        public UserBuilder WithFirstName(string firstName)
         {
             _firstName = firstName;
+            return this;
         }
 
 
-        public void WithLastName(string lastName)
+        public UserBuilder WithLastName(string lastName)
         {
             _lastName = lastName;
+            return this;
         }
 
-        public void WithIdiom(Idiom idiom)
+        public UserBuilder WithIdiom(Idiom idiom)
         {
             _idiom = idiom;
+            return this;
         }
 
         public User Build()
         {
-            User aUser = new User();
-            
-            return aUser;
+            return new User
+            {
+                FirstName = _firstName ?? RandomString(10, true), 
+                LastName = _lastName ?? RandomString(10, true),
+                Idiom = _idiom ?? _idiomBuilder.Build()
+            };
         }
-
     }
     
 }

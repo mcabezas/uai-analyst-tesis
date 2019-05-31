@@ -11,7 +11,7 @@ namespace Security.Dao
 {
     public interface IDao<TEntity, in TPrimaryKey>
     {
-        object Insert(TEntity anEntity);
+        int Insert(TEntity anEntity);
         
         TEntity FindById(TPrimaryKey anId);
         
@@ -20,6 +20,9 @@ namespace Security.Dao
         TEntity Update(TEntity anEntity);
         
         void Delete(TEntity anEntity);
+        
+        void DeleteById(TPrimaryKey anId);
+
 
         void DeleteAll();
     }

@@ -11,7 +11,7 @@ namespace Security.Service
 {
     public interface IService<TEntity, in TPrimaryKey>
     {
-        object Insert(TEntity anEntity);
+        int Insert(TEntity anEntity);
         
         TEntity FindById(TPrimaryKey anId);
         
@@ -20,6 +20,9 @@ namespace Security.Service
         TEntity Update(TEntity anEntity);
         
         void Delete(TEntity anEntity);
+        
+        void DeleteById(TPrimaryKey anId);
+
 
         void DeleteAll();
     }

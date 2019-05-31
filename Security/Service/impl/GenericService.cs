@@ -14,7 +14,7 @@ namespace Security.Service.impl
     {
         protected IDao<TEntity, TPrimaryKey> Dao;
 
-        public object Insert(TEntity anEntity)
+        public int Insert(TEntity anEntity)
         {
             return Dao.Insert(anEntity);
         }
@@ -38,6 +38,12 @@ namespace Security.Service.impl
         {
             Dao.Delete(anEntity);
         }
+        
+        public void DeleteById(TPrimaryKey anId)
+        {
+            Dao.DeleteById(anId);
+        }
+
 
         public void DeleteAll()
         {

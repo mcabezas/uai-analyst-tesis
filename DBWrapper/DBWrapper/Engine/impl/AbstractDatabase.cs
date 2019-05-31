@@ -123,15 +123,14 @@ namespace DBW.DBWrapper.Engine.impl
             /* The connection it's already close... do nothing */
         }
 
-        public object ExecuteInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30)
+        public int ExecuteInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30)
         {
-            
-            return ExecuteOnSafeSqlCommand(PrepareInsertOutput(query),
+            return (int) ExecuteOnSafeSqlCommand(PrepareInsertOutput(query),
                 command => {
-                parametersConfiguration(command, NewParameter);
-                command.CommandTimeout = commandTimeout;
-                return command.ExecuteScalar();
-            });
+                    parametersConfiguration(command, NewParameter);
+                    command.CommandTimeout = commandTimeout;
+                    return command.ExecuteScalar();
+                });
         }
 
         public void ExecuteScalar(string query, int commandTimeout = 30)

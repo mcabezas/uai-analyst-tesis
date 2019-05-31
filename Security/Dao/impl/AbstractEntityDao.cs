@@ -13,10 +13,10 @@ namespace Security.Dao.impl
 {
     public abstract class AbstractEntityDao<TEntity, TPrimaryKey> : IDao<TEntity, TPrimaryKey>
     {
-//        protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
-        protected readonly IDatabase Database = SqlServerDatabaseFactory.Instance.GetDatabase();
+        protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
+//        protected readonly IDatabase Database = SqlServerDatabaseFactory.Instance.GetDatabase();
         
-        public abstract object Insert(TEntity anEntity);
+        public abstract int Insert(TEntity anEntity);
 
         public abstract TEntity FindById(TPrimaryKey anId);
 
@@ -25,6 +25,9 @@ namespace Security.Dao.impl
         public abstract TEntity Update(TEntity anEntity);
 
         public abstract void Delete(TEntity anEntity);
+        
+        public abstract void DeleteById(TPrimaryKey anId);
+
         public abstract void DeleteAll();
         
     }

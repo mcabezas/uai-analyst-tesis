@@ -10,29 +10,26 @@ using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
 using Security.Model;
-using static Security.Model.User;
 
 namespace Security.Dao.impl
 {
-    public class UserDao : AbstractEntityDao<User, int>
+    public class IdiomDao : AbstractEntityDao<Idiom, int>
     {
-        public override int Insert(User anEntity)
+        public override int Insert(Idiom anEntity)
         {
-            const string query = "INSERT INTO _user(first_name, last_name) " +
-                                 "VALUES (@FIRSTNAME, @LASTNAME)"; 
+            const string query = "INSERT INTO idiom (description) " +
+                                 "VALUES (@DESCRIPTION)"; 
             
             return Database.ExecuteInsert(query, (command, newParameter) =>
             {
-                command.Parameters.Add(newParameter("@FIRSTNAME", DbType.String));
-                command.Parameters["@FIRSTNAME"].Value = anEntity.FirstName;
-                command.Parameters.Add(newParameter("@LASTNAME", DbType.String));
-                command.Parameters["@LASTNAME"].Value = anEntity.LastName;
+                command.Parameters.Add(newParameter("@DESCRIPTION", DbType.String));
+                command.Parameters["@DESCRIPTION"].Value = anEntity.Description;
             });
         }
 
-        public override User FindById(int anId)
+        public override Idiom FindById(int anId)
         {
-            const string query = "SELECT id, first_name, last_name FROM _user WHERE id=@ID";
+            const string query = "SELECT id, description FROM idiom WHERE id=@ID";
 
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {
@@ -40,31 +37,31 @@ namespace Security.Dao.impl
                 command.Parameters["@ID"].Value = anId;
             });
             
-            ResultTransformer<User> transformer = new ResultTransformer<User>(dbRows);
-            return transformer.Transform().GetFirstOrDefault(NullUser);
+            ResultTransformer<Idiom> transformer = new ResultTransformer<Idiom>(dbRows);
+            return transformer.Transform().GetFirstOrDefault(Idiom.NullIdiom);
         }
 
-        public override IMCollection<User> FindAll()
+        public override IMCollection<Idiom> FindAll()
         {
-            const string query = "SELECT id, first_name, last_name FROM _user";
+            const string query = "SELECT id, description FROM idiom";
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) => { });
-            ResultTransformer<User> transformer = new ResultTransformer<User>(dbRows);
+            ResultTransformer<Idiom> transformer = new ResultTransformer<Idiom>(dbRows);
             return transformer.Transform();
         }
 
-        public override User Update(User anEntity)
+        public override Idiom Update(Idiom anEntity)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Delete(User anEntity)
+        public override void Delete(Idiom anEntity)
         {
             throw new System.NotImplementedException();
         }
 
         public override void DeleteById(int anId)
         {
-            const string query = "DELETE FROM _user where id=@ID";
+            const string query = "DELETE FROM idiom where id=@ID";
             Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@ID", DbType.Int32));
@@ -74,7 +71,7 @@ namespace Security.Dao.impl
 
         public override void DeleteAll()
         {
-            const string query = "DELETE FROM _user";
+            const string query = "DELETE FROM idiom";
             Database.ExecuteScalar(query);
         }
     }
