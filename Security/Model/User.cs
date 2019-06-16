@@ -2,12 +2,12 @@
 
 namespace Security.Model
 {
-    public class User
+    public class User : Entity
     {
         public static readonly User NullUser = new User();
         public User()
         {
-            Id = -1;
+            Id = NullId;
             FirstName = "";
             LastName = "";
             Email = "";

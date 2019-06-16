@@ -13,7 +13,7 @@ namespace Security.Service
     {
         int Insert(TEntity anEntity);
         
-        TEntity FindById(TPrimaryKey anId);
+        TEntity FindByIdLazyMode(TPrimaryKey anId);
         
         IMCollection<TEntity> FindAll();
 

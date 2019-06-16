@@ -10,6 +10,7 @@ using Commons.Generics;
 using Commons.Generics.impl;
 using Security.Model;
 using Security.Service;
+using Security.Service.impl;
 using SecurityTest.Builder;
 using TesterSuite.Core.Suites.impl;
 using static Security.Model.User;
@@ -28,6 +29,13 @@ namespace SecurityTest.Service
         protected override void SetUp()
         {
             _userService.DeleteAll();
+            _idiomService.DeleteAll();
+        }
+
+        protected override void CleanUp()
+        {
+            _userService.DeleteAll();
+            _idiomService.DeleteAll();
         }
 
         protected override IMCollection<Action> Tests()
@@ -35,10 +43,12 @@ namespace SecurityTest.Service
             return new MCollection<Action>
             {
                 CanInsertAUserTest,
+                InsertUserDoesNotInsertAnIdiomTest,
                 CanInsertMoreThanOneUserTest,
                 CanFindUserWithAValidId,
                 CanNotFoundUserWithAnInvalidId,
-                CanInsertAUserWithAnIdiom
+                CanInsertAUserWithAnIdiom,
+                FindByIdLazyModeIsLazy
             };
         }
 
@@ -50,6 +60,16 @@ namespace SecurityTest.Service
             
             Assertion.AreEqual(1, _userService.FindAll().Count);
         }
+        
+        private void InsertUserDoesNotInsertAnIdiomTest()
+        {
+            Assertion.AreEqual(0, _idiomService.FindAll().Count);
+
+            _userService.Insert(_userBuilder.Build());
+            
+            Assertion.AreEqual(0, _idiomService.FindAll().Count);
+        }
+
         
         private void CanInsertMoreThanOneUserTest()
         {
@@ -67,7 +87,7 @@ namespace SecurityTest.Service
             User user = _userBuilder.WithFirstName(aFirstName).Build();
             int insertedId = _userService.Insert(user);
 
-            User userFoundById = _userService.FindById(insertedId);
+            User userFoundById = _userService.FindByIdLazyMode(insertedId);
             
             Assertion.AreEqual(aFirstName, userFoundById.FirstName);
         }
@@ -76,7 +96,7 @@ namespace SecurityTest.Service
         private void CanNotFoundUserWithAnInvalidId()
         {
             const int invalidId = 1234;
-            User userFoundById = _userService.FindById(invalidId);
+            User userFoundById = _userService.FindByIdLazyMode(invalidId);
             Assertion.AreSameReference(NullUser, userFoundById);
         }
 
@@ -84,14 +104,27 @@ namespace SecurityTest.Service
         {
             Idiom anIdiom = _idiomBuilder.Build();
             int anInsertedIdiomId = _idiomService.Insert(anIdiom);
-            Idiom anInsertedIdiom = _idiomService.FindById(anInsertedIdiomId);
+            Idiom anInsertedIdiom = _idiomService.FindByIdLazyMode(anInsertedIdiomId);
 
             User aUser = _userBuilder.WithIdiom(anInsertedIdiom).Build();
             int insertedUserId = _userService.Insert(aUser);
-            User anInsertedUser = _userService.FindById(insertedUserId);
+            User anInsertedUser = _userService.FindByIdLazyMode(insertedUserId);
             
-            Assertion.AreEqual(anInsertedIdiom.Id, 
-                anInsertedUser.Idiom.Id);
+            Assertion.AreEqual(anInsertedIdiom.Id, anInsertedUser.Idiom.Id);
         }
+        
+        private void FindByIdLazyModeIsLazy()
+        {
+            Idiom anIdiom = _idiomBuilder.Build();
+            int anInsertedIdiomId = _idiomService.Insert(anIdiom);
+            Idiom anInsertedIdiom = _idiomService.FindByIdLazyMode(anInsertedIdiomId);
+
+            User aUser = _userBuilder.WithIdiom(anInsertedIdiom).Build();
+            int insertedUserId = _userService.Insert(aUser);
+            User anInsertedUser = _userService.FindByIdLazyMode(insertedUserId);
+            
+            Assertion.AreEqual("", anInsertedUser.Idiom.Description);
+        }
+
     }
 }

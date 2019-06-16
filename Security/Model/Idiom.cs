@@ -7,13 +7,13 @@
 
 namespace Security.Model
 {
-    public class Idiom
+    public class Idiom : Entity
     {
         public static readonly Idiom NullIdiom = new Idiom();
 
         public Idiom()
         {
-            Id = -1;
+            Id = NullId;
             Description = "";
         }
 

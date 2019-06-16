@@ -10,6 +10,7 @@ using Commons.Generics;
 using Commons.Generics.impl;
 using Security.Model;
 using Security.Service;
+using Security.Service.impl;
 using SecurityTest.Builder;
 using TesterSuite.Core.Suites.impl;
 
@@ -25,6 +26,10 @@ namespace SecurityTest.Service
             _idiomService.DeleteAll();
         }
 
+        protected override void CleanUp()
+        {
+            _idiomService.DeleteAll();
+        }
         protected override IMCollection<Action> Tests()
         {
             MCollection<Action> tests = new MCollection<Action>

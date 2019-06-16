@@ -19,9 +19,9 @@ namespace Security.Service.impl
             return Dao.Insert(anEntity);
         }
 
-        public TEntity FindById(TPrimaryKey anId)
+        public TEntity FindByIdLazyMode(TPrimaryKey anId)
         {
-            return Dao.FindById(anId);
+            return Dao.FindByIdLazyMode(anId);
         }
 
         public IMCollection<TEntity> FindAll()

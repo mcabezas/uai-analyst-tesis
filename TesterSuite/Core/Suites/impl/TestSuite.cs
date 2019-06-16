@@ -66,15 +66,18 @@ namespace TesterSuite.Core.Suites.impl
             }
 
             testMethods.ForEach(testMethod => {
-                try {
+                try
+                {
                     SetUp();
                     testMethod();
-                    CleanUp();
                     OnSucceedTest(testMethod);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     OnFailedTest(testMethod);
                     _logger.Error(e.Message);
                 }
+                CleanUp();
             });
         }
 

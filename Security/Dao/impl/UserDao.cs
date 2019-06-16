@@ -5,34 +5,40 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using System;
 using System.Data;
 using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
 using Security.Model;
+using static Security.Model.Entity;
 using static Security.Model.User;
 
 namespace Security.Dao.impl
 {
     public class UserDao : AbstractEntityDao<User, int>
     {
-        public override int Insert(User anEntity)
+        public override int Insert(User aUser)
         {
-            const string query = "INSERT INTO _user(first_name, last_name) " +
-                                 "VALUES (@FIRSTNAME, @LASTNAME)"; 
-            
+            const string query = "INSERT INTO _user(first_name, last_name, idiom_id) " +
+                                 "VALUES (@FIRSTNAME, @LASTNAME, @IDIOM_ID)";
+
             return Database.ExecuteInsert(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@FIRSTNAME", DbType.String));
-                command.Parameters["@FIRSTNAME"].Value = anEntity.FirstName;
+                command.Parameters["@FIRSTNAME"].Value = aUser.FirstName;
                 command.Parameters.Add(newParameter("@LASTNAME", DbType.String));
-                command.Parameters["@LASTNAME"].Value = anEntity.LastName;
+                command.Parameters["@LASTNAME"].Value = aUser.LastName;
+                command.Parameters.Add(newParameter("@IDIOM_ID", DbType.Int32));
+                if (aUser.Idiom.Id == NullId) command.Parameters["@IDIOM_ID"].Value = DBNull.Value;
+                else command.Parameters["@IDIOM_ID"].Value = aUser.Idiom.Id;
+
             });
         }
 
-        public override User FindById(int anId)
+        public override User FindByIdLazyMode(int anId)
         {
-            const string query = "SELECT id, first_name, last_name FROM _user WHERE id=@ID";
+            const string query = "SELECT id, first_name, last_name, idiom_id FROM _user WHERE id=@ID";
 
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {
@@ -57,9 +63,9 @@ namespace Security.Dao.impl
             throw new System.NotImplementedException();
         }
 
-        public override void Delete(User anEntity)
+        public override void Delete(User aUser)
         {
-            throw new System.NotImplementedException();
+            DeleteById(aUser.Id);
         }
 
         public override void DeleteById(int anId)

@@ -15,7 +15,7 @@ namespace Security.Dao.impl
 {
     public class IdiomDao : AbstractEntityDao<Idiom, int>
     {
-        public override int Insert(Idiom anEntity)
+        public override int Insert(Idiom aUser)
         {
             const string query = "INSERT INTO idiom (description) " +
                                  "VALUES (@DESCRIPTION)"; 
@@ -23,11 +23,11 @@ namespace Security.Dao.impl
             return Database.ExecuteInsert(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@DESCRIPTION", DbType.String));
-                command.Parameters["@DESCRIPTION"].Value = anEntity.Description;
+                command.Parameters["@DESCRIPTION"].Value = aUser.Description;
             });
         }
 
-        public override Idiom FindById(int anId)
+        public override Idiom FindByIdLazyMode(int anId)
         {
             const string query = "SELECT id, description FROM idiom WHERE id=@ID";
 
@@ -56,7 +56,7 @@ namespace Security.Dao.impl
 
         public override void Delete(Idiom anEntity)
         {
-            throw new System.NotImplementedException();
+            DeleteById(anEntity.Id);
         }
 
         public override void DeleteById(int anId)

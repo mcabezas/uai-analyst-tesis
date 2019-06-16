@@ -11,9 +11,9 @@ namespace Security.Dao
 {
     public interface IDao<TEntity, in TPrimaryKey>
     {
-        int Insert(TEntity anEntity);
+        int Insert(TEntity aUser);
         
-        TEntity FindById(TPrimaryKey anId);
+        TEntity FindByIdLazyMode(TPrimaryKey anId);
         
         IMCollection<TEntity> FindAll();
         

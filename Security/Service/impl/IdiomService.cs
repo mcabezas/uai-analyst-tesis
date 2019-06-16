@@ -7,16 +7,15 @@
 
 using Security.Dao.impl;
 using Security.Model;
-using Security.Service.impl;
 
-namespace Security.Service
+namespace Security.Service.impl
 {
-    public class UserService : GenericService<User, int>
+    public class IdiomService : GenericService<Idiom, int>
 
     {
-        public UserService()
+        public IdiomService()
         {
-            Dao = new UserDao();
+            Dao = new IdiomDao();
         }
 
    }

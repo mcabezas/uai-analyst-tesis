@@ -16,9 +16,9 @@ namespace Security.Dao.impl
         protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
 //        protected readonly IDatabase Database = SqlServerDatabaseFactory.Instance.GetDatabase();
         
-        public abstract int Insert(TEntity anEntity);
+        public abstract int Insert(TEntity aUser);
 
-        public abstract TEntity FindById(TPrimaryKey anId);
+        public abstract TEntity FindByIdLazyMode(TPrimaryKey anId);
 
         public abstract IMCollection<TEntity> FindAll();
 
