@@ -3,6 +3,7 @@ CREATE TABLE _USER (
   id              SERIAL PRIMARY KEY,
   first_name           VARCHAR(100) NOT NULL,
   last_name  VARCHAR(100) NULL,
+  email  VARCHAR(100) NULL,
   idiom_id int REFERENCES IDIOM(ID)
 );
 

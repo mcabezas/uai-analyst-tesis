@@ -82,14 +82,22 @@ namespace SecurityTest.Service
 
         private void CanFindUserWithAValidId()
         {
-            const string aFirstName = "MarceloIDLoco";
+            const string aFirstName = "Marcelo";
+            const string aLastName = "Cabezas";
+            const string anEmail = "mcabezas@outlook.com";
             
-            User user = _userBuilder.WithFirstName(aFirstName).Build();
+            User user = _userBuilder
+                .WithFirstName(aFirstName)
+                .WithLastName(aLastName)
+                .WithEmail(anEmail)
+                .Build();
             int insertedId = _userService.Insert(user);
 
             User userFoundById = _userService.FindByIdLazyMode(insertedId);
             
             Assertion.AreEqual(aFirstName, userFoundById.FirstName);
+            Assertion.AreEqual(user.LastName, userFoundById.LastName);
+            Assertion.AreEqual(user.Email, userFoundById.Email);
         }
 
         

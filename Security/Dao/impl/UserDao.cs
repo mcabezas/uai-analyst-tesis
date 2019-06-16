@@ -20,8 +20,9 @@ namespace Security.Dao.impl
     {
         public override int Insert(User aUser)
         {
-            const string query = "INSERT INTO _user(first_name, last_name, idiom_id) " +
-                                 "VALUES (@FIRSTNAME, @LASTNAME, @IDIOM_ID)";
+            const string query = "INSERT INTO _user"
+                                 + "(first_name, last_name, email, idiom_id) "
+                                 + "VALUES (@FIRSTNAME, @LASTNAME, @EMAIL, @IDIOM_ID)";
 
             return Database.ExecuteInsert(query, (command, newParameter) =>
             {
@@ -29,6 +30,9 @@ namespace Security.Dao.impl
                 command.Parameters["@FIRSTNAME"].Value = aUser.FirstName;
                 command.Parameters.Add(newParameter("@LASTNAME", DbType.String));
                 command.Parameters["@LASTNAME"].Value = aUser.LastName;
+                command.Parameters.Add(newParameter("@EMAIL", DbType.String));
+                command.Parameters["@EMAIL"].Value = aUser.Email;
+
                 command.Parameters.Add(newParameter("@IDIOM_ID", DbType.Int32));
                 if (aUser.Idiom.Id == NullId) command.Parameters["@IDIOM_ID"].Value = DBNull.Value;
                 else command.Parameters["@IDIOM_ID"].Value = aUser.Idiom.Id;
@@ -38,7 +42,7 @@ namespace Security.Dao.impl
 
         public override User FindByIdLazyMode(int anId)
         {
-            const string query = "SELECT id, first_name, last_name, idiom_id FROM _user WHERE id=@ID";
+            const string query = "SELECT id, first_name, last_name, email, idiom_id FROM _user WHERE id=@ID";
 
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {

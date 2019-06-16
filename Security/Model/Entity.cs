@@ -10,5 +10,7 @@ namespace Security.Model
     public class Entity
     {
         public const int NullId = -1;
+        
+        public int Id { get; set; }
     }
 }

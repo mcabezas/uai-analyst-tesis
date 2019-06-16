@@ -17,7 +17,6 @@ namespace Security.Model
             Description = "";
         }
 
-        public int Id { get; set; }
         public string Description { get; set; }
     }
 }

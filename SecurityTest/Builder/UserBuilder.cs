@@ -14,6 +14,7 @@ namespace SecurityTest.Builder
     {
         private string _firstName;
         private string _lastName;
+        private string _email;
         private Idiom _idiom;
         private readonly IdiomBuilder _idiomBuilder = new IdiomBuilder();
 
@@ -29,6 +30,12 @@ namespace SecurityTest.Builder
             _lastName = lastName;
             return this;
         }
+        
+        public UserBuilder WithEmail(string email)
+        {
+            _email = email;
+            return this;
+        }
 
         public UserBuilder WithIdiom(Idiom idiom)
         {
@@ -42,6 +49,11 @@ namespace SecurityTest.Builder
             {
                 FirstName = _firstName ?? RandomString(10, true), 
                 LastName = _lastName ?? RandomString(10, true),
+                Email = _email 
+                        ?? RandomString(5, true) 
+                        + "@"
+                        +RandomString(5, true) 
+                        + ".com",
                 Idiom = _idiom ?? _idiomBuilder.Build()
             };
         }
