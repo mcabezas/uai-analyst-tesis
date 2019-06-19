@@ -19,6 +19,10 @@ namespace Security.Dao.impl
         public abstract int Insert(TEntity aUser);
 
         public abstract TEntity FindByIdLazyMode(TPrimaryKey anId);
+        public virtual TEntity FindById(TPrimaryKey anId)
+        {
+            return FindByIdLazyMode(anId);
+        }
 
         public abstract IMCollection<TEntity> FindAll();
 

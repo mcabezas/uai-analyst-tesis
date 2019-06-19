@@ -15,6 +15,8 @@ namespace Security.Service
         
         TEntity FindByIdLazyMode(TPrimaryKey anId);
         
+        TEntity FindById(TPrimaryKey anId);
+
         IMCollection<TEntity> FindAll();
 
         TEntity Update(TEntity anEntity);

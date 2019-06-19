@@ -32,14 +32,12 @@ namespace SecurityTest.Service
         }
         protected override IMCollection<Action> Tests()
         {
-            MCollection<Action> tests = new MCollection<Action>
+            return new MCollection<Action>
             {
                 CanInsertAnIdiom,
                 CanInsertMoreThanOneIdiom,
                 CanDeleteAnIdiom,
             };
-
-            return tests;
         }
 
         private void CanInsertAnIdiom()

@@ -7,10 +7,11 @@
 
 using Commons.Generics;
 using Security.Dao;
+using Security.Model;
 
 namespace Security.Service.impl
 {
-    public class GenericService<TEntity, TPrimaryKey> : IService<TEntity, TPrimaryKey>
+    public class GenericService<TEntity, TPrimaryKey> : IService<TEntity, TPrimaryKey> where TEntity:Entity
     {
         protected IDao<TEntity, TPrimaryKey> Dao;
 
@@ -22,6 +23,11 @@ namespace Security.Service.impl
         public TEntity FindByIdLazyMode(TPrimaryKey anId)
         {
             return Dao.FindByIdLazyMode(anId);
+        }
+
+        public TEntity FindById(TPrimaryKey anId)
+        {
+            return Dao.FindById(anId);
         }
 
         public IMCollection<TEntity> FindAll()
@@ -43,7 +49,6 @@ namespace Security.Service.impl
         {
             Dao.DeleteById(anId);
         }
-
 
         public void DeleteAll()
         {

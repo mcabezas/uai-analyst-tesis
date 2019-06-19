@@ -1,4 +1,6 @@
-﻿using static Security.Model.Idiom;
+﻿using Commons.Generics;
+using Commons.Generics.impl;
+using static Security.Model.Idiom;
 
 namespace Security.Model
 {
@@ -7,11 +9,12 @@ namespace Security.Model
         public static readonly User NullUser = new User();
         public User()
         {
-            Id = NullId;
             FirstName = "";
             LastName = "";
             Email = "";
             Idiom = NullIdiom;
+            Groups = new MCollection<Group>();
+            Permissions = new MCollection<Permission>();
         }
 
         public User(string firstName, string lastName, Idiom idiom)
@@ -25,5 +28,7 @@ namespace Security.Model
         public string LastName { get; set; }
         public string Email { get; set; }
         public Idiom Idiom { get; set; }
+        public IMCollection<Group> Groups { get; set; }
+        public IMCollection<Permission> Permissions { get; set; }
     }
 }

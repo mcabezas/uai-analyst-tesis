@@ -13,7 +13,6 @@ namespace Security.Model
 
         public Idiom()
         {
-            Id = NullId;
             Description = "";
         }
 

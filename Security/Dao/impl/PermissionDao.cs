@@ -13,23 +13,23 @@ using Security.Model;
 
 namespace Security.Dao.impl
 {
-    public class IdiomDao : AbstractEntityDao<Idiom, int>
+    public class PermissionDao : AbstractEntityDao<Permission, int>
     {
-        public override int Insert(Idiom anIdiom)
+        public override int Insert(Permission aPermission)
         {
-            const string query = "INSERT INTO idiom (description) " +
+            const string query = "INSERT INTO permission (description) " +
                                  "VALUES (@DESCRIPTION)"; 
             
             return Database.ExecuteInsert(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@DESCRIPTION", DbType.String));
-                command.Parameters["@DESCRIPTION"].Value = anIdiom.Description;
+                command.Parameters["@DESCRIPTION"].Value = aPermission.Description;
             });
         }
 
-        public override Idiom FindByIdLazyMode(int anId)
+        public override Permission FindByIdLazyMode(int anId)
         {
-            const string query = "SELECT id, description FROM idiom WHERE id=@ID";
+            const string query = "SELECT id, description FROM permission WHERE id=@ID";
 
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {
@@ -37,31 +37,31 @@ namespace Security.Dao.impl
                 command.Parameters["@ID"].Value = anId;
             });
             
-            ResultTransformer<Idiom> transformer = new ResultTransformer<Idiom>(dbRows);
-            return transformer.Transform().GetFirstOrDefault(Idiom.NullIdiom);
+            ResultTransformer<Permission> transformer = new ResultTransformer<Permission>(dbRows);
+            return transformer.Transform().GetFirstOrDefault(Permission.NullPermission);
         }
 
-        public override IMCollection<Idiom> FindAll()
+        public override IMCollection<Permission> FindAll()
         {
-            const string query = "SELECT id, description FROM idiom";
+            const string query = "SELECT id, description FROM permission";
             IMCollection<DbRow> dbRows = Database.ExecuteNativeQuery(query, (command, newParameter) => { });
-            ResultTransformer<Idiom> transformer = new ResultTransformer<Idiom>(dbRows);
+            ResultTransformer<Permission> transformer = new ResultTransformer<Permission>(dbRows);
             return transformer.Transform();
         }
 
-        public override Idiom Update(Idiom anIdiom)
+        public override Permission Update(Permission aPermission)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Delete(Idiom anIdiom)
+        public override void Delete(Permission aPermission)
         {
-            DeleteById(anIdiom.Id);
+            DeleteById(aPermission.Id);
         }
 
         public override void DeleteById(int anId)
         {
-            const string query = "DELETE FROM idiom where id=@ID";
+            const string query = "DELETE FROM permission where id=@ID";
             Database.ExecuteNativeQuery(query, (command, newParameter) =>
             {
                 command.Parameters.Add(newParameter("@ID", DbType.Int32));
@@ -71,7 +71,7 @@ namespace Security.Dao.impl
 
         public override void DeleteAll()
         {
-            const string query = "DELETE FROM idiom";
+            const string query = "DELETE FROM permission";
             Database.ExecuteScalar(query);
         }
     }

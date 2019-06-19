@@ -102,7 +102,7 @@ namespace DBW.DBWrapper.Engine.impl
             ScheduleDbConnectionRefresh();
         }
 
-        private T ExecuteOnSafeSqlCommand<T>(string query, Func<DbCommand, T> executeSqlCommand)
+        private TReturnType ExecuteOnSafeSqlCommand<TReturnType>(string query, Func<DbCommand, TReturnType> executeSqlCommand)
         {
             CheckConnectionState();
             using (DbCommand command = CommandFactory(query)) {
@@ -123,9 +123,21 @@ namespace DBW.DBWrapper.Engine.impl
             /* The connection it's already close... do nothing */
         }
 
+        //Return ID after insertion
         public int ExecuteInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30)
         {
             return (int) ExecuteOnSafeSqlCommand(PrepareInsertOutput(query),
+                command => {
+                    parametersConfiguration(command, NewParameter);
+                    command.CommandTimeout = commandTimeout;
+                    return command.ExecuteScalar();
+                });
+        }
+        
+        //Does not return ID after insertion
+        public void ExecuteSimpleInsert(string query, Action<DbCommand, Func<string, DbType, DbParameter>> parametersConfiguration, int commandTimeout = 30)
+        {
+            ExecuteOnSafeSqlCommand(query,
                 command => {
                     parametersConfiguration(command, NewParameter);
                     command.CommandTimeout = commandTimeout;
