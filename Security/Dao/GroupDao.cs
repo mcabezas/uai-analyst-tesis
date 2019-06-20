@@ -11,6 +11,7 @@ using Commons.Generics.impl;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
 using Layers.Dao;
+using Layers.Model.State.Persistence;
 using Security.Model;
 
 namespace Security.Dao
@@ -31,14 +32,14 @@ namespace Security.Dao
         private void InsertRelationshipPermissionAlreadyInserted(IMCollection<Permission> permissions, int groupId)
         {
             InsertPermissionsRelationship(
-                permissions.Filter(permission => !permission.Id.Equals(0)), 
+                permissions.Filter(permission => new PersistedState().CanHandle(permission)), 
                 groupId);
         }
 
         private void InsertRelationshipPermissionsNotInserted(IMCollection<Permission> permissions, int groupId)
         {
             IMCollection<Permission> permissionsNotInserted =
-                permissions.Filter(permission => permission.Id.Equals(0));
+                permissions.Filter(permission => new NotPersistedState().CanHandle(permission));
 
             IMCollection<Permission> justInsertedPermissions = InsertNewPermissions(permissionsNotInserted);
             InsertPermissionsRelationship(justInsertedPermissions, groupId);

@@ -7,7 +7,7 @@
 
 namespace Layers.Model.State.Persistence
 {
-    public class PersistedPersistence : IPersistenceState
+    public class PersistedState : IPersistenceState
     {
         public bool CanHandle(IEntity anEntity)
         {

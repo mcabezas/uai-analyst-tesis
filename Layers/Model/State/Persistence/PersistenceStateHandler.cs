@@ -16,8 +16,8 @@ namespace Layers.Model.State.Persistence
         {
             IMCollection<IPersistenceState> states = new MCollection<IPersistenceState>
             {
-                new PersistedPersistence(),
-                new NotPersistedPersistence()
+                new PersistedState(),
+                new NotPersistedState()
             };
             return states.Filter(state => state.CanHandle(anEntity)).GetFirst();
         }

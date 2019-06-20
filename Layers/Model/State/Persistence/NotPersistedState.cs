@@ -9,7 +9,7 @@ using System;
 
 namespace Layers.Model.State.Persistence
 {
-    public class NotPersistedPersistence : IPersistenceState
+    public class NotPersistedState : IPersistenceState
     {
         public bool CanHandle(IEntity anEntity)
         {
