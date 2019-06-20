@@ -5,17 +5,18 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using Security.Dao.impl;
+using Layers.Service;
+using Security.Dao;
 using Security.Model;
 
-namespace Security.Service.impl
+namespace Security.Service
 {
-    public class UserService : GenericService<User, int>
+    public class IdiomService : GenericService<Idiom, int>
 
     {
-        public UserService()
+        public IdiomService()
         {
-            Dao = new UserDao();
+            Dao = new IdiomDao();
         }
 
    }

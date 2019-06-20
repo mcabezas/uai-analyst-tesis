@@ -2,13 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <RootNamespace>Security</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Commons\Commons.csproj" />
       <ProjectReference Include="..\DBWrapper\DBWrapper.csproj" />
-      <ProjectReference Include="..\Layers\Layers.csproj" />
     </ItemGroup>
 
 </Project>

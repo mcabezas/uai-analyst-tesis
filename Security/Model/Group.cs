@@ -7,6 +7,7 @@
 
 using Commons.Generics;
 using Commons.Generics.impl;
+using Layers.Model;
 
 namespace Security.Model
 {

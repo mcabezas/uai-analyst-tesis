@@ -6,12 +6,14 @@
  */
 
 using Commons.Generics;
-using Security.Dao;
-using Security.Model;
+using Layers.Dao;
+using Layers.Model;
 
-namespace Security.Service.impl
+namespace Layers.Service
 {
-    public class GenericService<TEntity, TPrimaryKey> : IService<TEntity, TPrimaryKey> where TEntity:Entity
+    public class GenericService<TEntity, TPrimaryKey> 
+        : IService<TEntity, TPrimaryKey> 
+        where TEntity : Entity
     {
         protected IDao<TEntity, TPrimaryKey> Dao;
 

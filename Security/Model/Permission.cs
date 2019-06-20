@@ -5,6 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Layers.Model;
+
 namespace Security.Model
 {
     public class Permission : Entity

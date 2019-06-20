@@ -7,7 +7,7 @@
 
 using Commons.Generics;
 
-namespace Security.Dao
+namespace Layers.Dao
 {
     public interface IDao<TEntity, in TPrimaryKey>
     {

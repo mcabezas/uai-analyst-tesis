@@ -8,9 +8,9 @@
 using System;
 using Commons.Generics;
 using Commons.Generics.impl;
+using Layers.Service;
 using Security.Model;
 using Security.Service;
-using Security.Service.impl;
 using SecurityTest.Builder;
 using TesterSuite.Core.Suites.impl;
 

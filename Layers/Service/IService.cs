@@ -7,7 +7,7 @@
 
 using Commons.Generics;
 
-namespace Security.Service
+namespace Layers.Service
 {
     public interface IService<TEntity, in TPrimaryKey>
     {

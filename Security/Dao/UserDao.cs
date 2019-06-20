@@ -5,18 +5,16 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using System;
 using System.Data;
 using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
+using Layers.Dao;
 using Security.Model;
-using static Security.Model.Entity;
-using static Security.Model.User;
 
-namespace Security.Dao.impl
+namespace Security.Dao
 {
-    public class UserDao : AbstractEntityDao<User, int>
+    public class UserDao : GenericEntityDao<User, int>
     {
         public override int Insert(User aUser)
         {
@@ -34,9 +32,7 @@ namespace Security.Dao.impl
                 command.Parameters["@EMAIL"].Value = aUser.Email;
 
                 command.Parameters.Add(newParameter("@IDIOM_ID", DbType.Int32));
-                if (aUser.Idiom.Id == NullId) command.Parameters["@IDIOM_ID"].Value = DBNull.Value;
-                else command.Parameters["@IDIOM_ID"].Value = aUser.Idiom.Id;
-
+                command.Parameters["@IDIOM_ID"].Value = aUser.Idiom.DbIdValue();
             });
         }
 
@@ -51,7 +47,7 @@ namespace Security.Dao.impl
             });
             
             ResultTransformer<User> transformer = new ResultTransformer<User>(dbRows);
-            return transformer.Transform().GetFirstOrDefault(NullUser);
+            return transformer.Transform().GetFirstOrDefault(User.NullUser);
         }
 
         public override IMCollection<User> FindAll()

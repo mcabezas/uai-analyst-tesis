@@ -5,17 +5,19 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
-using Security.Dao.impl;
+using Layers.Service;
+using Security.Dao;
 using Security.Model;
 
-namespace Security.Service.impl
+namespace Security.Service
 {
-    public class GroupService : GenericService<Group, int>
+    public class UserService : GenericService<User, int>
 
     {
-        public GroupService()
+        public UserService()
         {
-            Dao = new GroupDao();
+            Dao = new UserDao();
         }
-    }
+
+   }
 }

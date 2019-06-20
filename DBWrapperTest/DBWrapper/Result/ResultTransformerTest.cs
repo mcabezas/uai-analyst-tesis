@@ -19,7 +19,7 @@ namespace DBWrapperTest.DBWrapper.Result
     {
         private const string DummyStringValue = "dummyValue";
         private const int DummyIntValue = 1;
-        private BigInteger DummyBigIntegerValue = 2;
+        private readonly BigInteger _dummyBigIntegerValue = 2;
 
 
         protected override IMCollection<Action> Tests()
@@ -48,10 +48,10 @@ namespace DBWrapperTest.DBWrapper.Result
         private void CanTransformAResultSetWithMoreThanOneItemTest()
         {
             DbRow dbRow1 = new DbRow();
-            dbRow1.Columns.Add(new DbColumn(typeof(string), null, null));
+            dbRow1.Columns.Add(new DbColumn(typeof(string), "aColumn", null));
             
             DbRow dbRow2 = new DbRow();
-            dbRow2.Columns.Add(new DbColumn(typeof(string), null, null));
+            dbRow2.Columns.Add(new DbColumn(typeof(string), "aColumn", null));
 
             IMCollection<DbRow> dbRows = new MCollection<DbRow> {dbRow1, dbRow2};
 
@@ -63,7 +63,7 @@ namespace DBWrapperTest.DBWrapper.Result
         private void CanTransformWithNullableValuesTest()
         {
             DbRow dbRow = new DbRow();
-            dbRow.Columns.Add(new DbColumn(typeof(string), null, null));
+            dbRow.Columns.Add(new DbColumn(typeof(string), "aColumn", null));
             
             IMCollection<DbRow> dbRows = new MCollection<DbRow> {dbRow};
 
@@ -161,7 +161,7 @@ namespace DBWrapperTest.DBWrapper.Result
             const string columnName = "aBigInteger";
 
             DbRow dbRow = new DbRow();
-            dbRow.Columns.Add(new DbColumn(typeof(BigInteger), columnName, DummyBigIntegerValue));
+            dbRow.Columns.Add(new DbColumn(typeof(BigInteger), columnName, _dummyBigIntegerValue));
             
             IMCollection<DbRow> dbRows = new MCollection<DbRow> {dbRow};
 
@@ -169,7 +169,7 @@ namespace DBWrapperTest.DBWrapper.Result
 
             IMCollection<DummyClassToBeTransformed> transformed = resultTransformer.Transform();
 
-            Assertion.AreEqual(DummyBigIntegerValue, transformed[0].ABigInteger);
+            Assertion.AreEqual(_dummyBigIntegerValue, transformed[0].ABigInteger);
         }
 
 

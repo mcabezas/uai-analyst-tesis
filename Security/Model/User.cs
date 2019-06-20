@@ -1,5 +1,6 @@
 ﻿using Commons.Generics;
 using Commons.Generics.impl;
+using Layers.Model;
 using static Security.Model.Idiom;
 
 namespace Security.Model

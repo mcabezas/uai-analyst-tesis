@@ -10,12 +10,12 @@ using Commons.Generics;
 using Commons.Generics.impl;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
+using Layers.Dao;
 using Security.Model;
-using static Security.Model.Entity;
 
-namespace Security.Dao.impl
+namespace Security.Dao
 {
-    public class GroupDao : AbstractEntityDao<Group, int>
+    public class GroupDao : GenericEntityDao<Group, int>
     {
         public override int Insert(Group aGroup)
         {
@@ -31,14 +31,14 @@ namespace Security.Dao.impl
         private void InsertRelationshipPermissionAlreadyInserted(IMCollection<Permission> permissions, int groupId)
         {
             InsertPermissionsRelationship(
-                permissions.Filter(permission => !permission.Id.Equals(NullId)), 
+                permissions.Filter(permission => !permission.Id.Equals(0)), 
                 groupId);
         }
 
         private void InsertRelationshipPermissionsNotInserted(IMCollection<Permission> permissions, int groupId)
         {
             IMCollection<Permission> permissionsNotInserted =
-                permissions.Filter(permission => permission.Id.Equals(NullId));
+                permissions.Filter(permission => permission.Id.Equals(0));
 
             IMCollection<Permission> justInsertedPermissions = InsertNewPermissions(permissionsNotInserted);
             InsertPermissionsRelationship(justInsertedPermissions, groupId);

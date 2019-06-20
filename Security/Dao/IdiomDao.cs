@@ -9,11 +9,12 @@ using System.Data;
 using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
+using Layers.Dao;
 using Security.Model;
 
-namespace Security.Dao.impl
+namespace Security.Dao
 {
-    public class IdiomDao : AbstractEntityDao<Idiom, int>
+    public class IdiomDao : GenericEntityDao<Idiom, int>
     {
         public override int Insert(Idiom anIdiom)
         {

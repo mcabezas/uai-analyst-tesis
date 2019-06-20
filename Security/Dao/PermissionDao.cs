@@ -9,11 +9,12 @@ using System.Data;
 using Commons.Generics;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
+using Layers.Dao;
 using Security.Model;
 
-namespace Security.Dao.impl
+namespace Security.Dao
 {
-    public class PermissionDao : AbstractEntityDao<Permission, int>
+    public class PermissionDao : GenericEntityDao<Permission, int>
     {
         public override int Insert(Permission aPermission)
         {

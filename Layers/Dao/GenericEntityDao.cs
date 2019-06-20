@@ -9,9 +9,9 @@ using Commons.Generics;
 using DBW.DBWrapper.Core.impl;
 using DBW.DBWrapper.Engine;
 
-namespace Security.Dao.impl
+namespace Layers.Dao
 {
-    public abstract class AbstractEntityDao<TEntity, TPrimaryKey> : IDao<TEntity, TPrimaryKey>
+    public abstract class GenericEntityDao<TEntity, TPrimaryKey> : IDao<TEntity, TPrimaryKey>
     {
         protected readonly IDatabase Database = PostgresDatabaseFactory.Instance.GetDatabase();
 //        protected readonly IDatabase Database = SqlServerDatabaseFactory.Instance.GetDatabase();
