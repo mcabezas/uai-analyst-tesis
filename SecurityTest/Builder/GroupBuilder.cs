@@ -35,12 +35,7 @@ namespace SecurityTest.Builder
             Group aGroup = new Group
             {
                 Description = _description ?? RandomString(10, true),
-                Permissions = _permissions ?? new MCollection<Permission>
-                {
-                    _permissionBuilder.Build(),
-                    _permissionBuilder.Build(),
-                    _permissionBuilder.Build()
-                }
+                Permissions = _permissions ?? new MCollection<Permission>()
             };
             return aGroup;
         }

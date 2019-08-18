@@ -39,7 +39,7 @@ namespace Security.Dao
             });
             
             ResultTransformer<Idiom> transformer = new ResultTransformer<Idiom>(dbRows);
-            return transformer.Transform().GetFirstOrDefault(Idiom.NullIdiom);
+            return transformer.Transform().GetFirstOrDefault(new Idiom());
         }
 
         public override IMCollection<Idiom> FindAll()

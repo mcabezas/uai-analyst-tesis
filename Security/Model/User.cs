@@ -7,13 +7,12 @@ namespace Security.Model
 {
     public class User : Entity
     {
-        public static readonly User NullUser = new User();
         public User()
         {
             FirstName = "";
             LastName = "";
             Email = "";
-            Idiom = NullIdiom;
+            Idiom = new Idiom();
             Groups = new MCollection<Group>();
             Permissions = new MCollection<Permission>();
         }

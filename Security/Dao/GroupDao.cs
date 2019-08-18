@@ -20,44 +20,44 @@ namespace Security.Dao
     {
         public override int Insert(Group aGroup)
         {
-            int groupId = InsertGroup(aGroup);
+            int newGroupId = InsertGroup(aGroup);
 
-            InsertRelationshipPermissionsNotInserted(aGroup.Permissions, groupId);
+            InsertRelationshipWithNonPersistedPermissions(aGroup.Permissions, newGroupId);
 
-            InsertRelationshipPermissionAlreadyInserted(aGroup.Permissions, groupId);
+            InsertRelationshipWithPersistedPermissions(aGroup.Permissions, newGroupId);
 
-            return groupId;
+            return newGroupId;
         }
 
-        private void InsertRelationshipPermissionAlreadyInserted(IMCollection<Permission> permissions, int groupId)
+        public IMCollection<Group> Insert(IMCollection<Group> groups)
+        {
+            IMCollection<Group> insertedPermissions = new MCollection<Group>();
+            groups.ForEach(group =>
+            {
+                int groupId = Insert(group);
+                insertedPermissions.Add(new Group() {
+                    Id = groupId, Description = group.Description, Permissions = group.Permissions
+                });
+            });
+            return insertedPermissions;
+        }
+
+        private void InsertRelationshipWithPersistedPermissions(IMCollection<Permission> permissions, int groupId)
         {
             InsertPermissionsRelationship(
-                permissions.Filter(permission => new PersistedState().CanHandle(permission)), 
+                permissions.Filter(permission => 
+                    new PersistedState().CanHandle(permission)),
                 groupId);
         }
 
-        private void InsertRelationshipPermissionsNotInserted(IMCollection<Permission> permissions, int groupId)
+        private void InsertRelationshipWithNonPersistedPermissions(IMCollection<Permission> permissions, int groupId)
         {
             IMCollection<Permission> permissionsNotInserted =
                 permissions.Filter(permission => new NotPersistedState().CanHandle(permission));
 
-            IMCollection<Permission> justInsertedPermissions = InsertNewPermissions(permissionsNotInserted);
+            IMCollection<Permission> justInsertedPermissions = new PermissionDao().Insert(permissionsNotInserted);
+            
             InsertPermissionsRelationship(justInsertedPermissions, groupId);
-        }
-
-        private IMCollection<Permission> InsertNewPermissions(IMCollection<Permission> permissions)
-        {
-            PermissionDao permissionDao = new PermissionDao();
-            IMCollection<Permission> insertedPermissions = new MCollection<Permission>();
-            permissions.ForEach(permission =>
-            {
-                int permissionId = permissionDao.Insert(permission);
-                insertedPermissions.Add(new Permission
-                {
-                    Id = permissionId, Description = permission.Description
-                });
-            });
-            return insertedPermissions;
         }
 
         private void InsertPermissionsRelationship(IMCollection<Permission> permissions, int groupId)
@@ -100,7 +100,7 @@ namespace Security.Dao
                 command.Parameters["@ID"].Value = anId;
             });
             ResultTransformer<Group> transformerGroup = new ResultTransformer<Group>(dbRows);
-            Group aGroup = transformerGroup.Transform().GetFirstOrDefault(Group.NullGroup);
+            Group aGroup = transformerGroup.Transform().GetFirstOrDefault(new Group());
 
             return aGroup;
         }
@@ -143,9 +143,9 @@ namespace Security.Dao
             throw new System.NotImplementedException();
         }
 
-        public override void Delete(Group anEntity)
+        public override void Delete(Group aGroup)
         {
-            DeleteById(anEntity.Id);
+            DeleteById(aGroup.Id);
         }
 
         public override void DeleteById(int aGroupId)

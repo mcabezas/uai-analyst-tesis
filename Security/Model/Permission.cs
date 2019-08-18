@@ -11,8 +11,6 @@ namespace Security.Model
 {
     public class Permission : Entity
     {
-        public static readonly Permission NullPermission = new Permission();
-
         public Permission()
         {
             Description = "";

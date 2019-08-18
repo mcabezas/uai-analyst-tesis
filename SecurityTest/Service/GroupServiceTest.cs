@@ -20,18 +20,19 @@ namespace SecurityTest.Service
     {
         private readonly IService<Group, int> _groupService = new GroupService();
         private readonly IService<Permission, int> _permissionService = new PermissionService();
+        private readonly IService<User, int> _userService = new UserService();
 
         private readonly GroupBuilder _groupBuilder = new GroupBuilder();
         private readonly PermissionBuilder _permissionBuilder = new PermissionBuilder();
 
         protected override void SetUp()
         {
-            _groupService.DeleteAll();
-            _permissionService.DeleteAll();
+            CleanUp();
         }
         
         protected override void CleanUp()
         {
+            _userService.DeleteAll();
             _groupService.DeleteAll();
             _permissionService.DeleteAll();
         }

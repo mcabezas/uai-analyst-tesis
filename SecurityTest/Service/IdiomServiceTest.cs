@@ -18,16 +18,20 @@ namespace SecurityTest.Service
 {
     public class IdiomServiceTest :  TestSuite
     {
+        private readonly IService<User, int> _userService = new UserService();
         private readonly IService<Idiom, int> _idiomService = new IdiomService();
+
         private readonly IdiomBuilder _idiomBuilder = new IdiomBuilder();
 
         protected override void SetUp()
         {
+            _userService.DeleteAll();
             _idiomService.DeleteAll();
         }
 
         protected override void CleanUp()
         {
+            _userService.DeleteAll();
             _idiomService.DeleteAll();
         }
         protected override IMCollection<Action> Tests()

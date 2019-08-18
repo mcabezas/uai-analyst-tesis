@@ -5,6 +5,8 @@
  * Copyright 2019 - 2020 UAI Projects   
  */
 
+using Commons.Generics;
+using Commons.Generics.impl;
 using Security.Model;
 using static SecurityTest.Builder.RandomGenerator;
 
@@ -16,14 +18,14 @@ namespace SecurityTest.Builder
         private string _lastName;
         private string _email;
         private Idiom _idiom;
-        private readonly IdiomBuilder _idiomBuilder = new IdiomBuilder();
+        private IMCollection<Permission> _permissions;
+        private IMCollection<Group> _groups;
 
         public UserBuilder WithFirstName(string firstName)
         {
             _firstName = firstName;
             return this;
         }
-
 
         public UserBuilder WithLastName(string lastName)
         {
@@ -43,6 +45,19 @@ namespace SecurityTest.Builder
             return this;
         }
 
+        public UserBuilder WithPermissions(IMCollection<Permission> permissions)
+        {
+            _permissions = permissions;
+            return this;
+        }
+        
+        public UserBuilder WithGroups(IMCollection<Group> groups)
+        {
+            _groups = groups;
+            return this;
+        }
+
+
         public User Build()
         {
             return new User
@@ -54,7 +69,9 @@ namespace SecurityTest.Builder
                         + "@"
                         +RandomString(5, true) 
                         + ".com",
-                Idiom = _idiom ?? _idiomBuilder.Build()
+                Idiom = _idiom ?? new Idiom(),
+                Permissions = _permissions ?? new MCollection<Permission>(),
+                Groups = _groups ?? new MCollection<Group>()
             };
         }
     }

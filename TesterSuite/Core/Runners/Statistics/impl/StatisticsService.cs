@@ -42,7 +42,7 @@ namespace TesterSuite.Core.Runners.Statistics.impl
             int succeedTestCases = _testCasesStatistics.Filter(testCase => testCase.IsSucceed()).Count;
 
             _logger.Log("===============================================================================");
-            _logger.Log("[" + _testCasesStatistics.Count + " tests executed]");
+            _logger.Log("[" + _testCasesStatistics.Count + " tests were executed]");
             _logger.Log( "Success: " + succeedTestCases + " ; Failure: " + failureTestCases );
         }
     }

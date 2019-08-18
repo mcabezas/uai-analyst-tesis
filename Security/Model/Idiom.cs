@@ -11,8 +11,6 @@ namespace Security.Model
 {
     public class Idiom : Entity
     {
-        public static readonly Idiom NullIdiom = new Idiom();
-
         public Idiom()
         {
             Description = "";

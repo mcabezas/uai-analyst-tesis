@@ -13,8 +13,6 @@ namespace Security.Model
 {
     public class Group : Entity
     {
-        public static readonly Group NullGroup = new Group();
-
         public Group()
         {
             Description = "";

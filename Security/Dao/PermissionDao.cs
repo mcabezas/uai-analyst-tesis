@@ -7,6 +7,7 @@
 
 using System.Data;
 using Commons.Generics;
+using Commons.Generics.impl;
 using DBW.DBWrapper.Result;
 using DBW.DBWrapper.Result.impl;
 using Layers.Dao;
@@ -39,7 +40,7 @@ namespace Security.Dao
             });
             
             ResultTransformer<Permission> transformer = new ResultTransformer<Permission>(dbRows);
-            return transformer.Transform().GetFirstOrDefault(Permission.NullPermission);
+            return transformer.Transform().GetFirstOrDefault(new Permission());
         }
 
         public override IMCollection<Permission> FindAll()
@@ -74,6 +75,20 @@ namespace Security.Dao
         {
             const string query = "DELETE FROM permission";
             Database.ExecuteScalar(query);
+        }
+        
+        public IMCollection<Permission> Insert(IMCollection<Permission> permissions)
+        {
+            IMCollection<Permission> insertedPermissions = new MCollection<Permission>();
+            permissions.ForEach(permission =>
+            {
+                int permissionId = Insert(permission);
+                insertedPermissions.Add(new Permission
+                {
+                    Id = permissionId, Description = permission.Description
+                });
+            });
+            return insertedPermissions;
         }
     }
 }
