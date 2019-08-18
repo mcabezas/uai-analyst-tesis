@@ -32,7 +32,7 @@ namespace SecurityTest.Service
         {
             _userService.DeleteAll();
             _idiomService.DeleteAll();
-            _groupService.DelseteAll();
+            _groupService.DeleteAll();
             _permissionService.DeleteAll();
         }
 
